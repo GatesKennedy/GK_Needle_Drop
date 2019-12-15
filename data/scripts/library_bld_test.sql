@@ -2,7 +2,7 @@ USE db_nds;
 
 CREATE TABLE tbl_library(
     id serial PRIMARY KEY,
-    data_json jsonb NOT NULL DEFAULT '{EMPTY}'::jsonb
+    data_json jsonb NOT NULL DEFAULT '{"nuns":"bums"}'::jsonb
 );
 
 INSERT INTO tbl_library (data_json) VALUES ('{"artist":"Adam Selzer", "albm":"", "song":"Birds", "time":"0:32", "feat":"", "typ":"instr", "tmpo":1, "arc":"Steady", "inst1":"Mallets", "inst2":"Strings", "inst3":"", "tag1":"Hopeful", "tag2":"Imaginative", "tag3":"Light", "kw1":"Folk", "kw2":"Harmonic", "kw3":"Melodic", "sty1":"Childrens", "sty2":"Holiday", "sty3":"Trailer", "gen1":"Folk & Americana", "gen2":"Cinematic", "gen3":"Holiday", "wed":"", "ref1":"Sufjan Stevens", "ref2":"Beirut", "dir1":"Goodwill Hunting", "dir2":"Boogie Nights", "":""}');
