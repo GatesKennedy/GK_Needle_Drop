@@ -1,4 +1,4 @@
-INSERT INTO tbl_nds(data_json)
+INSERT INTO tbl_library(data_json)
 VALUES
 ('{"artist":"Podington Bear","album":"Driving","song":"Driveby","time":"3:13","feat":"","type":"instr","tempo":4,"arc":"Multiple Build","inst1":"Drum Machine","inst2":"Synthesizer","inst3":"","tag1":"Stoic","tag2":"Mysterious","tag3":"","kw1":"Pensive","kw2":"Playful","kw3":"Melodic","style1":"LookBook Video","style2":"Sports","style3":"Road Trip","genre1":"Dance","genre2":"Indie Pop","genre3":"","":""}'),
 ('{"artist":"Podington Bear","album":"Tender","song":"Dry Air","time":"2:18","feat":"","type":"instr","tempo":3,"arc":"Steady","inst1":"Woodwinds","inst2":"Piano","inst3":"Strings","tag1":"Hopeful","tag2":"Intimate","tag3":"Positive","kw1":"Melodic","kw2":"Light","kw3":"Reflective","style1":"Narrative","style2":"Drama","style3":"Documentary","genre1":"Cinematic","genre2":"Orchestral","genre3":"","":""}'),
