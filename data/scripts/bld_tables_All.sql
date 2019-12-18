@@ -23,16 +23,17 @@ CREATE TABLE tbl_profile(
     payment_info VARCHAR NOT NULL
 );
 
+CREATE TABLE tbl_playlist(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES tbl_user(id),
+    name_plist VARCHAR NOT NULL
+);
+
 CREATE TABLE tbl_history(
     user_id INTEGER REFERENCES tbl_user(id),
     library_id INTEGER REFERENCES tbl_library(id),
     playlist_id INTEGER REFERENCES tbl_playlist(id),
     payment_status BOOLEAN NOT NULL DEFAULT 'false',
-    PRIMARY KEY (user_id, song_id)
+    PRIMARY KEY (user_id, library_id)
 );
 
-CREATE TABLE tbl_playlist(
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES tbl_user(id),
-    name_plist VARCHAR NOT NULL
-;)
