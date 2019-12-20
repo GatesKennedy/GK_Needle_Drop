@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const { user, host, database, password, port } = require('../../ohnodamn/db_config');
+const { user, host, database, password, port } = require('../ohnodamn/db_config');
 
 const pool = new Pool({ user, host, database, password, port });
 
@@ -8,3 +8,5 @@ pool.query('SELECT COUNT(*) FROM tbl_library WHERE data_json @> \'{"artist": "Bo
 
     console.log(res);
 });
+
+module.exports = pool;

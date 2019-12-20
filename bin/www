@@ -1,0 +1,6 @@
+#!/usr/bin/env node 
+
+const serv = require('../nds_server/nds_fileMgmt/api/browse');
+const port = 3000; 
+
+serv.listen(port, () => console.log(`listening on port ${port}`));

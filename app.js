@@ -5,11 +5,11 @@ const hostname = '127.0.0.1';
 const port = 3000;
 
 //  Initialize express Variable
-const neeDrop = express();
+const nds = express();
 //  Connect Db
 
 //  Init Middleware
-neeDrop.use(
+nds.use(
   express.json({
     extended: false
   })
