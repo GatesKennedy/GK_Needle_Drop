@@ -1,18 +1,12 @@
 const express = require('express');
-const pool = require('../../../nds_db/index');
+const browse = require('../middleware/routes')
 
 const serv = express();
 
-serv.get('/browse', (request, response) => {
-    pool.query('SELECT * FROM tbl_library WHERE data_json @> \'{"artist": "Boone Howard"}\';', (err, res) => {
-        if (err) return console.log(err);
-    
-        console.log(res.rows);
-    });
-});
-/*
-const port = 3000; 
+serv.use('/browse', browse);
 
-serv.listen(port, () => console.log(`listening on port ${port}`));
-*/
+serv.use((err, req, res, next) => {
+    res.json(err);
+});
+
 module.exports = serv;
