@@ -5,5 +5,8 @@
         "database":"db_nds",
         "password":"H3ll0MrA1rplan3",
         "post": 5555
+    },
+    "client_config": {
+        
     }
 }
