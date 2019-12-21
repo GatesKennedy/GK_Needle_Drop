@@ -2,12 +2,12 @@
   "name": "nds_web",
   "version": "1.0.0",
   "description": "Needle Drop Software for Web",
-  "main": "NDS_server.js",
+  "main": "NDS_server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "config": "./bin/configdb.bat",
-    "start": "node ./bin/www",
-    "server": "nodemon ./bin/www",
+    "start": "node ./config/www",
+    "server": "nodemon ./config/www",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     
