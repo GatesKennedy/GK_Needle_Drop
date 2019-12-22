@@ -48,8 +48,11 @@ router.post('/', (request, response, next) => {
         [name, email, password],
         (err, res,) =>{
             if(err) return next(err);
-
-            response.redirect('/account');
+            
+            // % % ERROR % %
+            //  pass :id value
+            const id = res.json(id);
+            response.redirect('/profile/:$1', [ id ]);
         }
     );
 });
