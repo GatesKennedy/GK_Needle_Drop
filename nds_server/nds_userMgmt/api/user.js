@@ -13,20 +13,12 @@ const router = Router();
 
 //  ~ Routes ~
 
-//  @route      POST api/users
-//  @desc       Register user
-//  @access     Public
-router.get('/', (request, response, next) => {
-    pool.query('SELECT * FROM tbl_user;', (err, res) => {
-        if (err) return next(err);
-        
-        response.json(res.rows);
-    });
-});
-
-//  @route      POST api/users
-//  @desc       Register user
-//  @access     Public
+//  =============
+//  ==   GET   ==
+//  =============
+//  @route      GET /user/:id
+//  @desc       Display USER
+//  @access     PRIVATE
 router.get('/:id', (request, response, next) => {
     const { id } =request.params;
 
@@ -37,10 +29,13 @@ router.get('/:id', (request, response, next) => {
     });
 });
 
-//  @route      POST api/users
-//  @desc       Register user
-//  @access     Public
-router.post('/', (request, response, next) => {
+//  ==============
+//  ==   POST   ==
+//  ==============
+//  @route      POST /user/register
+//  @desc       Register USER
+//  @access     PUBLIC
+router.post('/register', (request, response, next) => {
     const { name, email, password } = request.body;
 
     pool.query(
@@ -56,6 +51,22 @@ router.post('/', (request, response, next) => {
         }
     );
 });
+
+//  =============
+//  ==   PUT   ==
+//  =============
+//  @route      GET /user/:id
+//  @desc       Edit USER
+//  @access     PRIVATE
+router.put();
+
+//  ==============
+//  ==  DELETE  ==
+//  ==============
+//  @route      GET /user/:id
+//  @desc       Delete USER
+//  @access     PRIVATE
+router.delete();
 
 
 module.exports = router;
