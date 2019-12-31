@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './util/store';
 import { loadUser } from './Rdx_actions/axn_auth';
-import setAuthToken from './util/setAuthToken';
+//import setAuthToken from './util/setAuthToken';
+
 // === Style ===
 import './sass/App.scss';
 // === comps ===
@@ -15,7 +16,7 @@ import Checkout from './components/Ecomm/Checkout';
 import Library from './components/Library/Library';
 //    === Main ===
 import Hello from './components/Main/Hello';
-import Navi from './components/Main/Navi';
+import NavStd from './components/Main/NavStd';
 //    === Notify ===
 import Alert from './components/Notify/Alert';
 //    === User ===
@@ -33,10 +34,10 @@ const App = () => {
       <Router>
         <Fragment>
             <Alert />
-            <Navi />
+            <NavStd />
             <h1>Needle Drop</h1>
             <section className='container fill-window'>
-            <Route exact path='/' component={Hello} />
+            <Route exact path='/' component={Library} />
             <Switch>
               <Route exact path='/hello' component={Hello} />
               <Route exact path='/library' component={Library} />
