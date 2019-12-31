@@ -6,7 +6,7 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 
 
 const router = Router();
@@ -58,7 +58,8 @@ router.post('/register', (request, response, next) => {
 //  @route      GET /user/:id
 //  @desc       Edit USER
 //  @access     PRIVATE
-router.put();
+
+//      router.put();
 
 //  ==============
 //  ==  DELETE  ==
@@ -66,7 +67,8 @@ router.put();
 //  @route      GET /user/:id
 //  @desc       Delete USER
 //  @access     PRIVATE
-router.delete();
+
+//      router.delete();
 
 
 module.exports = router;

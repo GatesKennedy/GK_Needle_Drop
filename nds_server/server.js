@@ -11,7 +11,7 @@ const profile = require('./nds_userMgmt/api/profile');
 const serv = express();
 const PORT = process.env.PORT || 5000;
 
-serv.listen(PORT, () => console.log(`listening on port ${PORT}`));
+serv.listen(PORT, () => console.log(`GOOD: Server listening on port ${PORT}`));
 
 serv.use(bodyParser.json());
 //  _admin

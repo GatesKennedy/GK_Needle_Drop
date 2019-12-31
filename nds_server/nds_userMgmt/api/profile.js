@@ -102,7 +102,8 @@ router.post('/create', (request, response, next) => {
 //  @route      PUT /profile/edit/:id
 //  @desc       Edit USER
 //  @access     PRIVATE
-router.put();
+
+//      router.put();
 
 
 module.exports = router;

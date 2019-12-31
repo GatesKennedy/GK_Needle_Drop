@@ -1,0 +1,225 @@
+@import 'config';
+// ============
+// === core ===
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  background-color: $white-2;
+  color: $black-1;
+}
+
+a {
+  text-decoration: none;
+  color: $black-2;
+}
+
+ul {
+  list-style: none;
+  display: inline-flex;
+}
+
+img {
+  width: 100%;
+}
+
+// =================
+// === structure ===
+
+.fill-window {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.column {
+  display: block;
+  align-content: center;
+}
+
+.options {
+  background-color: $black-2;
+  padding: 1rem;
+}
+
+.theme {
+  height: 100%;
+  background-color: $black-2;
+}
+
+.dark {
+  background-color: $black-2;
+  color: $white-2;
+}
+
+.light {
+  background-color: $white-3;
+  color: $black-2;
+}
+
+.btn {
+  width: 5rem;
+  min-width: 5rem;
+  height: 1.9rem;
+  margin: 0.25rem 0.5rem;
+  padding: 0.2rem 1rem;
+  text-align: center;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+// ============
+// === navi ===
+
+.navi {
+  max-height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0.5rem 0 0.3rem 0;
+}
+
+.navi .menu {
+  margin: 0rem 0.7rem;
+}
+
+.navi .main {
+  width: 50vw;
+  justify-content: space-evenly;
+}
+
+.navi li {
+  background-color: $black-2;
+  width: 3rem;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.navi .center a {
+  color: $white-2;
+}
+
+#menuAOE {
+  margin-top: 0.4rem;
+}
+
+// ============
+// === dash ===
+
+.drop {
+  margin-left: 0.4rem;
+}
+.group-bottom {
+  height: 2px;
+  margin-left: 1rem;
+  background-color: $black-3;
+}
+.group-header {
+  background-color: $black-3;
+  color: $white-2;
+  width: 100%;
+  display: inline-flex;
+  margin-bottom: 2px;
+  padding-left: 1rem;
+}
+.group-body {
+  margin-left: 1rem;
+  background-color: $white-3;
+}
+
+.header-title,
+.header-end {
+  width: 20vw;
+}
+
+.header-nav {
+  width: 60vw;
+}
+
+// =============
+// === hello ===
+.hello {
+  display: grid;
+}
+.greeting {
+  color: $white-2;
+}
+
+// ===============
+// ===  forms  ===
+
+.form {
+  padding: 1rem;
+}
+.form-group {
+  padding: 0.2rem;
+}
+
+.form-field {
+  width: 25vw;
+}
+
+.form-prompt {
+  padding-left: 0.75rem;
+}
+
+// ==============
+// ===  show  ===
+
+i {
+  margin-right: 0.5rem;
+}
+.show {
+  padding: 1rem;
+}
+
+.spin {
+  width: 200px;
+}
+
+// ==============
+// === alerts ===
+.alert {
+  padding-left: 1rem;
+}
+
+.alert-warn {
+  background-color: #ac3e3e;
+  color: #fff;
+}
+
+.alert-good {
+  background-color: $good-1;
+  color: #fff;
+}
+
+.alert-note {
+  background-color: $note-1;
+  color: $white-3;
+}
