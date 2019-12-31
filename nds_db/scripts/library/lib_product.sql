@@ -1,5 +1,11 @@
 USE db_nds;
 
+CREATE TABLE IF NOT EXISTS tbl_library(
+    id SERIAL PRIMARY KEY,
+    data_json jsonb NOT NULL DEFAULT '{"nuns":"bums"}'::jsonb,
+    song_url VARCHAR NOT NULL DEFAULT 'NO_URL'
+);
+
 INSERT INTO tbl_library(data_json)
 VALUES
 ('{"artist":"Adam Selzer","album":"","song":"Birds","time":"0:32","feat":"","type":"instr","tempo":1,"arc":"Steady","inst1":"Mallets","inst2":"Strings","inst3":"","tag1":"Hopeful","tag2":"Imaginative","tag3":"Light","kw1":"Folk","kw2":"Harmonic","kw3":"Melodic","style1":"Childrens","style2":"Holiday","style3":"Trailer","genre1":"Folk & Americana","genre2":"Cinematic","genre3":"Holiday","":""}'),
