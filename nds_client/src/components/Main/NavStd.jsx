@@ -39,7 +39,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link to='/library'>
           <btn className='btn dark'>Library</btn>
         </Link>
-        <Link to='/ecomm'>
+        <Link to='/purchase'>
           <btn className='btn dark'>Checkout</btn>
         </Link>
       </div>
@@ -68,7 +68,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link to='/library'>
           <btn className='btn dark'>Library</btn>
         </Link>
-        <Link to='/ecomm'>
+        <Link to='/purchase'>
           <btn className='btn dark'>Checkout</btn>
         </Link>
       </div>

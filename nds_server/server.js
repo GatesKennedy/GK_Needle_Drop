@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pool = require('../nds_db/db');
+const admin = require('./nds_admin/api/admin');
 const needledrop = require('./nds_admin/api/needleDrop');
 const purchase = require('./nds_eCom/api/purchase');
-const browse = require('./nds_fileMgmt/api/browse');
+const library = require('./nds_fileMgmt/api/browse');
 const user = require('./nds_userMgmt/api/user');
 const profile = require('./nds_userMgmt/api/profile');
 
@@ -15,11 +16,12 @@ serv.listen(PORT, () => console.log(`GOOD: Server listening on port ${PORT}`));
 
 serv.use(bodyParser.json());
 //  _admin
+serv.use('/admin', admin);
 serv.use('/needledrop', needledrop);
 //  _eCom
 serv.use('/purchase', purchase);
 //  _fileMgmt
-serv.use('/browse', browse);
+serv.use('/library', library);
 //  _userMgmt
 serv.use('/user', user);
 serv.use('/profile', profile);

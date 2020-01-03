@@ -11,16 +11,17 @@ import './sass/App.scss';
 // === comps ===
 //    === Admin ===
 //    === Ecomm ===
-import Checkout from './components/Ecomm/Checkout';
+import Purchase from './components/Ecomm/Purchase';
 //    === Library ===
 import Library from './components/Library/Library';
 //    === Main ===
 import Hello from './components/Main/Hello';
+import NeedleDrop from './components/Main/NeedleDrop';
 import NavStd from './components/Main/NavStd';
 //    === Notify ===
 import Alert from './components/Notify/Alert';
 //    === User ===
-import User from './components/User/User';
+import Profile from './components/User/profile';
 
 
 const App = () => {
@@ -41,8 +42,8 @@ const App = () => {
             <Switch>
               <Route exact path='/hello' component={Hello} />
               <Route exact path='/library' component={Library} />
-              <Route exact path='/user' component={User} />
-              <Route exact path='/ecomm' component={Checkout}/>
+              <Route exact path='/profile' component={Profile} />
+              <Route exact path='/purchase' component={Purchase}/>
             </Switch>
           </section>
         </Fragment>

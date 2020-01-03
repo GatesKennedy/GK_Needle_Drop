@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Checkout = () => {
+const NeedleDrop = () => {
     return (
         <div>
-            Checkout...
+            NeedleDrop
         </div>
     )
 }
 
-export default Checkout
+export default NeedleDrop
