@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setAlert } from './axn_alert';
+import { setAlert } from '../../Notify/rdx_axn/axn_alert';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -9,8 +9,8 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   PROFILE_CLEAR
-} from './axn_types';
-import setAuthToken from '../util/setAuthToken';
+} from '../../../util/axn_types';
+import setAuthToken from '../../../util/setAuthToken';
 
 //  Load User
 export const loadUser = () => async dispatch => {
@@ -44,20 +44,20 @@ export const register = ({ username, email, password }) => async dispatch => {
 
   try {
     const res = await axios.post('/api/users', body, config);
-
+    // disp  1
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
     });
-
+    // disp  2
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
-
+    // disp 1
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'warn')));
     }
-
+    // disp 2
     dispatch({
       type: REGISTER_FAIL
     });

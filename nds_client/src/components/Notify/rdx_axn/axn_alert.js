@@ -1,5 +1,5 @@
 import uuid from 'uuid';
-import { SET_ALERT, REMOVE_ALERT } from './axn_types';
+import { SET_ALERT, REMOVE_ALERT } from '../../../util/axn_types';
 
 export const setAlert = (msg, alertType, timeout = 4000) => dispatch => {
   // generate ID

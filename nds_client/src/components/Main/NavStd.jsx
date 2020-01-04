@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 //  REDUX
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logout } from '../../Rdx_actions/axn_auth';
+import { logout } from '../User/rdx_axn/axn_auth';
 
 const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
   /*
@@ -62,7 +62,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </div>
       <div className='center menu'>
-      <Link to='/user'>
+        <Link to='/user'>
           <btn className='btn dark'>Profile</btn>
         </Link>
         <Link to='/library'>
@@ -81,25 +81,22 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
     </nav>
   );
 
-    return (
-        <Fragment>
-        {!loading && (
-            <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-        )}
-        </Fragment>
-    );
+  return (
+    <Fragment>
+      {!loading && (
+        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+      )}
+    </Fragment>
+  );
 };
-    
+
 NavStd.propTypes = {
-    //logout: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
-  };
+  //logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
-    auth: state.auth
-  });
+  auth: state.auth
+});
 
-  export default connect(
-    mapStateToProps,
-    { logout }
-  )(NavStd);
+export default connect(mapStateToProps, { logout })(NavStd);

@@ -1,4 +1,4 @@
-import { OPEN_GET, OPEN_ERROR } from '../Rdx_actions/axn_types';
+import { SEARCH_GET, SEARCH_ERROR } from '../../../util/axn_types';
 
 const initialState = {
   appList: null,
@@ -10,13 +10,13 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case OPEN_GET:
+    case SEARCH_GET:
       return {
         ...state,
         appList: payload,
         loading: false
       };
-    case OPEN_ERROR:
+    case SEARCH_ERROR:
       return {
         ...state,
         error: payload,

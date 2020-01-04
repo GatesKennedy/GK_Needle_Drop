@@ -1,4 +1,4 @@
-import { SET_ALERT, REMOVE_ALERT } from '../Rdx_actions/axn_types';
+import { SET_ALERT, REMOVE_ALERT } from '../../../util/axn_types';
 
 const initialState = [];
 

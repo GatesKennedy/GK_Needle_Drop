@@ -3,9 +3,8 @@ import {
   PROFILE_ERROR,
   PROFILE_CLEAR,
   PROFILE_UPDATE,
-  PROFILES_GET,
-  REPOS_GET
-} from '../Rdx_actions/axn_types';
+  PROFILES_GET
+} from '../../../util/axn_types';
 
 const initialState = {
   profile: null,
@@ -43,12 +42,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         profiles: payload,
-        loading: false
-      };
-    case REPOS_GET:
-      return {
-        ...state,
-        repos: payload,
         loading: false
       };
     //  ERRORS

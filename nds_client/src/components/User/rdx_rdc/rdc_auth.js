@@ -6,7 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT
-} from '../Rdx_actions/axn_types';
+} from '../../../util/axn_types';
 
 const initialState = {
   token: localStorage.getItem('token'),
@@ -40,7 +40,6 @@ export default function(state = initialState, action) {
     case LOGIN_FAIL:
     case LOGOUT:
       localStorage.removeItem('token');
-      console.log('rdc_auth.js: LOGIN_FAIL');
       return {
         ...state,
         token: null,
