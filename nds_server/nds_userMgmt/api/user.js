@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
-
 const router = Router();
 
 //  ~ Routes ~
@@ -16,46 +15,59 @@ const router = Router();
 //  =============
 //  ==   GET   ==
 //  =============
-//  @route      GET /user/:id
+//  @route      GET api/user/:id
 //  @desc       Display USER
 //  @access     PRIVATE
 router.get('/:id', (request, response, next) => {
-    const { id } =request.params;
+  const { id } = request.params;
 
-    pool.query('SELECT * FROM tbl_user WHERE id = $1', [id], (err, res,) =>{
-        if(err) return next(err);
+  pool.query('SELECT * FROM tbl_user WHERE id=($1)', [id], (err, res) => {
+    if (err) return next(err);
 
-        response.json(res.rows);
-    });
+    response.json(res.rows);
+  });
+});
+
+//  @route      GET api/user
+//  @desc       Display All Users
+//  @access     PRIVATE
+router.get('/', (request, response, next) => {
+  const { id } = request.params;
+
+  pool.query('SELECT * FROM tbl_user', (err, res) => {
+    if (err) return next(err);
+
+    response.json(res.rows);
+  });
 });
 
 //  ==============
 //  ==   POST   ==
 //  ==============
-//  @route      POST /user/register
+//  @route      POST api/user/register
 //  @desc       Register USER
 //  @access     PUBLIC
-router.post('/register', (request, response, next) => {
-    const { name, email, password } = request.body;
+router.post('/', (request, response, next) => {
+  const { name, email, password } = request.body;
 
-    pool.query(
-        'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3)',
-        [name, email, password],
-        (err, res,) =>{
-            if(err) return next(err);
-            
-            // % % ERROR % %
-            //  pass :id value
-            const id = res.json(id);
-            response.redirect('/profile/:$1', [ id ]);
-        }
-    );
+  pool.query(
+    'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3)',
+    [name, email, password],
+    (err, res) => {
+      if (err) return next(err);
+
+      // % % ERROR % %
+      //    pass :id value
+      //    const id = res.json(id);
+      response.redirect('/profile');
+    }
+  );
 });
 
 //  =============
 //  ==   PUT   ==
 //  =============
-//  @route      GET /user/:id
+//  @route      PUT api/user/:id
 //  @desc       Edit USER
 //  @access     PRIVATE
 
@@ -64,12 +76,17 @@ router.post('/register', (request, response, next) => {
 //  ==============
 //  ==  DELETE  ==
 //  ==============
-//  @route      GET /user/:id
+//  @route      DELETE api/user/:id
 //  @desc       Delete USER
 //  @access     PRIVATE
+router.delete('/:id', (request, response, next) => {
+  const { id } = request.params;
 
-//      router.delete();
+  pool.query('DELETE FROM tbl_user WHERE id=($1)', [id], (err, res) => {
+    if (err) return next(err);
 
+    response.json({ msg: 'User Deleted' });
+  });
+});
 
 module.exports = router;
-

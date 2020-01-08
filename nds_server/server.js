@@ -4,10 +4,9 @@ const pool = require('../nds_db/db');
 const admin = require('./nds_admin/api/admin');
 const needledrop = require('./nds_admin/api/needleDrop');
 const purchase = require('./nds_eCom/api/purchase');
-const library = require('./nds_fileMgmt/api/browse');
+const library = require('./nds_libraryMgmt/api/library');
 const user = require('./nds_userMgmt/api/user');
 const profile = require('./nds_userMgmt/api/profile');
-
 
 const serv = express();
 const PORT = process.env.PORT || 5000;
@@ -16,21 +15,20 @@ serv.listen(PORT, () => console.log(`GOOD: Server listening on port ${PORT}`));
 
 serv.use(bodyParser.json());
 //  _admin
-serv.use('/admin', admin);
-serv.use('/needledrop', needledrop);
+serv.use('/api/admin', admin);
+serv.use('/api/needledrop', needledrop);
 //  _eCom
-serv.use('/purchase', purchase);
+serv.use('/api/purchase', purchase);
 //  _fileMgmt
-serv.use('/library', library);
+serv.use('/api/library', library);
 //  _userMgmt
-serv.use('/user', user);
-serv.use('/profile', profile);
-
+serv.use('/api/user', user);
+serv.use('/api/profile', profile);
 
 // MIDDLEWARE
 //  error handling
 serv.use((err, req, res, next) => {
-    res.json(err);
+  res.json(err);
 });
 
 module.exports = serv;

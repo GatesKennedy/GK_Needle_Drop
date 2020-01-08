@@ -1,46 +1,53 @@
 import axios from 'axios';
-import { setAlert } from './axn_alert';
+import { setAlert } from '../../Notify/rdx_axn/axn_alert';
 
-import { GROUP_GET, GROUP_ERROR } from './axn_types';
+import {
+  FILTER_GET,
+  FILTER_ERROR,
+  TRAITS_GET,
+  TRAITS_UPDATE,
+  TRAITS_CLEAR,
+  TRAITS_ERROR
+} from '../../../util/axn_types';
 
 //  Get ToolList
-export const getToolList = () => async dispatch => {
+export const getFiltered = () => async dispatch => {
   try {
-    const res = await axios.get('/api/dash/tool_list');
+    const res = await axios.get('/api/library/filter_list');
 
     dispatch({
-      type: GROUP_GET,
+      type: FILTER_GET,
       payload: res.data
     });
   } catch (err) {
-    console.log('axn_group.js: catch error');
+    console.log('axn_FILTER.js: catch error');
 
     dispatch({
-      type: GROUP_ERROR,
+      type: FILTER_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
 
-//  Get GroupList by ID
-export const getGroupListById = groupId => async dispatch => {
+//  Get Traits
+export const getTraits = Traits => async dispatch => {
   try {
-    const res = await axios.get(`/api/dash/group${groupId}`);
+    const res = await axios.get(`/api/library/FILTER${Traits}`);
 
     dispatch({
-      type: GROUP_GET,
+      type: TRAITS_GET,
       payload: res.data
     });
   } catch (err) {
     dispatch({
-      type: GROUP_ERROR,
+      type: TRAITS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
 
-//  Create or Update Group
-export const createGroup = (
+//  Create or Update Traits
+export const createTraits = (
   formData,
   history,
   edit = false
@@ -52,17 +59,17 @@ export const createGroup = (
       }
     };
 
-    const res = await axios.post('/api/dash', formData, config);
+    const res = await axios.post('/api/library/traits', formData, config);
 
     dispatch({
-      type: GROUP_GET,
+      type: TRAITS_GET,
       payload: res.data
     });
 
-    dispatch(setAlert(edit ? 'Group Updated' : 'Group Created', 'success'));
+    dispatch(setAlert(edit ? 'Traits Updated' : 'Traits Created', 'success'));
 
     if (!edit) {
-      history.push('/dash');
+      history.push('/library/traits');
     }
   } catch (err) {
     const errors = err.response.data.errors;
@@ -72,7 +79,7 @@ export const createGroup = (
     }
 
     dispatch({
-      type: GROUP_ERROR,
+      type: TRAITS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

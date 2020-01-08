@@ -33,7 +33,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </div>
       <div className='center main'>
-        <Link to='/user'>
+        <Link to='/profile'>
           <btn className='btn dark'>Profile</btn>
         </Link>
         <Link to='/library'>
@@ -44,7 +44,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </div>
       <div className='center menu'>
-        <Link to='/'>
+        <Link to='/library'>
           <a onClick={logout} href='#!'>
             <i name='logout' className='dark fas fa-sign-out-alt' />
           </a>
@@ -62,7 +62,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </div>
       <div className='center menu'>
-        <Link to='/user'>
+        <Link to='/login'>
           <btn className='btn dark'>Profile</btn>
         </Link>
         <Link to='/library'>
@@ -73,7 +73,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </div>
       <div className='center menu'>
-        <Link to='/user' className=''>
+        <Link to='/login' className=''>
           {' '}
           <i className='fas fa-wave-square' />
         </Link>

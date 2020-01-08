@@ -1,7 +1,7 @@
-import { SEARCH_GET, SEARCH_ERROR } from '../../../util/axn_types';
+import { LIBRARY_GET, LIBRARY_ERROR } from '../../../util/axn_types';
 
 const initialState = {
-  libList: null,
+  libraryOut: null,
   loading: true,
   error: {}
 };
@@ -10,13 +10,13 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case SEARCH_GET:
+    case LIBRARY_GET:
       return {
         ...state,
-        libList: payload,
+        libraryOut: payload,
         loading: false
       };
-    case SEARCH_ERROR:
+    case LIBRARY_ERROR:
       return {
         ...state,
         error: payload,

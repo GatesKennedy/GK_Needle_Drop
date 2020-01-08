@@ -21,6 +21,8 @@ import NavStd from './components/Main/NavStd';
 //    === Notify ===
 import Alert from './components/Notify/Alert';
 //    === User ===
+import Login from './components/User/Login';
+import Register from './components/User/Register';
 import Profile from './components/User/Profile';
 
 const App = () => {
@@ -41,6 +43,7 @@ const App = () => {
             <Switch>
               <Route exact path='/hello' component={Hello} />
               <Route exact path='/library' component={Library} />
+              <Route exact path='/login' component={Login} />
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/purchase' component={Purchase} />
             </Switch>

@@ -4,10 +4,16 @@ export const PROFILES_GET = 'PROFILES_GET';
 //    === Ecomm ===
 
 //    === Library ===
+export const LIBRARY_GET = 'LIBRARY_GET';
+export const LIBRARY_ERROR = 'LIBRARY_ERROR';
 export const SEARCH_GET = 'SEARCH_GET';
 export const SEARCH_ERROR = 'SEARCH_ERROR';
 export const FILTER_GET = 'FILTER_GET';
 export const FILTER_ERROR = 'FILTER_ERROR';
+export const TRAITS_GET = 'TRAITS_GET';
+export const TRAITS_UPDATE = 'TRAITS_UPDATE';
+export const TRAITS_CLEAR = 'TRAITS_CLEAR';
+export const TRAITS_ERROR = 'TRAITS_ERROR';
 //    === Main ===
 
 //    === Notify ===

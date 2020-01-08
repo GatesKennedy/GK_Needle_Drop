@@ -1,16 +1,16 @@
 //  React
 import React, { Fragment, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import NavStd from '../nav/NavStd';
+//import NavStd from '../nav/NavStd';
 import PropTypes from 'prop-types';
 //  REDUX
 import { connect } from 'react-redux';
-import { setAlert } from '../../Rdx_actions/axn_alert';
-import { register } from '../../Rdx_actions/axn_auth';
+import { setAlert } from '../Notify/rdx_axn/axn_alert';
+import { register } from './rdx_axn/axn_auth';
 
 import Btn_Login from './btn/btn_Login';
 
-const Register = () => {
+const Register = ({ setAlert, register }) => {
   //  useState(formData)
   const [formData, setFormData] = useState({
     username: '',
@@ -34,10 +34,11 @@ const Register = () => {
     }
   };
   //  Redirect (auth?)
-  if (isAuthenticated) {
+  /*if (isAuthenticated) {
     return <Redirect to='/profile' />;
   }
-
+  */
+  //  Redirect (!auth)
   return (
     <Fragment>
       <section className='theme dark hello center'>
@@ -103,16 +104,14 @@ const Register = () => {
 //  snip: <ptfr> 'func prop type required'
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  register: PropTypes.func.isRequired
+  // isAuthenticated: PropTypes.bool
 };
 
 //  Map State to Props
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  //isAuthenticated: state.auth.isAuthenticated
 });
 
 //  Connect Actions (state, {axn,..}) to Component (Register) to REDUX
 export default connect(mapStateToProps, { setAlert, register })(Register);
-
-export default Register;

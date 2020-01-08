@@ -5,8 +5,10 @@ import { combineReducers } from 'redux';
 //    === Ecomm ===
 
 //    === Library ===
+import library from '../components/Library/rdx_rdc/rdc_library';
 import search from '../components/Library/rdx_rdc/rdc_search';
 import filter from '../components/Library/rdx_rdc/rdc_filter';
+//import traits from '../components/Library/rdx_rdc/rdc_traits';
 //    === Main ===
 
 //    === Notify ===
