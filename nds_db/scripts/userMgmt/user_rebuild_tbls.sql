@@ -19,7 +19,13 @@ CREATE TYPE entity AS ENUM ('personal', 'biz_sml', 'biz_med', 'biz_lrg');
 CREATE TABLE tbl_profile(
     user_id INTEGER REFERENCES tbl_user(id),
     entity_type entity NOT NULL DEFAULT 'personal',
-    payment_info VARCHAR NOT NULL
+    payment_info VARCHAR NOT NULL,
+);
+
+CREATE TABLE tbl_favorites(
+    user_id INTEGER REFERENCES tbl_user(id),
+    song_id INTEGER REFERENCES tbl_library(id),
+    PRIMARY KEY (user_id, song_id)
 );
 
 CREATE TABLE tbl_playlist(

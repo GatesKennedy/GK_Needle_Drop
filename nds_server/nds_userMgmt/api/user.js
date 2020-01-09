@@ -15,8 +15,20 @@ const router = Router();
 //  =============
 //  ==   GET   ==
 //  =============
+
+//  @route      GET api/user
+//  @desc       Display All Users
+//  @access     PRIVATE
+router.get('/', (request, response, next) => {
+  pool.query('SELECT * FROM tbl_user', (err, res) => {
+    if (err) return next(err);
+
+    response.json(res.rows);
+  });
+});
+
 //  @route      GET api/user/:id
-//  @desc       Display USER
+//  @desc       Display User by id
 //  @access     PRIVATE
 router.get('/:id', (request, response, next) => {
   const { id } = request.params;
@@ -28,24 +40,11 @@ router.get('/:id', (request, response, next) => {
   });
 });
 
-//  @route      GET api/user
-//  @desc       Display All Users
-//  @access     PRIVATE
-router.get('/', (request, response, next) => {
-  const { id } = request.params;
-
-  pool.query('SELECT * FROM tbl_user', (err, res) => {
-    if (err) return next(err);
-
-    response.json(res.rows);
-  });
-});
-
 //  ==============
 //  ==   POST   ==
 //  ==============
-//  @route      POST api/user/register
-//  @desc       Register USER
+//  @route      POST api/user
+//  @desc       Register User
 //  @access     PUBLIC
 router.post('/', (request, response, next) => {
   const { name, email, password } = request.body;
@@ -54,12 +53,15 @@ router.post('/', (request, response, next) => {
     'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3)',
     [name, email, password],
     (err, res) => {
-      if (err) return next(err);
+      //const { id } = res.body;
 
+      if (err) return next(err);
+      let resBody = JSON.stringify(res.body);
+      console.log(resBody);
       // % % ERROR % %
       //    pass :id value
       //    const id = res.json(id);
-      response.redirect('/profile');
+      response.redirect('/api/user/3');
     }
   );
 });
@@ -68,10 +70,42 @@ router.post('/', (request, response, next) => {
 //  ==   PUT   ==
 //  =============
 //  @route      PUT api/user/:id
-//  @desc       Edit USER
+//  @desc       Edit User (name, email)
 //  @access     PRIVATE
+router.put('/:id', (request, response, next) => {
+  const { name, email } = request.body;
+  const { id } = request.params;
 
-//      router.put();
+  pool.query(
+    'UPDATE tbl_user SET name=$1, email=$2 WHERE id=$3)',
+    [name, email, id],
+    (err, res) => {
+      if (err) return next(err);
+
+      response.json(res);
+    }
+  );
+});
+
+//  @route      PUT api/user/shh/:id
+//  @desc       Edit User (password)
+//  @access     PRIVATE
+router.put('/shh/:id', (request, response, next) => {
+  const { name, email, password } = request.body;
+  const { id } = request.params;
+
+  pool.query('UPDATE tbl_user SET password=$1)', [password], (err, res) => {
+    //const { id } = res.body;
+
+    if (err) return next(err);
+    let resBody = JSON.stringify(res.body);
+    console.log(resBody);
+    // % % ERROR % %
+    //    pass :id value
+    //    const id = res.json(id);
+    response.redirect('/api/user/3');
+  });
+});
 
 //  ==============
 //  ==  DELETE  ==
