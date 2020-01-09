@@ -1,0 +1,10 @@
+
+PostgreSQL Notes
+
+Execute SQL file from CMD
+    psql -U postgres -d mydb -a -f "D:\index.sql" -- Absolute path to .sql file
+
+        -a
+        --echo-all
+            Print all nonempty input lines to standard output as they are read. (This does not apply to lines read interactively.) This is equivalent to setting the variable ECHO to all.
+        -f filename
