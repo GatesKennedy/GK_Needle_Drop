@@ -13,7 +13,9 @@ const PORT = process.env.PORT || 5000;
 
 serv.listen(PORT, () => console.log(`GOOD: Server listening on port ${PORT}`));
 
-serv.use(bodyParser.json());
+//  Init Middleware
+//  Express bodyParser
+serv.use(express.json({ extended: false }));
 //  _admin
 serv.use('/api/admin', admin);
 serv.use('/api/needledrop', needledrop);

@@ -4,8 +4,7 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const { check, validationResult } = require('express-validator/check');
-
+const { check, validationResult } = require('express-validator');
 
 const router = Router();
 
@@ -18,60 +17,60 @@ const router = Router();
 //  @desc       Display profile by 'id'
 //  @access     PRIVATE
 router.get('/me', (request, response, next) => {
-    const { id } =request.params;
+  const { id } = request.params;
 
-    pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res,) =>{
-        if(err) {
-            return next(err);
-        }
-        respond.send('coco profile');
-        response.json(res);
-    });
+  pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res) => {
+    if (err) {
+      return next(err);
+    }
+    respond.send('coco profile');
+    response.json(res);
+  });
 });
 
 //  @route      GET /profile/me/favorites
 //  @desc       Display playlists for Current User
 //  @access     PRIVATE
 router.get('/me/favorites', (request, response, next) => {
-    const { id } =request.params;
+  const { id } = request.params;
 
-    pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res,) =>{
-        if(err) {
-            return next(err);
-        }
-        respond.send('coco profile');
-        response.json(res);
-    });
+  pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res) => {
+    if (err) {
+      return next(err);
+    }
+    respond.send('coco profile');
+    response.json(res);
+  });
 });
 
 //  @route      GET /profile/me/playlists
 //  @desc       Display playlists for Current User
 //  @access     PRIVATE
 router.get('/me/playlists', (request, response, next) => {
-    const { id } =request.params;
+  const { id } = request.params;
 
-    pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res,) =>{
-        if(err) {
-            return next(err);
-        }
-        respond.send('coco profile');
-        response.json(res);
-    });
+  pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res) => {
+    if (err) {
+      return next(err);
+    }
+    respond.send('coco profile');
+    response.json(res);
+  });
 });
 
 //  @route      GET /profile/playlists/:id
 //  @desc       Display profile by 'id'
 //  @access     PRIVATE
 router.get('/me/playlists/:id', (request, response, next) => {
-    const { id } =request.params;
+  const { id } = request.params;
 
-    pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res,) =>{
-        if(err) {
-            return next(err);
-        }
-        respond.send('coco profile');
-        response.json(res);
-    });
+  pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res) => {
+    if (err) {
+      return next(err);
+    }
+    respond.send('coco profile');
+    response.json(res);
+  });
 });
 
 //  ==============
@@ -81,19 +80,18 @@ router.get('/me/playlists/:id', (request, response, next) => {
 //  @desc       Create profile
 //  @access     Public
 router.post('/create', (request, response, next) => {
-    const { name, email, password } = request.body;
-    const { id } = request.params;
+  const { name, email, password } = request.body;
+  const { id } = request.params;
 
-    pool.query(
-        'INSERT INTO tbl_profile WHERE id = $1 (name, email, password) VALUES($1, $2, $3)',
-        [name, email, password],
-        (err, res,) =>{
-            if(err) return next(err);
-            
+  pool.query(
+    'INSERT INTO tbl_profile WHERE id = $1 (name, email, password) VALUES($1, $2, $3)',
+    [name, email, password],
+    (err, res) => {
+      if (err) return next(err);
 
-            response.redirect('/profile/:id');
-        }
-    );
+      response.redirect('/profile/:id');
+    }
+  );
 });
 
 //  =============
@@ -105,6 +103,4 @@ router.post('/create', (request, response, next) => {
 
 //      router.put();
 
-
 module.exports = router;
-

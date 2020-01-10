@@ -1,5 +1,5 @@
 //  React
-import React, { Fragment, useEffect } from 'react';
+import React, { Component, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 //  REDUX
 import { connect } from 'react-redux';
@@ -28,21 +28,19 @@ const Library = ({ getLibrary }) => {
         <Search />
         <Filter />
         <div>Library:</div>
-        <div>LibResults</div>
+        <div>{library}</div>
       </section>
     </Fragment>
   );
 };
 
 Library.propTypes = {
-  //auth: PropTypes.object.isRequired,
   getLibrary: PropTypes.func.isRequired,
   library: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  //auth: state.auth,
-  //library: state.libraryOut
+  library: state.libraryOut
 });
 
 export default connect(mapStateToProps, { getLibrary })(Library);
