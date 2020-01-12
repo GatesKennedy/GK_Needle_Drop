@@ -23,6 +23,7 @@ router.get('/', (request, response, next) => {
     response.json(res.rows);
   });
 });
+
 //  @route      GET api/user/:id
 //  @desc       Display User by id
 //  @access     PRIVATE
@@ -35,6 +36,7 @@ router.get('/:id', (request, response, next) => {
     response.json(res.rows);
   });
 });
+
 //  ==============
 //  ==   POST   ==
 //  ==============
