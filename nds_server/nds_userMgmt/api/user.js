@@ -55,7 +55,8 @@ router.post(
   async (request, response, next) => {
     const errors = validationResult(request);
     const { name, email, password } = request.body;
-    console.log('register req: ' + request.body);
+    let body = JSON.stringify(request.body);
+    console.log('Request Body: ' + body);
 
     //  Error Response
     if (!errors.isEmpty()) {
@@ -64,7 +65,21 @@ router.post(
 
     try {
       //  Check: User Exists?
-      let user = await user.f;
+      pool.query(
+        'SELECT name FROM tbl_user WHERE name = ($1)',
+        [email],
+        (err, res) => {
+          if (err) return next(err);
+          let body = JSON.stringify(res.rows);
+          console.log('Check Name res: ' + body);
+
+          if (res.rows) {
+            response
+              .status(400)
+              .json({ errors: [{ msg: 'User already exists' }] });
+          }
+        }
+      );
       //  Get users gravatar
 
       //  Encrypt password
