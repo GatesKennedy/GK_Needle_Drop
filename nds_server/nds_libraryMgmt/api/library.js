@@ -108,4 +108,9 @@ router.get('/artist/profile/:id', (request, response, next) => {
 //  @desc       Delete USER
 //  @access     PRIVATE
 
+//  Catch-All Error Function
+router.use((err, req, res, next) => {
+  res.json(err);
+});
+
 module.exports = router;

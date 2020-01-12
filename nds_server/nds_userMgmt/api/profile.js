@@ -101,6 +101,9 @@ router.post('/create', (request, response, next) => {
 //  @desc       Edit USER
 //  @access     PRIVATE
 
-//      router.put();
+//  Catch-All Error Function
+router.use((err, req, res, next) => {
+  res.json(err);
+});
 
 module.exports = router;

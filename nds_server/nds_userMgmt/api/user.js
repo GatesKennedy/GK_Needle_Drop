@@ -50,19 +50,35 @@ router.post(
     check('email', 'Email is required').isEmail(),
     check('password', 'Password: 6 characters min').isLength({ min: 6 })
   ],
-  (request, response, next) => {
-    const { name, email, password } = request.body;
-    console.log(request.body);
+  async (request, response, next) => {
     const errors = validationResult(request);
+    const { name, email, password } = request.body;
+    console.log('register req: ' + request.body);
+
+    //  Error Response
     if (!errors.isEmpty()) {
       return response.status(400).json({ errors: errors.array() });
     }
 
+    try {
+      //  Check: User Exists?
+      let user = await user.f;
+      //  Get users gravatar
+
+      //  Encrypt password
+
+      //  Return JWT
+    } catch (error) {
+      console.error(err.mesage);
+      response.status(500).send('Server error');
+    }
+
+    //  SQL Query
     pool.query(
       'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3)',
       [name, email, password],
       (err, res) => {
-        //const { id } = res.body;
+        //  error handling middlware
         if (err) return next(err);
 
         // % % ERROR % %
@@ -129,6 +145,11 @@ router.delete('/:id', (request, response, next) => {
 
     response.json({ msg: 'User Deleted' });
   });
+});
+
+//  Catch-All Error Function
+router.use((err, req, res, next) => {
+  res.json(err);
 });
 
 module.exports = router;

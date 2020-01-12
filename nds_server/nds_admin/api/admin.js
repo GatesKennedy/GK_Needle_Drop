@@ -9,8 +9,12 @@ const router = Router();
 //  @desc       Register profile
 //  @access     Public
 router.get('/', (request, response, next) => {
+  response.send('Needle Drop Co. Administration');
+});
 
-    response.send("Needle Drop Co. Administration");
+//  Catch-All Error Function
+router.use((err, req, res, next) => {
+  res.json(err);
 });
 
 module.exports = router;

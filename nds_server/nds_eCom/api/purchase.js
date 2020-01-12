@@ -17,4 +17,9 @@ router.get('/', (request, response, next) => {
   response.send('BUY! BUY! BUY! </ br> Consuuuuuume!');
 });
 
+//  Catch-All Error Function
+router.use((err, req, res, next) => {
+  res.json(err);
+});
+
 module.exports = router;
