@@ -28,7 +28,6 @@ const Library = ({ getLibrary }) => {
         <Search />
         <Filter />
         <div>Library:</div>
-        <div>{library}</div>
       </section>
     </Fragment>
   );

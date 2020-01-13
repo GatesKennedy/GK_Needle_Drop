@@ -66,44 +66,50 @@ router.post(
     try {
       //  Check: User Exists?
       pool.query(
-        'SELECT name FROM tbl_user WHERE name = ($1)',
+        'SELECT name FROM tbl_user WHERE email = ($1)',
         [email],
-        (err, res) => {
+        async (err, res, next) => {
           if (err) return next(err);
-          let body = JSON.stringify(res.rows);
-          console.log('Check Name res: ' + body);
+          let resBody = JSON.stringify(res.rows);
+          console.log('Check Name res: ' + resBody);
 
-          if (res.rows) {
-            response
+          if (res.rows.length > 0) {
+            console.log(res.rows);
+            return response
               .status(400)
               .json({ errors: [{ msg: 'User already exists' }] });
           }
+
+          console.log('Username is Available');
+
+          const salt = await bcrypt.genSalt(10);
+          const pwCrypt = await bcrypt.hash(password, salt);
+
+          pool.query(
+            'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3)',
+            [name, email, pwCrypt],
+            (err, res) => {
+              if (err) return next(err);
+              console.log('Create User Fxn');
+              //  error handling middlware
+
+              // % % ERROR % %
+              //    pass :id value
+              //    const id = res.json(id);
+              response.send('User Created');
+            }
+          );
         }
       );
       //  Get users gravatar
 
-      //  Encrypt password
+      //  SQL Query
 
       //  Return JWT
     } catch (error) {
       console.error(err.mesage);
       response.status(500).send('Server error');
     }
-
-    //  SQL Query
-    pool.query(
-      'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3)',
-      [name, email, password],
-      (err, res) => {
-        //  error handling middlware
-        if (err) return next(err);
-
-        // % % ERROR % %
-        //    pass :id value
-        //    const id = res.json(id);
-        response.send('User Created');
-      }
-    );
   }
 );
 
