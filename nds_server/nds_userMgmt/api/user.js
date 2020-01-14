@@ -1,14 +1,14 @@
-const { Router } = require('express');
-const pool = require('../../../nds_db/db');
 const express = require('express');
 const router = express.Router();
-const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+const pool = require('../../../nds_db/db');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
-//  ~ Routes ~
+//const { Router } = require('express');
+//const gravatar = require('gravatar');
 
 //  =============
 //  ==   GET   ==

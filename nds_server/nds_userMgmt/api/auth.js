@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
+
+const pool = require('../../../nds_db/db');
+const auth = require('../middleware/auth');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
@@ -13,6 +15,8 @@ const { check, validationResult } = require('express-validator');
 //  @desc       Return User Data
 //  @access     Public
 router.get('/auth', auth, async (req, res) => {
+  console.log('api/user/auth: ' + req.user);
+
   try {
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
