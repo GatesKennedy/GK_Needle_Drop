@@ -8,22 +8,6 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
-//  Create Client Instances of Pool
-pool.connect((err, client, done) => {
-  const shouldAbort = err => {
-    if (err) {
-      console.error('Error in transaction', err.stack);
-      client.query('ROLLBACK', err => {
-        if (err) {
-          console.error('Error rolling back client', err.stack);
-        }
-        // release the client back to the pool
-        done();
-      });
-    }
-    return !!err;
-  };
-});
 //  ~ Routes ~
 
 //  =============
@@ -80,50 +64,68 @@ router.post(
     }
 
     try {
-      //  Check: User Registration
-      client.query('BEGIN', err => {
-        if (shouldAbort(err)) return;
-        const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
-        client.query(queryText, [email], async (err, res, next) => {
-          if (shouldAbort(err)) return;
-          let resBody = JSON.stringify(res.rows);
-          console.log('Check Name res: ' + resBody);
-
-          //  IF email already Exists...
-          if (res.rows.length > 0) {
-            console.log(res.rows);
-            return response
-              .status(400)
-              .json({ errors: [{ msg: 'User already exists' }] });
-          }
-          console.log('User email is Available');
-
-          //  Encrypt User Password
-          const salt = await bcrypt.genSalt(10);
-          const pwCrypt = await bcrypt.hash(password, salt);
-
-          //  Create User (SQL: tbl_user)
-          const insertText =
-            'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
-          const insertValues = [name, email, pwCrypt];
-          client.query(insertText, insertValues, (errz, rez) => {
-            if (errz) return next(errz);
-            console.log('Create User Fxn');
-            console.log('New User id: ' + rez);
-
-            //  Return JWT
-            response.send('user Created');
-            client.query('COMMIT', err => {
+      //  Create Client Instances of Pool
+      pool.connect((err, client, done) => {
+        const shouldAbort = err => {
+          if (err) {
+            console.error('Error in transaction', err.stack);
+            client.query('ROLLBACK', err => {
               if (err) {
-                console.error('Error committing transaction', err.stack);
+                console.error('Error rolling back client', err.stack);
               }
+              // release the client back to the pool
               done();
+            });
+          }
+          return !!err;
+        };
+        //  Check: User Registration
+        console.log('Enter Try Block');
+        client.query('BEGIN', err => {
+          if (shouldAbort(err)) return;
+          console.log('Pass shouldAbort()');
+          const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
+          client.query(queryText, [email], async (err, res, next) => {
+            if (shouldAbort(err)) return;
+            let resBody = JSON.stringify(res.rows);
+            console.log('Check Name res: ' + resBody);
+
+            //  IF email already Exists...
+            if (res.rows.length > 0) {
+              console.log(res.rows);
+              return response
+                .status(400)
+                .json({ errors: [{ msg: 'User already exists' }] });
+            }
+            console.log('User email is Available');
+
+            //  Encrypt User Password
+            const salt = await bcrypt.genSalt(10);
+            const pwCrypt = await bcrypt.hash(password, salt);
+
+            //  Create User (SQL: tbl_user)
+            const insertText =
+              'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
+            const insertValues = [name, email, pwCrypt];
+            client.query(insertText, insertValues, (errz, rez) => {
+              if (errz) return next(errz);
+              console.log('Create User Fxn');
+              console.log('New User id: ' + rez.rows[0].id);
+              //  Return JWT
+
+              response.send('user Created');
+              client.query('COMMIT', err => {
+                if (err) {
+                  console.error('Error committing transaction', err.stack);
+                }
+                done();
+              });
             });
           });
         });
       });
     } catch (error) {
-      console.error(err.mesage);
+      //console.error(err.mesage);
       response.status(500).send('Server error');
     }
   }
