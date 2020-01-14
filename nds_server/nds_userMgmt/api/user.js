@@ -8,6 +8,22 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
+//  Create Client Instances of Pool
+pool.connect((err, client, done) => {
+  const shouldAbort = err => {
+    if (err) {
+      console.error('Error in transaction', err.stack);
+      client.query('ROLLBACK', err => {
+        if (err) {
+          console.error('Error rolling back client', err.stack);
+        }
+        // release the client back to the pool
+        done();
+      });
+    }
+    return !!err;
+  };
+});
 //  ~ Routes ~
 
 //  =============
@@ -64,48 +80,48 @@ router.post(
     }
 
     try {
-      //  Check: User Exists?
-      pool.query(
-        'SELECT name FROM tbl_user WHERE email = ($1)',
-        [email],
-        async (err, res, next) => {
-          if (err) return next(err);
+      //  Check: User Registration
+      client.query('BEGIN', err => {
+        if (shouldAbort(err)) return;
+        const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
+        client.query(queryText, [email], async (err, res, next) => {
+          if (shouldAbort(err)) return;
           let resBody = JSON.stringify(res.rows);
           console.log('Check Name res: ' + resBody);
 
+          //  IF email already Exists...
           if (res.rows.length > 0) {
             console.log(res.rows);
             return response
               .status(400)
               .json({ errors: [{ msg: 'User already exists' }] });
           }
+          console.log('User email is Available');
 
-          console.log('Username is Available');
-
+          //  Encrypt User Password
           const salt = await bcrypt.genSalt(10);
           const pwCrypt = await bcrypt.hash(password, salt);
 
-          pool.query(
-            'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3)',
-            [name, email, pwCrypt],
-            (err, res) => {
-              if (err) return next(err);
-              console.log('Create User Fxn');
-              //  error handling middlware
+          //  Create User (SQL: tbl_user)
+          const insertText =
+            'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
+          const insertValues = [name, email, pwCrypt];
+          client.query(insertText, insertValues, (errz, rez) => {
+            if (errz) return next(errz);
+            console.log('Create User Fxn');
+            console.log('New User id: ' + rez);
 
-              // % % ERROR % %
-              //    pass :id value
-              //    const id = res.json(id);
-              response.send('User Created');
-            }
-          );
-        }
-      );
-      //  Get users gravatar
-
-      //  SQL Query
-
-      //  Return JWT
+            //  Return JWT
+            response.send('user Created');
+            client.query('COMMIT', err => {
+              if (err) {
+                console.error('Error committing transaction', err.stack);
+              }
+              done();
+            });
+          });
+        });
+      });
     } catch (error) {
       console.error(err.mesage);
       response.status(500).send('Server error');
