@@ -111,9 +111,24 @@ router.post(
               if (errz) return next(errz);
               console.log('Create User Fxn');
               console.log('New User id: ' + rez.rows[0].id);
-              //  Return JWT
+              const userId = rez.rows[0].id;
 
-              response.send('user Created');
+              //  Return JWT
+              const payload = {
+                user: {
+                  id: userId
+                }
+              };
+              jwt.sign(
+                payload,
+                config.get('auth_config.jwtShhh'),
+                { expiresIn: 18000 },
+                (err, token) => {
+                  if (err) throw err;
+                  response.json({ token });
+                }
+              );
+
               client.query('COMMIT', err => {
                 if (err) {
                   console.error('Error committing transaction', err.stack);

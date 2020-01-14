@@ -1,12 +1,13 @@
 {
-    "db_config": {
-        "user": "postgres",
-        "host": "localhost",
-        "database":"db_nds",
-        "password":"H3ll0MrA1rplan3",
-        "post": 5555
-    },
-    "client_config": {
-        
-    }
+  "db_config": {
+    "user": "postgres",
+    "host": "localhost",
+    "database": "db_nds",
+    "password": "H3ll0MrA1rplan3",
+    "post": 5555
+  },
+  "client_config": {},
+  "auth_config": {
+    "jwtShhh": "ineverletyouholdmeback"
+  }
 }
