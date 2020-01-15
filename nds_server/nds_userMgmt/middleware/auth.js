@@ -1,9 +1,13 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const express = require('express');
+const router = express.Router();
 
 module.exports = function(req, res, next) {
+  console.log('FXN: /middleware/auth.js , auth()');
   //  Get token from header
   const token = req.header('x-auth-token');
+  console.log(token);
 
   //  Check if no token
   if (!token) {
@@ -12,13 +16,13 @@ module.exports = function(req, res, next) {
     });
   }
   console.log('/middleware/auth.js req.user: ' + req.user);
+
   //  Verify token
   try {
     const decoded = jwt.verify(token, config.get('auth_config.jwtShhh'));
 
     //  set request object to the decoded object value
     req.user = decoded.user;
-
     console.log('/middleware/auth.js req.user (decoded): ' + req.user);
     next();
   } catch (err) {
@@ -27,3 +31,8 @@ module.exports = function(req, res, next) {
     });
   }
 };
+
+//  Catch-All Error Function
+router.use((err, req, res, next) => {
+  res.json(err);
+});

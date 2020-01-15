@@ -1,32 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-const pool = require('../../../nds_db/db');
 const auth = require('../middleware/auth');
 const config = require('config');
-const { check, validationResult } = require('express-validator');
-
+//const pool = require('../../../nds_db/db');
 //================================================
 //================================================
 
 //  @route      GET api/user/auth
 //  @desc       Return User Data
 //  @access     Public
-router.get('/auth', auth, async (req, res) => {
-  console.log('api/user/auth: ' + req.user);
-
+router.get('/', auth, (req, res) => res.send('Auth route'));
+//console.log('api/user/auth: ' + req.user);
+/*
   try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
+    //const user = await User.findById(req.user.id).select('-password');
+    res.json(req.user);
   } catch (err) {
     console.log('api/auth.js: catch err');
     console.error(err.message);
     res.status(500).send('MSG: Server Error');
   }
-});
+  */
 
+/*
 //  @route      POST api/user/auth
 //  @desc       Authenticate user & get token
 //  @access     Public
@@ -108,7 +105,7 @@ router.post(
     }
   }
 );
-
+*/
 //  Catch-All Error Function
 router.use((err, req, res, next) => {
   res.json(err);

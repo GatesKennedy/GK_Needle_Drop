@@ -5,6 +5,7 @@ const admin = require('./nds_admin/api/admin');
 const needledrop = require('./nds_admin/api/needleDrop');
 const purchase = require('./nds_eCom/api/purchase');
 const library = require('./nds_libraryMgmt/api/library');
+const auth = require('./nds_userMgmt/api/auth');
 const user = require('./nds_userMgmt/api/user');
 const profile = require('./nds_userMgmt/api/profile');
 
@@ -25,7 +26,8 @@ serv.use('/api/purchase', purchase);
 serv.use('/api/library', library);
 //  _userMgmt
 serv.use('/api/user', user);
-serv.use('/api/profile', profile);
+serv.use('/api/user/auth', auth);
+serv.use('/api/user/profile', profile);
 
 // MIDDLEWARE
 //  error handling
