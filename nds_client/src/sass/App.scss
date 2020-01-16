@@ -35,12 +35,20 @@ ul {
   display: inline-flex;
 }
 
-img {
-  width: 100%;
-}
-
 // =================
 // === structure ===
+
+.horz-row .trk {
+  display: inline;
+  justify-content: center;
+  align-content: center;
+  box-sizing: border-box;
+}
+
+.stack {
+  display: block;
+  margin: auto;
+}
 
 .fill-window {
   height: 100%;
@@ -48,6 +56,12 @@ img {
   left: 0;
   width: 100%;
   overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
 .center {
@@ -92,6 +106,21 @@ img {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+}
+
+// ============
+// === text ===
+
+.txt .txt-trk {
+  word-wrap: none;
+  justify-content: left;
+}
+
+.txt-trk {
+  left: 17.98%;
+  right: 66.28%;
+  top: 30.92%;
+  bottom: 50.54%;
 }
 
 // ============
@@ -222,4 +251,44 @@ i {
 .alert-note {
   background-color: $note-1;
   color: $white-3;
+}
+
+//==================
+//==== COMP IDs ====
+
+#browse-cont {
+}
+
+#trk-cont {
+  /* Auto Layout */
+  display: flex;
+  flex-direction: row;
+  margin: 1px;
+  padding: 13px 33px;
+
+  width: 1172.38px;
+  height: 97.42px;
+  left: 267px;
+  top: 360px;
+  overflow: hidden;
+  /* creamier cream */
+  background: #fff1e4;
+}
+
+#trk-txt-song {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+
+  color: #000000;
+}
+#trk-txt-artist {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #959494;
 }

@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import Search from './Search';
 import Filter from './Filter';
 import Spinner from '../Notify/Spin';
+import TrkLib from './TrkLib';
 
 const Library = ({ getLibrary }) => {
   useEffect(() => {
@@ -24,10 +25,20 @@ const Library = ({ getLibrary }) => {
     </Fragment>
   ) : (
     <Fragment>
-      <section className='open drop group'>
+      <section className='page lib group' id='lib-page'>
+        <header className='head-page span' id='library-head'>
+          Browse Music
+        </header>
+
         <Search />
         <Filter />
         <div>Library:</div>
+        <div className='cont fill lib browse' id='browse-cont'>
+          <TrkLib />
+          <TrkLib />
+          <TrkLib />
+          <TrkLib />
+        </div>
       </section>
     </Fragment>
   );
