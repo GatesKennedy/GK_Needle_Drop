@@ -126,14 +126,6 @@ ul {
 // ============
 // === navi ===
 
-.navi {
-  max-height: 4rem;
-  display: flex;
-  justify-content: space-between;
-  margin: 0;
-  padding: 0.5rem 0 0.3rem 0;
-}
-
 .navi .menu {
   margin: 0rem 0.7rem;
 }
@@ -256,6 +248,13 @@ i {
 //==================
 //==== COMP IDs ====
 
+#navi-cont {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0.5rem 0 0.3rem 0;
+}
+
 #browse-cont {
 }
 
@@ -291,4 +290,20 @@ i {
   line-height: 16px;
 
   color: #959494;
+}
+
+//=================
+//===== COLOR =====
+
+.bg-blu2 {
+  background-color: $nds-blu2;
+}
+.bg-pnk2 {
+  background-color: $nds-pnk2;
+}
+.bg-crm3 {
+  background-color: $nds-crm3;
+}
+.bg-blu2 {
+  background-color: $nds-blu2;
 }

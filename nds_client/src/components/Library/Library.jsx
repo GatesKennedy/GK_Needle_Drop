@@ -7,6 +7,7 @@ import { getFiltered } from './rdx_axn/axn_filter';
 import { getLibrary } from './rdx_axn/axn_library';
 import PropTypes from 'prop-types';
 
+import Carol from './Carol';
 import Search from './Search';
 import Filter from './Filter';
 import Spinner from '../Notify/Spin';
@@ -25,14 +26,9 @@ const Library = ({ getLibrary }) => {
     </Fragment>
   ) : (
     <Fragment>
-      <section className='page lib group' id='lib-page'>
-        <header className='head-page span' id='library-head'>
-          Browse Music
-        </header>
-
-        <Search />
-        <Filter />
+      <section className='page lib group bg-crm3' id='lib-page'>
         <div>Library:</div>
+        <Carol />
         <div className='cont fill lib browse' id='browse-cont'>
           <TrkLib />
           <TrkLib />

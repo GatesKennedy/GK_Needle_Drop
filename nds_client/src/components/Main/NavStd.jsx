@@ -5,31 +5,16 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../User/rdx_axn/axn_auth';
+//  Asset
+import { ReactComponent as ND_logo } from './assets/vex/ND_logo1.svg';
 
 const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
-  /*
-  let btns = {
-    btn1: {
-      title: 'Needle Drop',
-      link: '/Hello'
-    },
-    btn2: {
-      title: 'Library',
-      link: '/library'
-    },
-    btn3: {
-      title: 'Checkout',
-      link: '/ecomm'
-    }
-  };
-  */
-
   const authLinks = (
-    <nav className='navi light'>
+    <nav className='bg-blu2' id='navi-cont'>
       <div className='center menu'>
         <Link to='/hello' id='menuAOE' className='center'>
           {' '}
-          <i className='dark fas fa-infinity' />
+          <ND_logo />
         </Link>
       </div>
       <div className='center main'>

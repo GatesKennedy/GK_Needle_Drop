@@ -18,6 +18,7 @@ import Library from './components/Library/Library';
 import Hello from './components/Main/Hello';
 import NeedleDrop from './components/Main/NeedleDrop';
 import NavStd from './components/Main/NavStd';
+import Header from './components/Main/Header';
 //    === Notify ===
 import Alert from './components/Notify/Alert';
 //    === User ===
@@ -37,7 +38,7 @@ const App = () => {
         <Fragment>
           <Alert />
           <NavStd />
-          <h1>Needle Drop</h1>
+          <Header />
           <section className='container fill-window'>
             <Route exact path='/' component={Library} />
             <Switch>
