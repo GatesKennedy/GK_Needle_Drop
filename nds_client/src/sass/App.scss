@@ -255,20 +255,22 @@ i {
   padding: 0.5rem 0 0.3rem 0;
 }
 
-#browse-cont {
+#brow-cont {
+  display: inline-flex;
 }
 
 #trk-cont {
   /* Auto Layout */
   display: flex;
   flex-direction: row;
+
   margin: 1px;
   padding: 13px 33px;
+  position: absolute;
+  right: 0px;
 
   width: 1172.38px;
   height: 97.42px;
-  left: 267px;
-  top: 360px;
   overflow: hidden;
   /* creamier cream */
   background: #fff1e4;

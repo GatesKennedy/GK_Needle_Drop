@@ -8,6 +8,7 @@ import { getLibrary } from './rdx_axn/axn_library';
 import PropTypes from 'prop-types';
 
 import Carol from './Carol';
+import BrowList from './BrowList';
 import Search from './Search';
 import Filter from './Filter';
 import Spinner from '../Notify/Spin';
@@ -29,12 +30,7 @@ const Library = ({ getLibrary }) => {
       <section className='page lib group bg-crm3' id='lib-page'>
         <div>Library:</div>
         <Carol />
-        <div className='cont fill lib browse' id='browse-cont'>
-          <TrkLib />
-          <TrkLib />
-          <TrkLib />
-          <TrkLib />
-        </div>
+        <BrowList />
       </section>
     </Fragment>
   );
