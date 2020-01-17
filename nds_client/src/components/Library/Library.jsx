@@ -9,10 +9,7 @@ import PropTypes from 'prop-types';
 
 import Carol from './Carol';
 import BrowList from './BrowList';
-import Search from './Search';
-import Filter from './Filter';
 import Spinner from '../Notify/Spin';
-import TrkLib from './TrkLib';
 
 const Library = ({ getLibrary }) => {
   useEffect(() => {

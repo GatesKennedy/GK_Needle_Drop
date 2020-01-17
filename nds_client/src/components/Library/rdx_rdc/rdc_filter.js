@@ -1,19 +1,17 @@
 import {
-  LIBRARY_GET,
-  LIBRARY_ERROR,
   SEARCH_GET,
+  SEARCH_UPDATE,
+  SEARCH_CLEAR,
   SEARCH_ERROR,
   FILTER_GET,
-  FILTER_ERROR,
-  TRAITS_GET,
-  TRAITS_UPDATE,
-  TRAITS_CLEAR,
-  TRAITS_ERROR
+  FILTER_UPDATE,
+  FILTER_CLEAR,
+  FILTER_ERROR
 } from '../../../util/axn_types';
 
 const initialState = {
   libraryOut: null,
-  traitsIn: null,
+  filterIn: null,
   searchIn: null,
   loading: true,
   error: {}
@@ -23,7 +21,7 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case LIBRARY_GET:
+    //  GET
     case FILTER_GET:
     case SEARCH_GET:
       return {
@@ -31,29 +29,31 @@ export default function(state = initialState, action) {
         libraryOut: payload,
         loading: false
       };
-    case TRAITS_GET:
-    case TRAITS_UPDATE:
+    //  UPDATE
+    case FILTER_UPDATE:
+    case SEARCH_UPDATE:
       return {
         ...state,
-        traitsIn: payload,
+        filterIn: payload,
         loading: false
       };
-    case TRAITS_CLEAR:
+    //  CLEAR
+    case FILTER_CLEAR:
+    case SEARCH_CLEAR:
       return {
         ...state,
-        traitsIn: null,
+        filterIn: null,
         loading: false
       };
+    //  ERROR
     case FILTER_ERROR:
-    case LIBRARY_ERROR:
     case SEARCH_ERROR:
-    case TRAITS_ERROR:
       return {
         ...state,
         error: payload,
         loading: false
       };
-
+    //  DEFAULT
     default:
       return state;
   }
