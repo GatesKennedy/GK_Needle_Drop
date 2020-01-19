@@ -13,11 +13,11 @@ const router = Router();
 //  @access     PUBLIC
 router.get('/', (request, response, next) => {
   pool.query(
-    "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist FROM tbl_library;",
+    "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json->> 'time' AS time FROM tbl_library;",
     //"SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';"
     (err, res) => {
       if (err) return next(err);
-
+      console.log(res.rows);
       response.json(res.rows);
     }
   );
