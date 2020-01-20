@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 //  REDUX
 import { connect } from 'react-redux';
-import { getBrowList } from './rdx_axn/axn_library';
 import PropTypes from 'prop-types';
-
+//  Comps
+import { getBrowList } from './rdx_axn/axn_library';
 import TrkLib from './TrkLib';
 import Spinner from '../Notify/Spin';
 
