@@ -18,6 +18,7 @@ import auth from '../components/User/rdx_rdc/rdc_auth';
 import profile from '../components/User/rdx_rdc/rdc_profile';
 
 export default combineReducers({
+  library,
   search,
   filter,
   alert,

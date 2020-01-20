@@ -8,6 +8,8 @@ export const LIBRARY_GET = 'LIBRARY_GET';
 export const LIBRARY_ERROR = 'LIBRARY_ERROR';
 export const ARTISTS_GET = 'ARTISTS_GET';
 export const ARTISTS_ERROR = 'ARTISTS_ERROR';
+export const ARTIST_GET = 'ARTIST_GET';
+export const ARTIST_ERROR = 'ARTIST_ERROR';
 
 export const PLAYLIST_GET = 'PLAYLIST_GET';
 export const PLAYLIST_ERROR = 'PLAYLIST_ERROR';
