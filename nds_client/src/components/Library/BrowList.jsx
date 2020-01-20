@@ -2,8 +2,8 @@ import React, { Fragment, useEffect } from 'react';
 //  REDUX
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getBrowList, getArtists } from './rdx_axn/axn_library';
 //  Comps
-import { getBrowList } from './rdx_axn/axn_library';
 import TrkLib from './TrkLib';
 import Spinner from '../Notify/Spin';
 
@@ -20,7 +20,7 @@ const BrowList = ({ getBrowList, browList: { libData, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <TrkLib />
+          <h1>Track Party</h1>
         </Fragment>
       )}
     </Fragment>
@@ -33,7 +33,7 @@ BrowList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  browList: state.libData
+  browList: state.browList
 });
 
 export default connect(mapStateToProps, { getBrowList })(BrowList);
