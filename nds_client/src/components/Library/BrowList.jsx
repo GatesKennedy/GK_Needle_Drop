@@ -1,25 +1,39 @@
 import React, { Fragment, useEffect } from 'react';
 //  REDUX
 import { connect } from 'react-redux';
+import { getBrowList } from './rdx_axn/axn_library';
 import PropTypes from 'prop-types';
 
 import TrkLib from './TrkLib';
+import Spinner from '../Notify/Spin';
 
-function BrowList(props) {
+const BrowList = ({ getBrowList, browList: { libData, loading } }) => {
+  useEffect(() => {
+    getBrowList();
+  }, []);
+
+  console.log('ello moto:' + libData);
+
   return (
     <Fragment>
-      <section>
-        <div className=' horz-row ' id='brow-cont'>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Fragment>
           <TrkLib />
-          <TrkLib />
-          <TrkLib />
-          <TrkLib />
-        </div>
-      </section>
+        </Fragment>
+      )}
     </Fragment>
   );
-}
+};
 
-BrowList.propTypes = {};
+BrowList.propTypes = {
+  getBrowList: PropTypes.func.isRequired,
+  browList: PropTypes.object.isRequired
+};
 
-export default BrowList;
+const mapStateToProps = state => ({
+  browList: state.libData
+});
+
+export default connect(mapStateToProps, { getBrowList })(BrowList);
