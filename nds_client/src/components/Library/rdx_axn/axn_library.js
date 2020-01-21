@@ -15,13 +15,12 @@ import {
 // GET: Library Tracks (All)
 
 export const getBrowList = () => async dispatch => {
-  dispatch({ type: FILTER_CLEAR });
+  //dispatch({ type: FILTER_CLEAR });
   console.log('FXN: getBrowList()');
   try {
     console.log('try{} getBrowList()');
 
     const res = await axios.get('/api/library');
-    console.log();
     dispatch({
       type: BROWLIST_GET,
       payload: res.data

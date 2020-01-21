@@ -7,12 +7,12 @@ import { getBrowList, getArtists } from './rdx_axn/axn_library';
 import TrkLib from './TrkLib';
 import Spinner from '../Notify/Spin';
 
-const BrowList = ({ getBrowList, browList: { libData, loading } }) => {
+const BrowList = ({ getBrowList, library: { libData, loading } }) => {
   useEffect(() => {
     getBrowList();
   }, []);
 
-  console.log('ello moto:' + libData);
+  console.log('ello moto:');
 
   return (
     <Fragment>
@@ -29,11 +29,11 @@ const BrowList = ({ getBrowList, browList: { libData, loading } }) => {
 
 BrowList.propTypes = {
   getBrowList: PropTypes.func.isRequired,
-  browList: PropTypes.object.isRequired
+  library: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  browList: state.browList
+  library: state.library
 });
 
 export default connect(mapStateToProps, { getBrowList })(BrowList);
