@@ -8,36 +8,6 @@ const router = Router();
 //  =============
 //  ==   GET   ==
 //  =============
-//  @route      GET /api/library
-//  @desc       Display ALL 'songs and artist' in library
-//  @access     PUBLIC
-router.get('/', (request, response, next) => {
-  pool.query(
-    "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json->> 'time' AS time FROM tbl_library;",
-    //"SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';"
-    (err, res) => {
-      if (err) return next(err);
-      console.log(res.rows);
-      response.json(res.rows);
-    }
-  );
-});
-
-//  @route      GET /api/library/artist
-//  @desc       Display All Artists
-//  @access     PUBLIC
-router.get('/artists', (request, response, next) => {
-  pool.query(
-    "SELECT DISTINCT data_json ->> 'artist' AS artist FROM tbl_library;",
-    //  "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';",
-    (err, res) => {
-      if (err) return next(err);
-
-      response.json(res.rows);
-    }
-  );
-});
-
 //  @route      GET /api/library/artist/:id
 //  @desc       Display Artist library
 //  @access     PUBLIC
@@ -45,6 +15,22 @@ router.get('/:artist', (request, response, next) => {
   const { artist } = request.params;
   pool.query(
     'SELECT * FROM tbl_library WHERE data_json @> \'{"artist": "$1"}\';',
+    [artist],
+    (err, res) => {
+      if (err) return next(err);
+
+      response.json(res.rows);
+    }
+  );
+});
+
+//  @route      GET /api/library/search/:search
+//  @desc       Display Artist library
+//  @access     PUBLIC
+router.get('/search/:search', (request, response, next) => {
+  const { search } = request.params;
+  pool.query(
+    'SELECT * FROM tbl_library WHERE data_json @> \'{"search": "$1"}\';',
     [artist],
     (err, res) => {
       if (err) return next(err);
@@ -98,15 +84,15 @@ router.get('/artist/profile/:id', (request, response, next) => {
 //  ==============
 //  ==   POST   ==
 //  ==============
-//  @route      POST /admin/lib/:id
-//  @desc       Register USER
+//  @route      POST
+//  @desc
 //  @access     PUBLIC
 
 //  ==============
 //  ==  DELETE  ==
 //  ==============
-//  @route      GET /admin/lib/:id
-//  @desc       Delete USER
+//  @route      DELETE
+//  @desc
 //  @access     PRIVATE
 
 //  Catch-All Error Function

@@ -4,8 +4,8 @@ export const PROFILES_GET = 'PROFILES_GET';
 //    === Ecomm ===
 
 //    === Library ===
-export const BROWLIST_GET = 'BROWLIST_GET';
-export const BROWLIST_ERROR = 'BROWLIST_ERROR';
+export const LIBRARY_GET = 'LIBRARY_GET';
+export const LIBRARY_ERROR = 'LIBRARY_ERROR';
 export const ARTISTS_GET = 'ARTISTS_GET';
 export const ARTISTS_ERROR = 'ARTISTS_ERROR';
 export const ARTIST_GET = 'ARTIST_GET';

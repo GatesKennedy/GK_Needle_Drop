@@ -2,8 +2,8 @@ import axios from 'axios';
 import { setAlert } from '../../Notify/rdx_axn/axn_alert';
 
 import {
-  BROWLIST_GET,
-  BROWLIST_ERROR,
+  LIBRARY_GET,
+  LIBRARY_ERROR,
   FILTER_CLEAR,
   ARTISTS_GET,
   ARTISTS_ERROR,
@@ -14,22 +14,22 @@ import {
 //=============================
 // GET: Library Tracks (All)
 
-export const getBrowList = () => async dispatch => {
+export const getLibrary = () => async dispatch => {
   //dispatch({ type: FILTER_CLEAR });
-  console.log('FXN: getBrowList()');
+  console.log('FXN: getLibrary()');
   try {
-    console.log('try{} getBrowList()');
+    console.log('try{} getLibrary()');
 
     const res = await axios.get('/api/library');
     dispatch({
-      type: BROWLIST_GET,
+      type: LIBRARY_GET,
       payload: res.data
     });
   } catch (err) {
-    console.log('catch{} getBrowList() error');
+    console.log('catch{} getLibrary() error');
 
     dispatch({
-      type: BROWLIST_ERROR,
+      type: LIBRARY_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

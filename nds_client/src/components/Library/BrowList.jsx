@@ -1,18 +1,32 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 //  REDUX
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getBrowList, getArtists } from './rdx_axn/axn_library';
+import { getLibrary, getArtists } from './rdx_axn/axn_library';
 //  Comps
-import TrkLib from './TrkLib';
+import Trk from './Trk';
 import Spinner from '../Notify/Spin';
 
-const BrowList = ({ getBrowList, library: { libData, loading } }) => {
+const BrowList = ({ getLibrary, library: { libData, loading } }) => {
   useEffect(() => {
-    getBrowList();
+    getLibrary();
   }, []);
 
-  console.log('ello moto:');
+  const TrackList = props => {
+    const Trks = props.libData.map(trk => {
+      return (
+        <li>
+          <Trk
+            key={trk.id}
+            song={trk.song}
+            artist={trk.artist}
+            time={trk.time}
+          />
+        </li>
+      );
+    });
+    return <ul>{}</ul>;
+  };
 
   return (
     <Fragment>
@@ -21,6 +35,13 @@ const BrowList = ({ getBrowList, library: { libData, loading } }) => {
       ) : (
         <Fragment>
           <h1>Track Party</h1>
+          <div className='stack-list' id='trk-list'>
+            {libData.length > 0 ? (
+              <Trk libData={libData} />
+            ) : (
+              <h4>No Tracks found...</h4>
+            )}
+          </div>
         </Fragment>
       )}
     </Fragment>
@@ -28,7 +49,7 @@ const BrowList = ({ getBrowList, library: { libData, loading } }) => {
 };
 
 BrowList.propTypes = {
-  getBrowList: PropTypes.func.isRequired,
+  getLibrary: PropTypes.func.isRequired,
   library: PropTypes.object.isRequired
 };
 
@@ -36,4 +57,4 @@ const mapStateToProps = state => ({
   library: state.library
 });
 
-export default connect(mapStateToProps, { getBrowList })(BrowList);
+export default connect(mapStateToProps, { getLibrary })(BrowList);

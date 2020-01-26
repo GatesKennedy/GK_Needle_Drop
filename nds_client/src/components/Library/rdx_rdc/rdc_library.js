@@ -1,6 +1,6 @@
 import {
-  BROWLIST_GET,
-  BROWLIST_ERROR,
+  LIBRARY_GET,
+  LIBRARY_ERROR,
   ARTISTS_GET,
   ARTISTS_ERROR,
   ARTIST_GET,
@@ -24,7 +24,7 @@ export default function(state = initialState, action) {
 
   switch (type) {
     //  GET
-    case BROWLIST_GET:
+    case LIBRARY_GET:
     case ARTISTS_GET:
     case ARTIST_GET:
     case PLAYLIST_GET:
@@ -49,7 +49,7 @@ export default function(state = initialState, action) {
         loading: false
       };
     //  ERROR
-    case BROWLIST_ERROR:
+    case LIBRARY_ERROR:
     case ARTISTS_ERROR:
     case ARTIST_ERROR:
     case PLAYLIST_ERROR:

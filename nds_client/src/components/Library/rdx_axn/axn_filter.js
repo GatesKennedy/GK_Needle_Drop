@@ -3,15 +3,40 @@ import { setAlert } from '../../Notify/rdx_axn/axn_alert';
 
 import {
   FILTER_GET,
+  FILTER_UPDATE,
+  FILTER_CLEAR,
   FILTER_ERROR,
+  SEARCH_GET,
+  SEARCH_UPDATE,
+  SEARCH_CLEAR,
+  SEARCH_ERROR,
   TRAITS_GET,
   TRAITS_UPDATE,
   TRAITS_CLEAR,
   TRAITS_ERROR
 } from '../../../util/axn_types';
 
-//  Get ToolList
-export const getFiltered = () => async dispatch => {
+//  Get Filtered
+export const getFilter = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/library/filter_list');
+
+    dispatch({
+      type: FILTER_GET,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('axn_FILTER.js: catch error');
+
+    dispatch({
+      type: FILTER_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+//  Get Searched
+export const getSearch = () => async dispatch => {
   try {
     const res = await axios.get('/api/library/filter_list');
 
