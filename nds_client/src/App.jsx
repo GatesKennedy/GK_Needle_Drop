@@ -14,6 +14,7 @@ import './sass/App.scss';
 import Purchase from './components/Ecomm/Purchase';
 //    === Library ===
 import Library from './components/Library/Library';
+import TrkList from './components/Library/TrkList';
 //    === Main ===
 import Hello from './components/Main/Hello';
 import NeedleDrop from './components/Main/NeedleDrop';
@@ -43,6 +44,8 @@ const App = () => {
             <Route exact path='/' component={Library} />
             <Switch>
               <Route exact path='/hello' component={Hello} />
+              <Route exact path='/library' component={Library} />
+              <Route exact path='/TrkList' component={TrkList} />
               <Route exact path='/library' component={Library} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/profile' component={Profile} />

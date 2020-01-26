@@ -12,40 +12,49 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
     getLibrary();
   }, []);
 
-  const TrackList = props => {
-    const Trks = props.libData.map(trk => {
-      return (
-        <li>
-          <Trk
-            key={trk.id}
-            song={trk.song}
-            artist={trk.artist}
-            time={trk.time}
-          />
-        </li>
-      );
-    });
-    return <ul>{}</ul>;
-  };
-
+  const Trks =
+    libData.length > 0 ? (
+      libData.map(trk => {
+        return (
+          <li>
+            <Trk
+              key={trk.id}
+              song={trk.song}
+              artist={trk.artist}
+              time={trk.time}
+            />
+          </li>
+        );
+      })
+    ) : (
+      <h4> No Tracks found</h4>
+    );
   return (
     <Fragment>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <Fragment>
-          <h1>Track Party</h1>
-          <div className='stack-list' id='trk-list'>
-            {libData.length > 0 ? (
-              <Trk libData={libData} />
-            ) : (
-              <h4>No Tracks found...</h4>
-            )}
-          </div>
-        </Fragment>
-      )}
+      <div className='stack-list' id='trk-list'>
+        {Trks}
+      </div>
     </Fragment>
   );
+
+  // return (
+  //   <Fragment>
+  //     {loading ? (
+  //       <Spinner />
+  //     ) : (
+  //       <Fragment>
+  //         <h1>Track Party</h1>
+  //         <div className='stack-list' id='trk-list'>
+  //           {libData.length > 0 ? (
+  //             <Trk libData={libData} />
+  //           ) : (
+  //             <h4>No Tracks found...</h4>
+  //           )}
+  //         </div>
+  //       </Fragment>
+  //     )}
+  //   </Fragment>
+  // );
 };
 
 BrowList.propTypes = {
