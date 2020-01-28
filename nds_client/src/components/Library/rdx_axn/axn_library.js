@@ -43,7 +43,7 @@ export const getArtists = () => async dispatch => {
   try {
     console.log('try{} getArtists()');
 
-    const res = await axios.get('/api/library/artists');
+    const res = await axios.get('/api/library/boone_howard');
     dispatch({
       type: ARTISTS_GET,
       payload: res.data

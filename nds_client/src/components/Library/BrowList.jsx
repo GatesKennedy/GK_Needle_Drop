@@ -36,11 +36,7 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
         <Fragment>
           <h1>Track Party</h1>
           <div className='stack-list' id='trk-list'>
-            {libData.length > 0 ? (
-              <Trk libData={libData} />
-            ) : (
-              <h4>No Tracks found...</h4>
-            )}
+            {libData ? <Trk libData={libData} /> : <h4>No Tracks found...</h4>}
           </div>
         </Fragment>
       )}

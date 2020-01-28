@@ -13,10 +13,13 @@ const router = Router();
 //  @access     PUBLIC
 router.get('/', (request, response, next) => {
   pool.query(
-    "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json->> 'time' AS time FROM tbl_library;",
+    "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json->> 'time' AS time FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';",
     //"SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';"
     (err, res) => {
-      if (err) return next(err);
+      if (err) {
+        console.error(err.message);
+        response.status(500).send('Server Error');
+      }
       console.log(res.rows);
       response.json(res.rows);
     }
@@ -38,7 +41,7 @@ router.get('/artists', (request, response, next) => {
   );
 });
 
-//  @route      GET /api/library/artist/:id
+//  @route      GET /api/library/:artist
 //  @desc       Display Artist library
 //  @access     PUBLIC
 router.get('/:artist', (request, response, next) => {
@@ -47,7 +50,10 @@ router.get('/:artist', (request, response, next) => {
     'SELECT * FROM tbl_library WHERE data_json @> \'{"artist": "$1"}\';',
     [artist],
     (err, res) => {
-      if (err) return next(err);
+      if (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
 
       response.json(res.rows);
     }
@@ -72,10 +78,15 @@ router.get('/filter', (request, response, next) => {
 //  @desc       Display Artist's library  (Boone Howard)
 //  @access     PUBLIC
 router.get('/artist/:id', (request, response, next) => {
+  try {
+  } catch (err) {}
   pool.query(
     'SELECT * FROM tbl_library WHERE data_json @> \'{"artist": "Boone Howard"}\';',
     (err, res) => {
-      if (err) return next(err);
+      if (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
 
       response.json(res.rows);
     }
@@ -110,8 +121,9 @@ router.get('/artist/profile/:id', (request, response, next) => {
 //  @access     PRIVATE
 
 //  Catch-All Error Function
-router.use((err, req, res, next) => {
-  res.json(err);
+router.use((err, request, response, next) => {
+  console.log('Next FXN Error response');
+  response.json(err);
 });
 
 module.exports = router;
