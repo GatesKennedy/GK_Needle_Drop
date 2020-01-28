@@ -17,15 +17,22 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
           <ND_logo />
         </Link>
       </div>
-      <div className='center main'>
-        <Link to='/profile'>
-          <btn className='btn dark'>Profile</btn>
+      <div className='center main menu-head'>
+        {' '}
+        <Link to='/hello'>
+          <btn className='btn '>ABOUT</btn>
         </Link>
         <Link to='/library'>
-          <btn className='btn dark'>Library</btn>
+          <btn className='btn '>BROWSE MUSIC</btn>
         </Link>
         <Link to='/purchase'>
-          <btn className='btn dark'>Checkout</btn>
+          <btn className='btn '>PLAYLISTS</btn>
+        </Link>{' '}
+        <Link to='/profile'>
+          <btn className='btn '>ACCOUNT</btn>
+        </Link>
+        <Link to='/purchase'>
+          <btn className='btn '>CONTACT</btn>
         </Link>
       </div>
       <div className='center menu'>

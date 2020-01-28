@@ -6,7 +6,7 @@ import CarolMockasin from './assets/img/carol-mocks.png';
 function Carol(props) {
   return (
     <section>
-      <div className=' horz-row'>
+      <div className='horz-row carol' id='carol-cont'>
         <img src={CarolMockasin} />
         <img src={CarolMockasin} />
         <img src={CarolMockasin} />
