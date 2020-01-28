@@ -25,7 +25,7 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
         </li>
       );
     });
-    return <ul>{}</ul>;
+    return <ul>{Trks}</ul>;
   };
 
   return (
