@@ -68,6 +68,10 @@ ul {
   position: absolute;
 }
 
+.cont {
+  padding: 4px;
+}
+
 .center {
   display: flex;
   justify-content: center;
@@ -92,11 +96,6 @@ ul {
 .dark {
   background-color: $black-2;
   color: $white-2;
-}
-
-.light {
-  background-color: $white-3;
-  color: $black-2;
 }
 
 .btn {
@@ -149,9 +148,12 @@ ul {
 .navi .center a {
   color: $white-2;
 }
+.menu-head {
+  background-color: $nds-blu2;
+  color: $nds-gry1;
 
-#menuAOE {
-  margin-top: 0.4rem;
+  height: 4rem;
+  padding: 1rem 0rem 0rem 2rem;
 }
 
 // ============
@@ -247,7 +249,11 @@ ul {
   display: inline-flex;
 }
 
+#brow-menu {
+}
+
 #trk-list {
+  float: right;
 }
 
 #trk-cont {
@@ -257,12 +263,10 @@ ul {
 
   margin: 1px;
   padding: 13px 33px;
-  //position: absolute;
-  right: 0px;
 
   width: 1172.38px;
   height: 97.42px;
-  overflow: hidden;
+
   /* creamier cream */
   background: #fff1e4;
 }
@@ -293,6 +297,9 @@ ul {
 }
 .bg-pnk2 {
   background-color: $nds-pnk2;
+}
+.bg-crm2 {
+  background-color: $nds-crm2;
 }
 .bg-crm3 {
   background-color: $nds-crm3;

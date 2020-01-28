@@ -34,7 +34,6 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1>Track Party</h1>
           <div className='stack-list' id='trk-list'>
             {libData ? <Trk libData={libData} /> : <h4>No Tracks found...</h4>}
           </div>

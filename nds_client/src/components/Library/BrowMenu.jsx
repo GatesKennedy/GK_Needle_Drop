@@ -1,33 +1,37 @@
-import React, { Fragment, useEffect, useState} from 'react'
+import React, { Fragment, useEffect, useState } from 'react';
 
-import Search from "./Search";
-import Filter from "./Filter";
+import PropTypes from 'prop-types';
 
+import Search from './Search';
+import Filter from './Filter';
+import Lists from './Lists';
 
-const BrowMenu = React.memo(props) => {
-    useState( search );
+const BrowMenu = props => {
+  useState();
 
-    const submitSearch = event => {
-        event.preventDefault();
-    };
+  const submitSearch = event => {
+    event.preventDefault();
+  };
 
-    return (
-<Fragment>
-    <div className="cont">
+  return (
+    <Fragment>
+      <div className='cont menu bg-crm3' id='browser-menu'>
         <Search />
-        <form onSubmit={submitSearch}>
-            <div className="form-cont">
-                <label htmlFor="search">Search Library</label>
-                <input type="text" id="search"></input>
-            </div>
-            <div className="btn submit search">
-                <button type="submit">Search</button>
-            </div>
-        </form>
         <Filter />
-    </div>
-</Fragment>
-    )
-}
+        <Lists />
+      </div>
+    </Fragment>
+  );
+};
 
-export default BrowMenu
+BrowMenu.prototypes = {
+  search: PropTypes.object.isRequired,
+  filter: PropTypes.object.isRequired
+};
+
+const mapStatetoProps = state => ({
+  search: state.search,
+  filter: state.filter
+});
+
+export default BrowMenu;
