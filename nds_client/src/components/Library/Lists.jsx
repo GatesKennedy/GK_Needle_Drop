@@ -8,10 +8,8 @@ const Lists = props => {
     <Fragment>
       <section className='menu stack Lists' id='fitler-cont'>
         <div className='menu-head bg-blu2'>
-          <h2 className='group-name'>
-            MY LISTS
-            <Add className='menu-btn' />
-          </h2>
+          <h2 className='menu-title row'>MY LISTS</h2>
+          <Add className='menu-title row  menu-btn' />
         </div>
         <div className='menu stack'>
           <p>Cool good songs</p>

@@ -8,10 +8,8 @@ const Filter = props => {
     <Fragment>
       <section className='menu stack Filter' id='fitler-cont'>
         <div className='menu-head bg-blu2'>
-          <h2 className='group-name'>
-            FILTER
-            <Add className='menu-btn' />
-          </h2>
+          <h2 className='menu-title row '>FILTER</h2>
+          <Add className='menu-title row menu-btn' />
         </div>
         <div className='menu stack'>
           <p>Genre</p>

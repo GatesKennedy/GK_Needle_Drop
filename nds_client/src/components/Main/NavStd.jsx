@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { logout } from '../User/rdx_axn/axn_auth';
 //  Asset
 import { ReactComponent as ND_logo } from './assets/vex/ND_logo1.svg';
+import { ReactComponent as Cart } from './assets/vex/Cart.svg';
 
 const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
@@ -17,7 +18,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
           <ND_logo />
         </Link>
       </div>
-      <div className='center main menu-head'>
+      <div className='center main menu-head navi-links'>
         {' '}
         <Link to='/hello'>
           <btn className='btn '>ABOUT</btn>
@@ -34,6 +35,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link to='/purchase'>
           <btn className='btn '>CONTACT</btn>
         </Link>
+        <Cart className='menu-btn' />
       </div>
       <div className='center menu'>
         <Link to='/library'>

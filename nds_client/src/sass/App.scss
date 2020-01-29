@@ -38,11 +38,12 @@ ul {
 // =================
 // === structure ===
 
-.horz-row {
+.row {
   display: inline;
   justify-content: center;
   align-content: center;
   box-sizing: border-box;
+  vertical-align: middle;
 }
 
 .stack {
@@ -99,7 +100,6 @@ ul {
 }
 
 .btn {
-  width: 5rem;
   min-width: 5rem;
   height: 1.9rem;
   margin: 0.25rem 0.5rem;
@@ -148,6 +148,11 @@ ul {
 .navi .center a {
   color: $white-2;
 }
+
+.navi-links {
+  float: right;
+}
+
 .menu-head {
   background-color: $nds-blu2;
   color: $nds-gry1;
@@ -156,8 +161,12 @@ ul {
   padding: 1rem 0rem 0rem 2rem;
 }
 
+.menu-title {
+  vertical-align: middle;
+}
+
 .menu-btn {
-  margin-left: 9px;
+  margin: 9px;
 }
 
 // ============
@@ -274,7 +283,7 @@ ul {
   margin: 1px;
   padding: 13px 33px;
 
-  width: 1172.38px;
+  width: 1472.38px;
   height: 97.42px;
 
   /* creamier cream */
@@ -282,6 +291,7 @@ ul {
 }
 
 #trk-txt-song {
+  width: 160px;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
