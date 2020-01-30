@@ -2,6 +2,8 @@ import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { getSearch } from './rdx_axn/axn_filter';
 
+import { ReactComponent as Find } from '../Main/assets/vex/Search.svg';
+
 const Search = React.memo(props => {
   const [inputSearch, setInputSearch] = useState('');
 
@@ -11,15 +13,16 @@ const Search = React.memo(props => {
 
   return (
     <Fragment>
-      <section>
-        <div className='cont search form'>
-          <label>Search Library</label>
+      <section className='cont row search form'>
+        <h3>
+          <Find className='menu-title' />
           <input
             type='text'
             value={inputSearch}
             onChange={event => setInputSearch(event.target.value)}
+            className='menu-title'
           />
-        </div>
+        </h3>
       </section>
     </Fragment>
   );

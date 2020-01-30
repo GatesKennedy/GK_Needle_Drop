@@ -12,6 +12,7 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
     getLibrary();
   }, []);
 
+<<<<<<< HEAD
   const Trks =
     libData.length > 0 ? (
       libData.map(trk => {
@@ -34,6 +35,35 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
       <div className='stack-list' id='trk-list'>
         {Trks}
       </div>
+=======
+  const TrackList = props => {
+    const Trks = props.libData.map(trk => {
+      return (
+        <li>
+          <Trk
+            key={trk.id}
+            song={trk.song}
+            artist={trk.artist}
+            time={trk.time}
+          />
+        </li>
+      );
+    });
+    return <ul>{Trks}</ul>;
+  };
+
+  return (
+    <Fragment>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Fragment>
+          <div className='stack-list' id='trk-list'>
+            {libData ? <Trk libData={libData} /> : <h4>No Tracks found...</h4>}
+          </div>
+        </Fragment>
+      )}
+>>>>>>> dev_gk
     </Fragment>
   );
 
