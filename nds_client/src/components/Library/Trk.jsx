@@ -12,7 +12,7 @@ import { ReactComponent as Cart } from './assets/vex/trk-cart.svg';
 
 import img from './assets/img/trk-img.png';
 
-const Trk = props => {
+const Trk = ({ trk }) => {
   return (
     <div className='horz-row' id='trk-cont'>
       <div className='lib trk btn' id='lib-btn-play'>
@@ -26,17 +26,17 @@ const Trk = props => {
       </div>
       <div className='lib trk stack btn' id='lib-btn-info'>
         <div className='lib txt stack txt-trk' id='trk-txt-song'>
-          {props.song}
+          {trk.song}
         </div>
         <div className='lib txt stack txt-trk' id='trk-txt-artist'>
-          {props.artist}
+          {trk.artist}
         </div>
       </div>
       <div className='lib trk wav' id='lib-btn-wav'>
         <Wav />
       </div>
       <div className='lib trk txt' id='lib-btn-time'>
-        {props.time}
+        {trk.time}
       </div>
       <div className='lib trk btn' id='lib-btn-down'>
         <Down />
@@ -49,50 +49,15 @@ const Trk = props => {
       </div>
     </div>
   );
-}; /*
-  return (
-    <Fragment>
-      <div className='horz-row' id='trk-cont'>
-        <div className='lib trk btn' id='lib-btn-play'>
-          <Play />
-        </div>
-        <div className='lib trk btn' id='lib-btn-add'>
-          <Add />
-        </div>
-        <div className='lib trk img' id='lib-trk-img'>
-          <img src={faker.image.avatar}></img>
-        </div>
-        <div className='lib trk stack btn' id='lib-btn-info'>
-          <div className='lib txt stack txt-trk' id='trk-txt-song'>
-            {props.trk.song}
-          </div>
-          <div className='lib txt stack txt-trk' id='trk-txt-artist'>
-            {props.trk.artist}
-          </div>
-        </div>
-        <div className='lib trk wav' id='lib-btn-wav'>
-          <Wav />
-        </div>
-        <div className='lib trk txt' id='lib-btn-time'>
-          {props.trk.time}
-        </div>
-        <div className='lib trk btn' id='lib-btn-down'>
-          <Down />
-        </div>
-        <div className='lib trk btn' id='lib-btn-fav'>
-          <Fav />
-        </div>
-        <div className='lib trk btn' id='lib-btn-cart'>
-          <Cart />
-        </div>
-      </div>
-    </Fragment>
-  );
 };
-*/
 
 Trk.propTypes = {
   trk: PropTypes.object.isRequired
+  // avatar: PropTypes.object.isRequired,
+  // title: PropTypes.object.isRequired,
+  // artist: PropTypes.object.isRequired,
+  // file: PropTypes.object.isRequired,
+  // time: PropTypes.object.isRequired
 };
 
 export default Trk;

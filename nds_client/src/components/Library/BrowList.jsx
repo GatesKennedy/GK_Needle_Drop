@@ -12,46 +12,6 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
     getLibrary();
   }, []);
 
-<<<<<<< HEAD
-  const Trks =
-    libData.length > 0 ? (
-      libData.map(trk => {
-        return (
-          <li>
-            <Trk
-              key={trk.id}
-              song={trk.song}
-              artist={trk.artist}
-              time={trk.time}
-            />
-          </li>
-        );
-      })
-    ) : (
-      <h4> No Tracks found</h4>
-    );
-  return (
-    <Fragment>
-      <div className='stack-list' id='trk-list'>
-        {Trks}
-      </div>
-=======
-  const TrackList = props => {
-    const Trks = props.libData.map(trk => {
-      return (
-        <li>
-          <Trk
-            key={trk.id}
-            song={trk.song}
-            artist={trk.artist}
-            time={trk.time}
-          />
-        </li>
-      );
-    });
-    return <ul>{Trks}</ul>;
-  };
-
   return (
     <Fragment>
       {loading ? (
@@ -59,33 +19,41 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
       ) : (
         <Fragment>
           <div className='stack-list' id='trk-list'>
-            {libData ? <Trk libData={libData} /> : <h4>No Tracks found...</h4>}
+            {libData ? (
+              <ul className='stack-list'>
+                {libData.map(trk => (
+                  <li key={trk.id}>
+                    <Trk trk={trk} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <h4>No Tracks found...</h4>
+            )}
           </div>
         </Fragment>
       )}
->>>>>>> dev_gk
     </Fragment>
   );
-
-  // return (
-  //   <Fragment>
-  //     {loading ? (
-  //       <Spinner />
-  //     ) : (
-  //       <Fragment>
-  //         <h1>Track Party</h1>
-  //         <div className='stack-list' id='trk-list'>
-  //           {libData.length > 0 ? (
-  //             <Trk libData={libData} />
-  //           ) : (
-  //             <h4>No Tracks found...</h4>
-  //           )}
-  //         </div>
-  //       </Fragment>
-  //     )}
-  //   </Fragment>
-  // );
 };
+// return (
+//   <Fragment>
+//     {loading ? (
+//       <Spinner />
+//     ) : (
+//       <Fragment>
+//         <h1>Track Party</h1>
+//         <div className='stack-list' id='trk-list'>
+//           {libData.length > 0 ? (
+//             <Trk libData={libData} />
+//           ) : (
+//             <h4>No Tracks found...</h4>
+//           )}
+//         </div>
+//       </Fragment>
+//     )}
+//   </Fragment>
+// );
 
 BrowList.propTypes = {
   getLibrary: PropTypes.func.isRequired,
