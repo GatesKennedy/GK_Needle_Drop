@@ -3,6 +3,6 @@ import spinner from './art/spin.gif';
 
 export default () => (
   <Fragment>
-    <img src={spinner} class='center show spin' alt='uh, one sec..' />
+    <img src={spinner} className='center show spin' alt='uh, one sec..' />
   </Fragment>
 );

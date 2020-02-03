@@ -14,15 +14,13 @@ const Search = React.memo(props => {
   return (
     <Fragment>
       <section className='cont row search form'>
-        <h3>
-          <Find className='menu-title' />
-          <input
-            type='text'
-            value={inputSearch}
-            onChange={event => setInputSearch(event.target.value)}
-            className='menu-title'
-          />
-        </h3>
+        <Find className='menu-title row' id='vex-find' />
+        <input
+          type='text'
+          value={inputSearch}
+          onChange={event => setInputSearch(event.target.value)}
+          className='menu-title row'
+        />
       </section>
     </Fragment>
   );

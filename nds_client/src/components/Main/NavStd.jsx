@@ -13,36 +13,29 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <nav className='bg-blu2' id='navi-cont'>
       <div className='center menu'>
-        <Link to='/hello' id='menuAOE' className='center'>
+        <Link to='/hello' className='center'>
           {' '}
-          <ND_logo />
+          <ND_logo id='navi-logo' />
         </Link>
       </div>
       <div className='center main menu-head navi-links'>
         {' '}
         <Link to='/hello'>
-          <btn className='btn '>ABOUT</btn>
+          <div className='btn '>ABOUT</div>
         </Link>
         <Link to='/library'>
-          <btn className='btn '>BROWSE MUSIC</btn>
+          <div className='btn '>BROWSE MUSIC</div>
         </Link>
         <Link to='/purchase'>
-          <btn className='btn '>PLAYLISTS</btn>
+          <div className='btn '>PLAYLISTS</div>
         </Link>{' '}
         <Link to='/profile'>
-          <btn className='btn '>ACCOUNT</btn>
+          <div className='btn '>ACCOUNT</div>
         </Link>
         <Link to='/purchase'>
-          <btn className='btn '>CONTACT</btn>
+          <div className='btn '>CONTACT</div>
         </Link>
         <Cart className='menu-btn' />
-      </div>
-      <div className='center menu'>
-        <Link to='/library'>
-          <a onClick={logout} href='#!'>
-            <i name='logout' className='dark fas fa-sign-out-alt' />
-          </a>
-        </Link>
       </div>
     </nav>
   );

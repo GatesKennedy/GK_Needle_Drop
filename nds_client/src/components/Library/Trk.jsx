@@ -14,7 +14,7 @@ import img from './assets/img/trk-img.png';
 
 const Trk = ({ trk }) => {
   return (
-    <div className='horz-row' id='trk-cont'>
+    <div className='' id='trk-cont'>
       <div className='lib trk btn' id='lib-btn-play'>
         <Play />
       </div>

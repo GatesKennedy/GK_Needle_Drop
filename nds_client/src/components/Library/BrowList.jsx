@@ -18,9 +18,9 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <div className='stack-list' id='trk-list'>
+          <div className='stack' id='brow-list'>
             {libData ? (
-              <ul className='stack-list'>
+              <ul className='stack'>
                 {libData.map(trk => (
                   <li key={trk.id}>
                     <Trk trk={trk} />

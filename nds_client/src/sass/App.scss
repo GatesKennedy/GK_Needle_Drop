@@ -11,10 +11,10 @@
 html,
 body {
   height: 100%;
-  position: absolute;
+  //position: absolute;
   left: 0;
   width: 100%;
-  overflow: hidden;
+  //overflow: auto;
 }
 
 body {
@@ -53,16 +53,16 @@ ul {
 
 .fill-window {
   height: 100%;
-  position: absolute;
+  //position: absolute;
   left: 0;
   width: 100%;
-  overflow: hidden;
+  //overflow: hidden;
 }
 
 .fill {
   height: 100%;
   width: 100%;
-  position: absolute;
+  //position: absolute;
 }
 
 .cont {
@@ -125,6 +125,10 @@ ul {
 // ============
 // === navi ===
 
+#navi-logo {
+  margin: 10px 0 15px 35px;
+}
+
 .navi .menu {
   margin: 0rem 0.7rem;
 }
@@ -147,6 +151,7 @@ ul {
 
 .navi-links {
   float: right;
+  margin-right: 30px;
 }
 
 .menu-head {
@@ -159,10 +164,25 @@ ul {
 
 .menu-title {
   vertical-align: middle;
+  width: auto;
+  display: inline-flex;
 }
 
 .menu-btn {
   margin: 9px;
+}
+
+#vex-find {
+  max-height: 20px;
+}
+
+.cont.search {
+  width: 100%;
+}
+
+.row.search {
+  max-height: 21px;
+  overflow-x: visible;
 }
 
 // ============
@@ -192,10 +212,6 @@ ul {
 .header-title,
 .header-end {
   width: 20vw;
-}
-
-.header-nav {
-  width: 60vw;
 }
 
 // =============
@@ -265,13 +281,20 @@ i {
 
 #navi-cont {
   display: flex;
+  height: auto;
+  width: 100%;
   justify-content: space-between;
-  margin: 0;
+
   padding: 0.5rem 0 0.3rem 0;
+  position: sticky;
+  top: 0px;
+  z-index: 9999;
 }
 
 #brow-cont {
   display: inline-flex;
+  overflow: auto;
+  height: auto;
 }
 
 #brow-menu {
@@ -279,12 +302,13 @@ i {
 
 #carol-cont {
   max-height: 265px;
-  overflow: scroll;
+  overflow: hidden;
   flex-wrap: nowrap;
 }
 
-#trk-list {
+#brow-list {
   float: right;
+  overflow: auto;
 }
 
 #trk-cont {
@@ -292,7 +316,7 @@ i {
   display: flex;
   flex-direction: row;
 
-  margin: 1px;
+  margin: 1.5px;
   padding: 13px 33px;
 
   width: 1472.38px;
