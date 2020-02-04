@@ -14,7 +14,7 @@ import './sass/App.scss';
 import Purchase from './components/Ecomm/Purchase';
 //    === Library ===
 import Library from './components/Library/Library';
-import TrkList from './components/Library/TrkList';
+import Artist from './components/Library/Artist';
 //    === Main ===
 import Hello from './components/Main/Hello';
 import NavStd from './components/Main/NavStd';
@@ -23,8 +23,6 @@ import Footer from './components/Main/Footer';
 //    === Notify ===
 import Alert from './components/Notify/Alert';
 //    === User ===
-import Login from './components/User/Login';
-import Register from './components/User/Register';
 import Profile from './components/User/Profile';
 
 const App = () => {
@@ -39,15 +37,12 @@ const App = () => {
         <Fragment>
           <Alert />
           <NavStd />
-          <Header />
           <section className='container fill-window'>
             <Route exact path='/' component={Library} />
             <Switch>
               <Route exact path='/hello' component={Hello} />
               <Route exact path='/library' component={Library} />
-              <Route exact path='/TrkList' component={TrkList} />
-              <Route exact path='/library' component={Library} />
-              <Route exact path='/login' component={Login} />
+              <Route exact path='/artist' component={Artist} />
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/purchase' component={Purchase} />
             </Switch>

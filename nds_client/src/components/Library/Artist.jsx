@@ -4,18 +4,16 @@ import { Link } from 'react-router-dom';
 //  REDUX
 import PropTypes from 'prop-types';
 
-import Header from '../Main/Header';
-import Carol from './Carol';
+import PageHead from '../Main/PageHead';
 import BrowList from './BrowList';
 import BrowMenu from './BrowMenu';
 import Spinner from '../Notify/Spin';
 
-function Library(props) {
+function Artist(props) {
   return (
     <Fragment>
       <div className='bg-crm2'>
-        <Header />
-        <Carol />
+        <PageHead />
         <div className='cont menu' id='brow-cont'>
           <BrowMenu />
           <BrowList />
@@ -25,6 +23,6 @@ function Library(props) {
   );
 }
 
-Library.propTypes = {};
+Artist.propTypes = {};
 
-export default Library;
+export default Artist;

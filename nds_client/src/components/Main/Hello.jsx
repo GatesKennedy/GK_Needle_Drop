@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { Component, Fragment } from 'react';
+
+//  Comps
+import PageHead from './PageHead';
 
 const Hello = () => {
-    return (
-        <div>
-            Hello
-        </div>
-    )
-}
+  return (
+    <Fragment>
+      <PageHead />
+      <div>Hello</div>
+    </Fragment>
+  );
+};
 
-export default Hello
+export default Hello;
