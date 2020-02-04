@@ -35,6 +35,10 @@ ul {
   display: inline-flex;
 }
 
+input {
+  margin: 4px;
+}
+
 // =================
 // === structure ===
 
@@ -152,7 +156,9 @@ ul {
 }
 
 #vex-find {
-  max-height: 20px;
+  margin: auto;
+  padding: 2px;
+  max-height: 24px;
 }
 
 .cont.search {
@@ -160,8 +166,9 @@ ul {
 }
 
 .row.search {
-  max-height: 21px;
+  //max-height: 21px;
   overflow-x: visible;
+  margin: 4px 0px;
 }
 
 // === foot ===
@@ -234,7 +241,8 @@ ul {
 // ===  forms  ===
 
 .form {
-  padding: 1rem;
+  margin: 2px;
+  height: 22px;
 }
 .form-group {
   padding: 0.2rem;
