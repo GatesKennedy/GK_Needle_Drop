@@ -26,21 +26,6 @@ router.get('/', (request, response, next) => {
   );
 });
 
-//  @route      GET /api/library/artist
-//  @desc       Display All Artists
-//  @access     PUBLIC
-router.get('/artists', (request, response, next) => {
-  pool.query(
-    "SELECT DISTINCT data_json ->> 'artist' AS artist FROM tbl_library;",
-    //  "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';",
-    (err, res) => {
-      if (err) return next(err);
-
-      response.json(res.rows);
-    }
-  );
-});
-
 //  @route      GET /api/library/:artist
 //  @desc       Display Artist library
 //  @access     PUBLIC
@@ -60,12 +45,13 @@ router.get('/:artist', (request, response, next) => {
   );
 });
 
-//  @route      GET /api/library/filter
-//  @desc       Display Filtered library
+//  @route      GET /api/library/artists
+//  @desc       Display All Artists
 //  @access     PUBLIC
-router.get('/filter', (request, response, next) => {
+router.get('/artists', (request, response, next) => {
   pool.query(
-    'SELECT * FROM tbl_library WHERE data_json @> \'{"artist": "Boone Howard"}\';',
+    "SELECT DISTINCT data_json ->> 'artist' AS artist FROM tbl_library;",
+    //  "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';",
     (err, res) => {
       if (err) return next(err);
 

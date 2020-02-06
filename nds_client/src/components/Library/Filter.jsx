@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import useCollapse from 'react-collapsed';
 //  Comps
 import Collapse from '../Main/Collapse';
 //  Assets

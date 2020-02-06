@@ -41,14 +41,14 @@ export const getSearch = () => async dispatch => {
     const res = await axios.get('/api/library/filter_list');
 
     dispatch({
-      type: FILTER_GET,
+      type: SEARCH_GET,
       payload: res.data
     });
   } catch (err) {
-    console.log('axn_FILTER.js: catch error');
+    console.log('axn_Search.js: catch error');
 
     dispatch({
-      type: FILTER_ERROR,
+      type: SEARCH_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
