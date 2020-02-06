@@ -1,12 +1,16 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import useCollapse from 'react-collapsed';
+import { getFilters } from './rdx_axn/axn_filter';
 //  Comps
 import Collapse from '../Main/Collapse';
 //  Assets
 import { ReactComponent as Add } from './assets/vex/menu-add.svg';
 
 const Filter = props => {
+  useEffect(() => {
+    getFilters();
+  });
+
   const filters = {
     genre: [
       'ambient',
@@ -108,6 +112,14 @@ const Filter = props => {
   );
 };
 
-Filter.propTypes = {};
+Filter.propTypes = {
+  getFilters: PropTypes.func.isRequired,
+  filters: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  //filters: state.filters,
+  filtering: state.filtering
+});
 
 export default Filter;

@@ -17,7 +17,7 @@ import {
 } from '../../../util/axn_types';
 
 //  Get Filtered
-export const getFilter = () => async dispatch => {
+export const getFilters = () => async dispatch => {
   try {
     const res = await axios.get('/api/library/filter_list');
 
