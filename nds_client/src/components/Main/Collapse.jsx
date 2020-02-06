@@ -34,7 +34,7 @@ Drop.propTypes = {
 
 const mapStateToProps = state => ({
   category: state.category,
-  filterActive: state.filterActive
+  filterIn: state.filterIn
 });
 
 export default Drop;

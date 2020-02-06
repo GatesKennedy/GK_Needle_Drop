@@ -35,10 +35,7 @@ router.get('/:artist', (request, response, next) => {
     'SELECT * FROM tbl_library WHERE data_json @> \'{"artist": "$1"}\';',
     [artist],
     (err, res) => {
-      if (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-      }
+      if (err) return next(err);
 
       response.json(res.rows);
     }

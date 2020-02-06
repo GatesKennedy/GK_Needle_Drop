@@ -1,17 +1,22 @@
 import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getFilters } from './rdx_axn/axn_filter';
+import { getTraitGenus } from './rdx_axn/axn_filter';
 //  Comps
 import Collapse from '../Main/Collapse';
 //  Assets
 import { ReactComponent as Add } from './assets/vex/menu-add.svg';
 
-const Filter = props => {
+const Filter = ({ getTraits, traits }) => {
   useEffect(() => {
-    getFilters();
-  });
+    getTraitGenus();
+  }, []);
 
-  const filters = {
+  console.log(traits);
+
+  const fuhGettaBoudet = {
+    /*
+  const traits = {
     genre: [
       'ambient',
       'cinematic',
@@ -91,10 +96,12 @@ const Filter = props => {
       'western'
     ]
   };
+  */
+  };
 
-  console.log('filters:' + Object.keys(filters));
-  console.log('filter 0: ' + Object.keys(filters)[0]);
-  console.log('items:' + filters.genre);
+  // console.log('traits:' + Object.keys(traits));
+  // console.log('filter 0: ' + Object.keys(traits)[0]);
+  // console.log('items:' + traits.genre);
 
   return (
     <Fragment>
@@ -103,23 +110,19 @@ const Filter = props => {
           <h2 className='menu-title row'>Filter</h2>
           <Add className='menu-title row  menu-btn' />
         </div>
-        <Collapse group={Object.keys(filters)[0]} items={filters.genre} />
-        <Collapse group={Object.keys(filters)[1]} items={filters.instrument} />
-        <Collapse group={Object.keys(filters)[2]} items={filters.keyword} />
-        <Collapse group={Object.keys(filters)[3]} items={filters.project} />
       </section>
     </Fragment>
   );
 };
 
 Filter.propTypes = {
-  getFilters: PropTypes.func.isRequired,
-  filters: PropTypes.object.isRequired
+  getTraitGenus: PropTypes.func.isRequired,
+  traits: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  //filters: state.filters,
-  filtering: state.filtering
+  traits: state.traits,
+  filterIn: state.filterIn
 });
 
-export default Filter;
+export default connect(mapStateToProps, { getTraitGenus })(Filter);

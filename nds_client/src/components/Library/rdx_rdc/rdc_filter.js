@@ -6,13 +6,18 @@ import {
   FILTER_GET,
   FILTER_UPDATE,
   FILTER_CLEAR,
-  FILTER_ERROR
+  FILTER_ERROR,
+  TRAITS_GET,
+  TRAITS_UPDATE,
+  TRAITS_CLEAR,
+  TRAITS_ERROR
 } from '../../../util/axn_types';
 
 const initialState = {
   libraryOut: null,
   filterIn: null,
   searchIn: null,
+  traits: null,
   loading: true,
   error: {}
 };
@@ -27,6 +32,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         libraryOut: payload,
+        loading: false
+      };
+    case TRAITS_GET:
+      return {
+        ...state,
+        traits: payload,
         loading: false
       };
     //  UPDATE
@@ -48,6 +59,7 @@ export default function(state = initialState, action) {
     //  ERROR
     case FILTER_ERROR:
     case SEARCH_ERROR:
+    case TRAITS_ERROR:
       return {
         ...state,
         error: payload,

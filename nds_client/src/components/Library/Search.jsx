@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { getSearch } from './rdx_axn/axn_filter';
+import { getSearched } from './rdx_axn/axn_filter';
 
 import { ReactComponent as Find } from '../Main/assets/vex/Search.svg';
 
@@ -8,7 +8,7 @@ const Search = React.memo(props => {
   const [inputSearch, setInputSearch] = useState('');
 
   useEffect(() => {
-    getSearch();
+    getSearched();
   }, [inputSearch]);
 
   return (

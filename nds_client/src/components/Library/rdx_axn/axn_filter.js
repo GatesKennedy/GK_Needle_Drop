@@ -16,10 +16,55 @@ import {
   TRAITS_ERROR
 } from '../../../util/axn_types';
 
-//  Get Filtered
-export const getFilters = () => async dispatch => {
+//  =============
+//  ==   GET   ==
+//  =============
+
+//============================
+//  GET: Trait Types (Genus)
+export const getTraitGenus = () => async dispatch => {
   try {
-    const res = await axios.get('/api/library/filter_list');
+    const res = await axios.get('/api/library/traits');
+
+    dispatch({
+      type: TRAITS_GET,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('axn_filter: catch error');
+
+    dispatch({
+      type: TRAITS_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+//============================
+//  GET: Trait Items (Species)
+export const getTraitSpecies = genus => async dispatch => {
+  try {
+    const res = await axios.get('/api/library/traits/:genus');
+
+    dispatch({
+      type: TRAITS_GET,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('axn_TRAIT .js: catch error');
+
+    dispatch({
+      type: TRAITS_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+//============================
+//  GET: Filtered
+export const getFiltered = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/library/filter');
 
     dispatch({
       type: FILTER_GET,
@@ -35,10 +80,11 @@ export const getFilters = () => async dispatch => {
   }
 };
 
-//  Get Searched
-export const getSearch = () => async dispatch => {
+//============================
+//  GET: Searched
+export const getSearched = () => async dispatch => {
   try {
-    const res = await axios.get('/api/library/filter_list');
+    const res = await axios.get('/api/library/search');
 
     dispatch({
       type: SEARCH_GET,
@@ -54,24 +100,10 @@ export const getSearch = () => async dispatch => {
   }
 };
 
-//  Get Traits
-export const getTraits = Traits => async dispatch => {
-  try {
-    const res = await axios.get(`/api/library/FILTER${Traits}`);
+//  ==============
+//  ==   POST   ==
+//  ==============
 
-    dispatch({
-      type: TRAITS_GET,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: TRAITS_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
-
-//  Create or Update Traits
 export const createTraits = (
   formData,
   history,
@@ -109,3 +141,25 @@ export const createTraits = (
     });
   }
 };
+
+//  ==============
+//  ==  UPDATE  ==
+//  ==============
+
+//  ==============
+//  ==  DELETE  ==
+//  ==============
+
+//============================
+//  CLR: Traits
+
+//    #*#*# ...this is a state change?
+
+// export const clearFilters = () => async dispatch => {
+//   console.log('axn_filters: Enter clearFilters()');
+//   try {
+//     const res = await axios.
+//   } catch (err) {
+
+//   }
+// }
