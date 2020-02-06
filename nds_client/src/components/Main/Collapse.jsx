@@ -15,7 +15,7 @@ const Drop = ({ group, items, category }) => {
             onClick: () => setOpen(oldOpen => !oldOpen)
           })}
         >
-          {isOpen ? 'open' : group}
+          {isOpen ? group : group}
         </button>
         <section {...getCollapseProps()}>
           {items.map(item => (
@@ -28,17 +28,13 @@ const Drop = ({ group, items, category }) => {
   );
 };
 
-//
-
 Drop.propTypes = {
   category: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   category: state.category,
-  filterActive: state.filterActive,
-  group: PropTypes.object.isRequired,
-  items: PropTypes.object.isRequired
+  filterActive: state.filterActive
 });
 
 export default Drop;
