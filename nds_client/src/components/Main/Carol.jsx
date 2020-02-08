@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CarolMockasin from './assets/img/carol-mocks.png';
+import CarolMockasin from '../Library/assets/img/carol-mocks.png';
 
 function Carol(props) {
   return (

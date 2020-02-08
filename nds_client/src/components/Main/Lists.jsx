@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { ReactComponent as Add } from './assets/vex/menu-add.svg';
+import { ReactComponent as Add } from '../Library/assets/vex/menu-add.svg';
 
 const Lists = props => {
   return (

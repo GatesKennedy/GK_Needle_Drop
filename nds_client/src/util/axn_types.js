@@ -30,6 +30,9 @@ export const TRAITS_GET = 'TRAITS_GET';
 export const TRAITS_UPDATE = 'TRAITS_UPDATE';
 export const TRAITS_CLEAR = 'TRAITS_CLEAR';
 export const TRAITS_ERROR = 'TRAITS_ERROR';
+
+export const ITEMS_GET = 'ITEMS_GET';
+export const ITEMS_ERROR = 'ITEMS_ERROR';
 //    === Main ===
 
 //    === Warn ===

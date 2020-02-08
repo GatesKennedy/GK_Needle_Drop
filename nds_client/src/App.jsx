@@ -15,9 +15,10 @@ import Purchase from './components/Ecomm/Purchase';
 //    === Library ===
 import Library from './components/Library/Library';
 import Artist from './components/Library/Artist';
+import Playlists from './components/Library/Collections';
 //    === Main ===
 import Hello from './components/Main/Hello';
-import NavStd from './components/Main/NavStd';
+import NavStd from './components/Main/Navi';
 import Header from './components/Main/Header';
 import Footer from './components/Main/Footer';
 //    === Notify ===
@@ -42,6 +43,7 @@ const App = () => {
             <Switch>
               <Route exact path='/hello' component={Hello} />
               <Route exact path='/library' component={Library} />
+              <Route exact path='/playlists' component={Playlists} />
               <Route exact path='/artist' component={Artist} />
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/purchase' component={Purchase} />

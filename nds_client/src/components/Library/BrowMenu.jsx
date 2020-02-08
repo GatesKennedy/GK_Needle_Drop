@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Search from './Search';
 import Filter from './Filter';
-import Lists from './Lists';
+import Lists from '../Main/Lists';
 
 const BrowMenu = props => {
   useState();

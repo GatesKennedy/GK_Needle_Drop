@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Header from '../Main/Header';
-import Carol from './Carol';
+import Carol from '../Main/Carol';
 import BrowList from './BrowList';
-import BrowMenu from './BrowMenu';
+import Search from './Search';
+import Filter from './Filter';
+import Lists from '../Main/Lists';
 import Spinner from '../Notify/Spin';
 
 function Library(props) {
@@ -17,7 +19,11 @@ function Library(props) {
         <Header />
         <Carol />
         <div className='cont menu' id='brow-cont'>
-          <BrowMenu />
+          <div className='cont menu bg-crm3' id='browser-menu'>
+            <Search />
+            <Filter />
+            <Lists />
+          </div>
           <BrowList />
         </div>
       </div>

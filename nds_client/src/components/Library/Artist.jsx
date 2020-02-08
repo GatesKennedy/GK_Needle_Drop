@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 
 import PageHead from '../Main/PageHead';
 import BrowList from './BrowList';
-import BrowMenu from './BrowMenu';
+import Search from './Search';
+import Filter from './Filter';
+import Lists from '../Main/Lists';
 import Spinner from '../Notify/Spin';
 
 function Artist(props) {
@@ -15,7 +17,9 @@ function Artist(props) {
       <div className='bg-crm2'>
         <PageHead />
         <div className='cont menu' id='brow-cont'>
-          <BrowMenu />
+          <div className='cont menu bg-crm3' id='browser-menu'>
+            <Lists />
+          </div>
           <BrowList />
         </div>
       </div>

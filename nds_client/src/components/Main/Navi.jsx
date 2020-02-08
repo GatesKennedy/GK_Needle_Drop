@@ -26,7 +26,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link to='/library'>
           <div className='btn navi'>BROWSE MUSIC</div>
         </Link>
-        <Link to='/purchase'>
+        <Link to='/playlists'>
           <div className='btn navi'>PLAYLISTS</div>
         </Link>{' '}
         <Link to='/profile'>

@@ -10,7 +10,9 @@ import {
   TRAITS_GET,
   TRAITS_UPDATE,
   TRAITS_CLEAR,
-  TRAITS_ERROR
+  TRAITS_ERROR,
+  ITEMS_GET,
+  ITEMS_ERROR
 } from '../../../util/axn_types';
 
 const initialState = {
@@ -18,6 +20,7 @@ const initialState = {
   filterIn: null,
   searchIn: null,
   traits: null,
+  items: null,
   loading: true,
   error: {}
 };
@@ -40,6 +43,12 @@ export default function(state = initialState, action) {
         traits: payload,
         loading: false
       };
+    case ITEMS_GET:
+      return {
+        ...state,
+        items: payload,
+        loading: false
+      };
     //  UPDATE
     case FILTER_UPDATE:
     case SEARCH_UPDATE:
@@ -60,6 +69,7 @@ export default function(state = initialState, action) {
     case FILTER_ERROR:
     case SEARCH_ERROR:
     case TRAITS_ERROR:
+    case ITEMS_ERROR:
       return {
         ...state,
         error: payload,

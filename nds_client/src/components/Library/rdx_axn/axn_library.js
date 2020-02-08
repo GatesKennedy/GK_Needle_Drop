@@ -15,12 +15,10 @@ import {
 // GET: Library Tracks (All)
 
 export const getLibrary = () => async dispatch => {
-  //dispatch({ type: FILTER_CLEAR });
   console.log('FXN: getLibrary()');
   try {
-    console.log('try{} getLibrary()');
-
     const res = await axios.get('/api/library');
+
     dispatch({
       type: LIBRARY_GET,
       payload: res.data

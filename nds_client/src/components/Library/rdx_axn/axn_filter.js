@@ -13,7 +13,9 @@ import {
   TRAITS_GET,
   TRAITS_UPDATE,
   TRAITS_CLEAR,
-  TRAITS_ERROR
+  TRAITS_ERROR,
+  ITEMS_GET,
+  ITEMS_ERROR
 } from '../../../util/axn_types';
 
 //  =============
@@ -24,7 +26,7 @@ import {
 //  GET: Trait Types (Genus)
 export const getTraitGenus = () => async dispatch => {
   try {
-    const res = await axios.get('/api/library/traits');
+    const res = await axios.get('/api/library/filter/genus');
 
     dispatch({
       type: TRAITS_GET,
@@ -43,18 +45,19 @@ export const getTraitGenus = () => async dispatch => {
 //============================
 //  GET: Trait Items (Species)
 export const getTraitSpecies = genus => async dispatch => {
+  console.log('GET: Species AXN');
   try {
-    const res = await axios.get('/api/library/traits/:genus');
+    const res = await axios.get(`/api/library/filter/traits/${genus}`);
 
     dispatch({
-      type: TRAITS_GET,
+      type: ITEMS_GET,
       payload: res.data
     });
   } catch (err) {
-    console.log('axn_TRAIT .js: catch error');
+    console.log('axn_filter: catch error');
 
     dispatch({
-      type: TRAITS_ERROR,
+      type: ITEMS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
