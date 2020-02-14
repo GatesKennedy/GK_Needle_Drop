@@ -2,8 +2,8 @@ import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // === REDUX ===
 import { Provider } from 'react-redux';
-import store from './util/store';
-import { loadUser } from './components/User/rdx_axn/axn_auth';
+import store from './Main/util/store';
+import { loadUser } from './Modules/User/rdx_axn/axn_auth';
 //import setAuthToken from './util/setAuthToken';
 
 // === Style ===
@@ -11,20 +11,20 @@ import './sass/App.scss';
 // === comps ===
 //    === Admin ===
 //    === Ecomm ===
-import Purchase from './components/Ecomm/Purchase';
+import Purchase from './Modules/Ecomm/Purchase';
 //    === Library ===
-import Library from './components/Library/Library';
-import Artist from './components/Library/Artist';
-import Playlists from './components/Library/Collections';
+import Library from './Modules/Library/Library';
+import Artist from './Modules/Library/Artist';
+import Playlists from './Modules/Library/Collections';
 //    === Main ===
-import Hello from './components/Main/Hello';
-import NavStd from './components/Main/Navi';
-import Header from './components/Main/Header';
-import Footer from './components/Main/Footer';
+import Hello from './Main/Hello';
+import NavStd from './Main/Navi';
+import Header from './Main/Header';
+import Footer from './Main/Footer';
 //    === Notify ===
-import Alert from './components/Notify/Alert';
+import Alert from './Modules/Notify/Alert';
 //    === User ===
-import Profile from './components/User/Profile';
+import Profile from './Modules/User/Profile';
 
 const App = () => {
   //  Research: React Hooks: useEffect 'infinite loop' , second parameter
