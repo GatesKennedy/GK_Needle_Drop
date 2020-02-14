@@ -23,6 +23,31 @@ import {
 //  =============
 
 //============================
+//  GET: ALL Traits
+export const getTraits = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/library/filter/traits');
+
+    // const traits = res.data => {
+    //   const traitObj =
+    //   return traitObj;
+    // };
+
+    //console.log(res.data);
+
+    dispatch({
+      type: TRAITS_GET,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: TRAITS_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+//============================
 //  GET: Trait Types (Genus)
 export const getTraitGenus = () => async dispatch => {
   try {

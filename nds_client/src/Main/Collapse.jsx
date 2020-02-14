@@ -10,8 +10,8 @@ const Drop = ({ genus, filter: { items, loading }, category }) => {
     getTraitSpecies(genus);
   }, []);
 
-  console.log(items);
-  console.log(genus);
+  // console.log(items);
+  // console.log(genus);
 
   const [isOpen, setOpen] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isOpen });

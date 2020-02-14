@@ -1,22 +1,19 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getTraitGenus } from './rdx_axn/axn_filter';
+import { getTraitGenus, getTraits } from './rdx_axn/axn_filter';
 //  Comps
 import Collapse from '../../Main/Collapse';
 import Spinner from '../Notify/Spin';
 //  Assets
 import { ReactComponent as Add } from './assets/vex/menu-add.svg';
 
-const Filter = ({ getTraitGenus, filter: { traits, loading } }) => {
+const Filter = ({ getTraitGenus, getTraits, filter: { traits, loading } }) => {
   useEffect(() => {
-    getTraitGenus();
+    getTraits();
   }, []);
 
   console.log(traits);
-
-  // console.log('filter 0: ' + Object.keys(traits)[0]);
-  // console.log('items:' + traits.genre);
 
   return (
     <Fragment>
@@ -28,9 +25,9 @@ const Filter = ({ getTraitGenus, filter: { traits, loading } }) => {
             <h2 className='menu-title row'>Filter</h2>
             <Add className='menu-title row  menu-btn' />
           </div>
-          {traits.map(genus => (
+          {/* {traits.map(genus => (
             <Collapse genus={genus.genus} />
-          ))}
+          ))} */}
         </section>
       )}
     </Fragment>
@@ -38,6 +35,7 @@ const Filter = ({ getTraitGenus, filter: { traits, loading } }) => {
 };
 
 Filter.propTypes = {
+  getTraits: PropTypes.func.isRequired,
   getTraitGenus: PropTypes.func.isRequired,
   filter: PropTypes.object.isRequired
 };
@@ -47,4 +45,4 @@ const mapStateToProps = state => ({
   filterIn: state.filterIn
 });
 
-export default connect(mapStateToProps, { getTraitGenus })(Filter);
+export default connect(mapStateToProps, { getTraitGenus, getTraits })(Filter);
