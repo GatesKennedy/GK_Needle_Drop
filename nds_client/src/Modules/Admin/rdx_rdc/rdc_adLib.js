@@ -1,13 +1,13 @@
 import {
   AD_PLAYLIST_GET,
-  AD_PLAYLISTS_GET,
+  AD_PLAYALL_GET,
   AD_PLAYLIST_UPDATE,
   AD_PLAYLIST_DELETE,
   AD_PLAYLIST_ERROR
 } from '../../../Main/util/axn_types';
 
 const initialState = {
-  playlists: null,
+  playlistsAll: null,
   playlistChosen: null,
   trkChosen: null,
   loading: true,
@@ -19,10 +19,10 @@ export default function(state = initialState, action) {
 
   switch (type) {
     //  GET
-    case AD_PLAYLISTS_GET:
+    case AD_PLAYALL_GET:
       return {
         ...state,
-        libraryOut: payload,
+        playlistsAll: payload,
         loading: false
       };
     case AD_PLAYLIST_GET:
@@ -36,13 +36,15 @@ export default function(state = initialState, action) {
     case AD_PLAYLIST_UPDATE:
       return {
         ...state,
-        AD_PLAYLIST: payload,
+        playlistChosen: payload,
         loading: false
       };
     //  DELETE
-    case AD_PLAYLIST_CLEAR:
+    case AD_PLAYLIST_DELETE:
       return {
         ...state,
+        playlistsAll: payload,
+        playlistChosen: null,
         trkChosen: null,
         loading: false
       };
