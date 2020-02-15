@@ -9,12 +9,12 @@ const router = Router();
 //  ==   GET   ==
 //  =============
 
-//  @route      GET /api/library/filter
-//  @desc       Get ALL traits
+//  @route      GET /api/library/playlist/all
+//  @desc       Get ALL playlists
 //  @access     PUBLIC
-router.get('/traits', (request, response, next) => {
+router.get('/all', (request, response, next) => {
   pool.query(
-    'SELECT genus, json_agg(species) FROM tbl_filters group by 1;',
+    'SELECT list_name, json_agg(song_id) FROM tbl_playlists group by 1;',
     (err, res) => {
       if (err) return next(err);
 
@@ -23,21 +23,40 @@ router.get('/traits', (request, response, next) => {
   );
 });
 
-//  @route      GET /api/library/search/:search
+//  @route      GET /api/library/playlist/1/:name
+//  @desc       Get ALL playlists
+//  @access     PUBLIC
+router.get('/1/:list_name', (request, response, next) => {
+  const { list_name } = request.params;
+  const query = {
+    text:
+      //'SELECT name, json_agg(song_list_name) FROM tbl_playlists WHERE list_name = $1;',
+      'SELECT song_id FROM tbl_playlists WHERE list_name = $1',
+    values: [list_name]
+  };
+
+  pool.query(query, (err, res) => {
+    if (err) return next(err);
+
+    response.json(res.rows);
+  });
+});
+
+//  @route      GET /api/library/playlist/:search
 //  @desc       Display Artist library
 //  @access     PUBLIC
-router.get('/:search', (request, response, next) => {
-  const { search } = request.params;
-  pool.query(
-    'SELECT * FROM tbl_library WHERE data_json @> \'{"search": "$1"}\';',
-    [artist],
-    (err, res) => {
-      if (err) return next(err);
+// router.get('/:search', (request, response, next) => {
+//   const { search } = request.params;
+//   pool.query(
+//     'SELECT * FROM tbl_library WHERE data_json @> \'{"search": "$1"}\';',
+//     [artist],
+//     (err, res) => {
+//       if (err) return next(err);
 
-      response.json(res.rows);
-    }
-  );
-});
+//       response.json(res.rows);
+//     }
+//   );
+// });
 
 //  ==============
 //  ==   POST   ==

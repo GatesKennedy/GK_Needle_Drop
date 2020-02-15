@@ -14,13 +14,13 @@ import {
 //  =============
 
 //============================
-//  GET: ALL Traits
+//  GET: ALL Playlists
 export const getPlayAll = () => async dispatch => {
   try {
-    const res = await axios.get('/api/library/');
+    const res = await axios.get('/api/library/playlist');
 
     dispatch({
-      type: TRAITS_GET,
+      type: AD_PLAYALL_GET,
       payload: res.data
     });
   } catch (err) {

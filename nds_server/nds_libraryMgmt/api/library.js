@@ -20,7 +20,6 @@ router.get('/', (request, response, next) => {
         console.error(err.message);
         response.status(500).send('Server Error');
       }
-      console.log(res.rows);
       response.json(res.rows);
     }
   );
