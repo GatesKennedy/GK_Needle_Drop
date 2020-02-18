@@ -2,12 +2,12 @@ import axios from 'axios';
 import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 
 import {
-  AD_PLAYALL_GET,
-  AD_PLAYALL_ERROR,
-  AD_PLAYLIST_GET,
-  AD_PLAYLIST_UPDATE,
-  AD_PLAYLIST_DELETE,
-  AD_PLAYLIST_ERROR
+  PLAYLIST_GET,
+  PLAYLIST_ERROR,
+  PLAYLIST_CLEAR,
+  PLAYLIST_UPDATE,
+  PLAYALL_GET,
+  PLAYALL_ERROR
 } from '../../../Main/util/axn_types';
 
 //  =============
@@ -68,13 +68,23 @@ export const selectPlaylist = pList => {
 };
 
 //  ==============
-//  ==   POST   ==
-//  ==============
-
-//  ==============
 //  ==  UPDATE  ==
 //  ==============
 
 //  ==============
 //  ==  DELETE  ==
 //  ==============
+
+//============================
+//  CLR: Traits
+
+//    #*#*# ...this is a state change?
+
+// export const clearFilters = () => async dispatch => {
+//   console.log('axn_filters: Enter clearFilters()');
+//   try {
+//     const res = await axios.
+//   } catch (err) {
+
+//   }
+// }

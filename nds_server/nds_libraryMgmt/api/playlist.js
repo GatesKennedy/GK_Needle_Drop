@@ -24,7 +24,7 @@ router.get('/all', (request, response, next) => {
 });
 
 //  @route      GET /api/library/playlist/1/:name
-//  @desc       Get ALL playlists
+//  @desc       Get Playlist by Name
 //  @access     PUBLIC
 router.get('/1/:list_name', (request, response, next) => {
   const { list_name } = request.params;

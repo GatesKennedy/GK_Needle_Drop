@@ -18,6 +18,11 @@ export const ARTISTS_ERROR = 'ARTISTS_ERROR';
 export const ARTIST_GET = 'ARTIST_GET';
 export const ARTIST_ERROR = 'ARTIST_ERROR';
 
+export const TRK_SELECT = 'TRK_SELECT';
+export const TRK_UPDATE = 'TRK_UPDATE';
+export const TRK_CLEAR = 'TRK_CLEAR';
+export const TRK_ERROR = 'TRK_ERROR';
+
 export const PLAYLIST_GET = 'PLAYLIST_GET';
 export const PLAYLIST_ERROR = 'PLAYLIST_ERROR';
 export const PLAYLIST_CLEAR = 'PLAYLIST_CLEAR';

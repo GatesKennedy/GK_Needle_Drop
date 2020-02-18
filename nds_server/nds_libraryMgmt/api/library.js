@@ -75,6 +75,27 @@ router.get('/artist/:id', (request, response, next) => {
   );
 });
 
+//  @route      GET /api/library/track/:id
+//  @desc       Display Track Information
+//  @access     PUBLIC
+router.get('/track/:id', (request, response, next) => {
+  const { id } = request.params;
+  const query = {
+    text: 'SELECT * FROM tbl_library WHERE id = $1',
+    values: [id]
+  };
+
+  pool.query(query, (err, res) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+      return next(err);
+    }
+
+    response.json(res.rows);
+  });
+});
+
 //  @route      GET /browse/artist/profile/:id
 //  @desc       Display Artist's profile  (Boone Howard)
 //  @access     PUBLIC

@@ -2,7 +2,8 @@ import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPlayAll } from './rdx_axn/axn_adLib';
-//  Comps
+import { selectPlist } from '../Library/rdx_axn/axn_library';
+//  Compsl\
 import Navi from './Ad_Navi';
 import Playlist from './Ad_Playlist';
 import Browse from './Ad_Browse';
@@ -11,7 +12,7 @@ import Collapse from '../../Main/Collapse';
 //  Assets
 import { ReactComponent as Add } from '../NDS/assets/vex/Add.svg';
 
-const Admin = ({ getPlayAll, admin: { pListAll, loading } }) => {
+const Admin = ({ getPlayAll, admin: { pListAll, pListSelect, loading } }) => {
   useEffect(() => {
     getPlayAll();
   }, []);
@@ -27,7 +28,7 @@ const Admin = ({ getPlayAll, admin: { pListAll, loading } }) => {
           <Navi />
           <div className='row'>
             <div className='col bg-gry2 menu'>
-              <p className=''>Control Me</p>
+              <p className=''>Choose Me</p>
               <div className=''>
                 {pListAll.map(plist => (
                   <button className='col'>{plist.list_name}</button>
@@ -56,4 +57,4 @@ const mapStateToProps = state => ({
   admin: state.admin
 });
 
-export default connect(mapStateToProps, { getPlayAll })(Admin);
+export default connect(mapStateToProps, { getPlayAll, selectPlist })(Admin);

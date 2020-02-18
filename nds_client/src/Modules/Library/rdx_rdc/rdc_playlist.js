@@ -1,18 +1,15 @@
 import {
-  LIBRARY_GET,
-  LIBRARY_ERROR,
-  ARTISTS_GET,
-  ARTISTS_ERROR,
-  ARTIST_GET,
-  ARTIST_ERROR,
-  TRK_SELECT,
-  TRK_ERROR
+  PLAYLIST_GET,
+  PLAYLIST_ERROR,
+  PLAYLIST_CLEAR,
+  PLAYLIST_UPDATE,
+  PLAYALL_GET,
+  PLAYALL_ERROR
 } from '../../../Main/util/axn_types';
 
 const initialState = {
-  libData: null,
-  artistData: null,
-  trkData: null,
+  allListData: null,
+  plistData: null,
   loading: true,
   error: {}
 };
@@ -22,30 +19,35 @@ export default function(state = initialState, action) {
 
   switch (type) {
     //  GET
-    case LIBRARY_GET:
-    case ARTISTS_GET:
+    case PLAYLIST_GET:
       return {
         ...state,
-        libData: payload,
+        plistData: payload,
         loading: false
       };
-    case ARTIST_GET:
+    case PLAYALL_GET:
       return {
         ...state,
-        artistData: payload,
+        allListData: payload,
         loading: false
       };
-    case TRK_SELECT:
+    //  UPDATE
+    case PLAYLIST_UPDATE:
       return {
         ...state,
-        trkData: payload,
+        plistData: payload,
+        loading: false
+      };
+    //  CLEAR
+    case PLAYLIST_CLEAR:
+      return {
+        ...state,
+        plistData: null,
         loading: false
       };
     //  ERROR
-    case LIBRARY_ERROR:
-    case ARTISTS_ERROR:
-    case ARTIST_ERROR:
-    case TRK_ERROR:
+    case PLAYALL_ERROR:
+    case PLAYLIST_ERROR:
       return {
         ...state,
         error: payload,
