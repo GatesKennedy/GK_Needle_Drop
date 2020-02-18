@@ -24,7 +24,7 @@ const Admin = ({ getPlayAll, admin: { pListAll, loading } }) => {
       ) : (
         <Fragment>
           <Navi />
-          <Playlist />
+
           <div className='stack'>
             <p>Control Me</p>
             <div className='stack'>
@@ -33,6 +33,7 @@ const Admin = ({ getPlayAll, admin: { pListAll, loading } }) => {
               ))}
             </div>
           </div>
+          <Playlist />
         </Fragment>
       )}
     </Fragment>

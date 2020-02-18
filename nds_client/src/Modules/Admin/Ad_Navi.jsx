@@ -14,7 +14,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
       <div className='center menu'>
         <Link to='/hello' className='center'>
           {' '}
-          <ND_logo id='navi-logo' />
+          <ND_logo id='admin navi-logo' />
         </Link>
       </div>
       <div className='center main menu-head navi-links'>
