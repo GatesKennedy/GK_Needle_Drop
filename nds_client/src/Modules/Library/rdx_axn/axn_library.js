@@ -8,7 +8,9 @@ import {
   ARTISTS_GET,
   ARTISTS_ERROR,
   ARTIST_GET,
-  ARTIST_ERROR
+  ARTIST_ERROR,
+  TRK_SELECT,
+  TRK_ERROR
 } from '../../../Main/util/axn_types';
 
 //=============================
@@ -83,6 +85,25 @@ export const getArtist = artistId => async dispatch => {
 // GET: Select Song
 
 export const selectTrk = trkId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/library/track/${trkId}`);
+
+    dispatch({
+      type: TRK_SELECT,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('catch(err): selectTrk() error');
+    dispatch({
+      type: TRK_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+//=============================
+// GET: Select Playlist
+
+export const selectPlist = trkId => async dispatch => {
   try {
     const res = await axios.get(`/api/library/track/${trkId}`);
 

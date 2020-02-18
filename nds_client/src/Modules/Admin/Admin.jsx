@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPlayAll } from './rdx_axn/axn_adLib';
-import { selectPlist } from '../Library/rdx_axn/axn_library';
+import { selectPlaylist } from '../Library/rdx_axn/axn_playlist';
 //  Compsl\
 import Navi from './Ad_Navi';
 import Playlist from './Ad_Playlist';
@@ -12,7 +12,10 @@ import Collapse from '../../Main/Collapse';
 //  Assets
 import { ReactComponent as Add } from '../NDS/assets/vex/Add.svg';
 
-const Admin = ({ getPlayAll, admin: { pListAll, pListSelect, loading } }) => {
+const Admin = ({
+  getPlayAll,
+  admin: { pListAll, selectPlaylist, loading }
+}) => {
   useEffect(() => {
     getPlayAll();
   }, []);
@@ -57,4 +60,4 @@ const mapStateToProps = state => ({
   admin: state.admin
 });
 
-export default connect(mapStateToProps, { getPlayAll, selectPlist })(Admin);
+export default connect(mapStateToProps, { getPlayAll, selectPlaylist })(Admin);

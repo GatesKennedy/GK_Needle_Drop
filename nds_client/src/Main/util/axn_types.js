@@ -27,6 +27,8 @@ export const PLAYLIST_GET = 'PLAYLIST_GET';
 export const PLAYLIST_ERROR = 'PLAYLIST_ERROR';
 export const PLAYLIST_CLEAR = 'PLAYLIST_CLEAR';
 export const PLAYLIST_UPDATE = 'PLAYLIST_UPDATE';
+export const PLAYALL_GET = 'PLAYALL_GET';
+export const PLAYALL_ERROR = 'PLAYALL_ERROR';
 
 export const FILTER_GET = 'FILTER_GET';
 export const FILTER_UPDATE = 'FILTER_UPDATE';

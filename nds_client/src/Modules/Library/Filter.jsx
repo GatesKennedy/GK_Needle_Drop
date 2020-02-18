@@ -25,9 +25,9 @@ const Filter = ({ getTraits, filter: { traits, loading } }) => {
             <h2 className='menu-title row'>Filter</h2>
             <Add className='menu-title row  menu-btn' />
           </div>
-          {/* {traits.map(genus => (
+          {traits.map(genus => (
             <Collapse genus={genus.genus} />
-          ))} */}
+          ))}
         </section>
       )}
     </Fragment>
