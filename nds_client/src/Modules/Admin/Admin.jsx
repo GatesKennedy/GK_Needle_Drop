@@ -5,6 +5,7 @@ import { getPlayAll } from './rdx_axn/axn_adLib';
 //  Comps
 import Navi from './Ad_Navi';
 import Playlist from './Ad_Playlist';
+import Browse from './Ad_Browse';
 import Spinner from '../Notify/Spin';
 import Collapse from '../../Main/Collapse';
 //  Assets
@@ -24,16 +25,22 @@ const Admin = ({ getPlayAll, admin: { pListAll, loading } }) => {
       ) : (
         <Fragment>
           <Navi />
-
-          <div className='stack'>
-            <p>Control Me</p>
-            <div className='stack'>
-              {pListAll.map(plist => (
-                <button className='stack'>{plist.list_name}</button>
-              ))}
+          <div className='row'>
+            <div className='col bg-gry2 menu'>
+              <p className=''>Control Me</p>
+              <div className=''>
+                {pListAll.map(plist => (
+                  <button className='col'>{plist.list_name}</button>
+                ))}
+              </div>
+            </div>
+            <div className='col'>
+              <Playlist />
+            </div>
+            <div className='col'>
+              <Browse />
             </div>
           </div>
-          <Playlist />
         </Fragment>
       )}
     </Fragment>
