@@ -156,7 +156,6 @@ input {
 
 // === menu ===
 .menu-head {
-  background-color: $nds-blu2;
   color: $nds-gry1;
 
   height: 4rem;
@@ -380,6 +379,19 @@ i {
 
 //=================
 //===== COLOR =====
+
+.bg-gry2 {
+  background-color: $nds-gry2;
+}
+.bg-gry3 {
+  background-color: $nds-gry3;
+}
+.bg-gry4 {
+  background-color: $nds-gry4;
+}
+.bg-gry5 {
+  background-color: $nds-gry5;
+}
 
 .bg-blu2 {
   background-color: $nds-blu2;

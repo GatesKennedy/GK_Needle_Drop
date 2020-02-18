@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPlayAll } from './rdx_axn/axn_adLib';
 //  Comps
+import Navi from './Ad_Navi';
+import Playlist from './Ad_Playlist';
 import Spinner from '../Notify/Spin';
 import Collapse from '../../Main/Collapse';
 //  Assets
@@ -20,14 +22,18 @@ const Admin = ({ getPlayAll, admin: { pListAll, loading } }) => {
       {loading ? (
         <Spinner />
       ) : (
-        <div className='stack'>
-          <p>Control Me</p>
+        <Fragment>
+          <Navi />
+          <Playlist />
           <div className='stack'>
-            {pListAll.map(plist => (
-              <button className='stack'>{plist.list_name}</button>
-            ))}
+            <p>Control Me</p>
+            <div className='stack'>
+              {pListAll.map(plist => (
+                <button className='stack'>{plist.list_name}</button>
+              ))}
+            </div>
           </div>
-        </div>
+        </Fragment>
       )}
     </Fragment>
   );

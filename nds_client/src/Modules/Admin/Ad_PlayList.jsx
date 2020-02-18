@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { getPlaylist } from './rdx_axn/axn_adLib';
 //  COMPS
 import Trk from '../Library/TrkList';
+import Spinner from '../Notify/Spin';
 
-const Ad_PlayList = ({
+const Ad_Playlist = ({
   getPlaylist,
   admin: { pListSelect, trkChosen, loading }
 }) => {
@@ -19,31 +20,33 @@ const Ad_PlayList = ({
       {loading ? (
         <Spinner />
       ) : (
-        <div className='stack'>
-          <p>Change Me</p>
-          <div className='stack' id='brow-list'>
-            {pListSelect ? (
-              <ul className='stack'>
-                {pListSelect.map(trk => (
-                  <li key={trk.id}>
-                    <Trk trk={trk} />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <h4>No Tracks found...</h4>
-            )}
+        <Fragment>
+          <div className='stack'>
+            <p>Change Me</p>
+            <div className='stack' id='brow-list'>
+              {pListSelect ? (
+                <ul className='stack'>
+                  {pListSelect.map(trk => (
+                    <li key={trk.id}>
+                      <Trk trk={trk} />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <h4>No Tracks found...</h4>
+              )}
+            </div>
           </div>
-        </div>
+        </Fragment>
       )}
     </Fragment>
   );
 };
 
-Ad_PlayList.propTypes = {};
+Ad_Playlist.propTypes = {};
 
 const mapStateToProps = state => ({
   admin: state.admin
 });
 
-export default connect(mapStateToProps, { getPlaylist })(Ad_PlayList);
+export default connect(mapStateToProps, { getPlaylist })(Ad_Playlist);
