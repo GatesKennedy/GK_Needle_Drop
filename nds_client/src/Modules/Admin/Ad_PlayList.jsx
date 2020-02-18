@@ -1,15 +1,17 @@
 import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
 //  REDUX
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { getLibrary } from './rdx_axn/axn_library';
-//  Comps
-import Trk from './Trk';
-import Spinner from '../Notify/Spin';
+import { getPlaylist } from './rdx_axn/axn_adLib';
+//  COMPS
+import Trk from '../Library/TrkList';
 
-const BrowList = ({ getLibrary, library: { libData, loading } }) => {
+const Ad_PlayList = ({
+  getPlaylist,
+  admin: { pListSelect, trkChosen, loading }
+}) => {
   useEffect(() => {
-    getLibrary();
+    getPlaylist();
   }, []);
 
   return (
@@ -17,11 +19,12 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
       {loading ? (
         <Spinner />
       ) : (
-        <Fragment>
+        <div className='stack'>
+          <p>Change Me</p>
           <div className='stack' id='brow-list'>
-            {libData ? (
+            {pListSelect ? (
               <ul className='stack'>
-                {libData.map(trk => (
+                {pListSelect.map(trk => (
                   <li key={trk.id}>
                     <Trk trk={trk} />
                   </li>
@@ -31,19 +34,16 @@ const BrowList = ({ getLibrary, library: { libData, loading } }) => {
               <h4>No Tracks found...</h4>
             )}
           </div>
-        </Fragment>
+        </div>
       )}
     </Fragment>
   );
 };
 
-BrowList.propTypes = {
-  getLibrary: PropTypes.func.isRequired,
-  library: PropTypes.object.isRequired
-};
+Ad_PlayList.propTypes = {};
 
 const mapStateToProps = state => ({
-  library: state.library
+  admin: state.admin
 });
 
-export default connect(mapStateToProps, { getLibrary })(BrowList);
+export default connect(mapStateToProps, { getPlaylist })(Ad_PlayList);

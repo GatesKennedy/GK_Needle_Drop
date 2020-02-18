@@ -2,8 +2,9 @@ import axios from 'axios';
 import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 
 import {
-  AD_PLAYLIST_GET,
   AD_PLAYALL_GET,
+  AD_PLAYALL_ERROR,
+  AD_PLAYLIST_GET,
   AD_PLAYLIST_UPDATE,
   AD_PLAYLIST_DELETE,
   AD_PLAYLIST_ERROR
@@ -17,7 +18,7 @@ import {
 //  GET: ALL Playlists
 export const getPlayAll = () => async dispatch => {
   try {
-    const res = await axios.get('/api/library/playlist');
+    const res = await axios.get('/api/library/playlist/all');
 
     dispatch({
       type: AD_PLAYALL_GET,
@@ -25,70 +26,43 @@ export const getPlayAll = () => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: TRAITS_ERROR,
+      type: AD_PLAYALL_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
 
 //============================
-//  GET: Trait Types (Genus)
-export const getPlaylist = () => async dispatch => {
+//  GET: Playlist by Name (list_name)
+export const getPlaylist = list_name => async dispatch => {
   try {
-    const res = await axios.get('/api/library/filter/genus');
+    const res = await axios.get(`/api/library/playlist/1/${list_name}`);
 
     dispatch({
-      type: TRAITS_GET,
+      type: AD_PLAYLIST_GET,
       payload: res.data
     });
   } catch (err) {
-    console.log('axn_filter: catch error');
+    console.log('axn_adLib: catch error');
 
     dispatch({
-      type: TRAITS_ERROR,
+      type: AD_PLAYLIST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
-
 //============================
-//  GET: Trait Items (Species)
-export const getSongs = genus => async dispatch => {
-  console.log('GET: Species AXN');
+//  GET: Select Playlist Button
+export const selectPlaylist = pList => {
   try {
-    const res = await axios.get(`/api/library/filter/traits/${genus}`);
-
-    dispatch({
-      type: ITEMS_GET,
-      payload: res.data
-    });
+    return {
+      type: 'AD_PLAYLIST_GET',
+      payload: pList
+    };
   } catch (err) {
-    console.log('axn_filter: catch error');
-
-    dispatch({
-      type: ITEMS_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
-
-//============================
-//  GET: Searched
-export const getSearched = () => async dispatch => {
-  try {
-    const res = await axios.get('/api/library/search');
-
-    dispatch({
-      type: SEARCH_GET,
-      payload: res.data
-    });
-  } catch (err) {
-    console.log('axn_Search.js: catch error');
-
-    dispatch({
-      type: SEARCH_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+    return {
+      type: 'AD_PLAYLIST_ERROR'
+    };
   }
 };
 

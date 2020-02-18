@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 // === comps ===
 //    === Admin ===
-
+import admin from '../../Modules/Admin/rdx_rdc/rdc_adLib';
 //    === Ecomm ===
 
 //    === Library ===
@@ -18,6 +18,7 @@ import auth from '../../Modules/User/rdx_rdc/rdc_auth';
 import profile from '../../Modules/User/rdx_rdc/rdc_profile';
 
 export default combineReducers({
+  admin,
   library,
   search,
   filter,

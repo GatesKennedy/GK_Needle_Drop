@@ -8,7 +8,7 @@ import Spinner from '../Notify/Spin';
 //  Assets
 import { ReactComponent as Add } from './assets/vex/menu-add.svg';
 
-const Filter = ({ getTraitGenus, getTraits, filter: { traits, loading } }) => {
+const Filter = ({ getTraits, filter: { traits, loading } }) => {
   useEffect(() => {
     getTraits();
   }, []);

@@ -1,7 +1,5 @@
-import React, { Fragment } from '../../../node_modules/react';
-import { Link } from '../../../node_modules/react-router-dom';
+import React from '../../../node_modules/react';
 import PropTypes from 'prop-types';
-import faker from 'faker';
 
 import { ReactComponent as Play } from './assets/vex/trk-play.svg';
 import { ReactComponent as Add } from './assets/vex/trk-add.svg';

@@ -8,8 +8,7 @@ import {
   PLAYLIST_GET,
   PLAYLIST_UPDATE,
   PLAYLIST_CLEAR,
-  PLAYLIST_ERROR,
-  FILTER_CLEAR
+  PLAYLIST_ERROR
 } from '../../../Main/util/axn_types';
 
 const initialState = {

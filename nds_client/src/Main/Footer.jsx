@@ -18,16 +18,16 @@ const Footer = () => {
         <div className='col foot-sect' id='footer-sect2'>
           <div className=''>Find Us On Social Media</div>
           <div className='row even' id='social-btns'>
-            <Link>
+            <Link to='/hello'>
               <FB_logo />
             </Link>
-            <Link>
+            <Link to='/hello'>
               <IG_logo />
             </Link>
-            <Link>
+            <Link to='/hello'>
               <YT_logo />
             </Link>
-            <Link>
+            <Link to='/hello'>
               <LI_logo />
             </Link>
           </div>

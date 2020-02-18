@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 //  Comps
 import PageHead from '../Modules/NDS/PageHead';

@@ -2,8 +2,9 @@
 //    === Admin ===
 export const PROFILES_GET = 'PROFILES_GET';
 
-export const AD_PLAYLIST_GET = 'AD_PLAYLIST_GET';
 export const AD_PLAYALL_GET = 'AD_PLAYALL_GET';
+export const AD_PLAYALL_ERROR = 'AD_PLAYALL_ERROR';
+export const AD_PLAYLIST_GET = 'AD_PLAYLIST_GET';
 export const AD_PLAYLIST_UPDATE = 'AD_PLAYLIST_UPDATE';
 export const AD_PLAYLIST_DELETE = 'AD_PLAYLIST_DELETE';
 export const AD_PLAYLIST_ERROR = 'AD_PLAYLIST_ERROR';
