@@ -11,18 +11,25 @@ const router = Router();
 //  @route      GET /api/library
 //  @desc       Display ALL 'songs and artist' in library
 //  @access     PUBLIC
-router.get('/', (request, response, next) => {
-  pool.query(
-    "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json->> 'time' AS time FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';",
-    //"SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';"
-    (err, res) => {
-      if (err) {
-        console.error(err.message);
-        response.status(500).send('Server Error');
-      }
-      response.json(res.rows);
+router.get('/lib', (request, response, next) => {
+  pool.connect((err, client, release) => {
+    if (err) {
+      return console.error('Error acquiring client', err.stack);
     }
-  );
+    client.query(
+      //"SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json->> 'time' AS time FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';",
+      "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json->> 'time' AS time FROM tbl_library';",
+      (err, res) => {
+        release();
+        if (err) {
+          return console.error('Error executing query', err.stack);
+          console.log('API Server Error: /api/library');
+          response.status(500).send('Server Error');
+        }
+        response.json(res.rows);
+      }
+    );
+  });
 });
 
 //  @route      GET /api/library/:artist
@@ -49,8 +56,10 @@ router.get('/artists', (request, response, next) => {
     "SELECT DISTINCT data_json ->> 'artist' AS artist FROM tbl_library;",
     //  "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';",
     (err, res) => {
-      if (err) return next(err);
-
+      if (err) {
+        console.error(err.message);
+        response.status(500).send('Server Error');
+      }
       response.json(res.rows);
     }
   );

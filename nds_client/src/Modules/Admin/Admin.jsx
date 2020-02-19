@@ -1,9 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getPlayAll } from './rdx_axn/axn_adLib';
-import { selectPlaylist } from '../Library/rdx_axn/axn_playlist';
-//  Compsl\
+//  Comps
 import Navi from './Ad_Navi';
 import Playlist from './Ad_Playlist';
 import Browse from './Ad_Browse';
@@ -12,52 +10,26 @@ import Collapse from '../../Main/Collapse';
 //  Assets
 import { ReactComponent as Add } from '../NDS/assets/vex/Add.svg';
 
-const Admin = ({
-  getPlayAll,
-  admin: { pListAll, selectPlaylist, loading }
-}) => {
-  useEffect(() => {
-    getPlayAll();
-  }, []);
-
-  console.log(pListAll);
-
+const Admin = ({ admin: { loading } }) => {
   return (
     <Fragment>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <Fragment>
-          <Navi />
-          <div className='row'>
-            <div className='col bg-gry2 menu'>
-              <p className=''>Choose Me</p>
-              <div className=''>
-                {pListAll.map(plist => (
-                  <button className='col'>{plist.list_name}</button>
-                ))}
-              </div>
-            </div>
-            <div className='col'>
-              <Playlist />
-            </div>
-            <div className='col'>
-              <Browse />
-            </div>
-          </div>
-        </Fragment>
-      )}
+      <Navi />
+      <div className='row'>
+        <div className='col'>
+          <Playlist />
+        </div>
+        <div className='col'>
+          <Browse />
+        </div>
+      </div>
     </Fragment>
   );
 };
 
-Admin.propTypes = {
-  getPlayAll: PropTypes.func.isRequired,
-  pListAll: PropTypes.object.isRequired
-};
+Admin.propTypes = {};
 
 const mapStateToProps = state => ({
   admin: state.admin
 });
 
-export default connect(mapStateToProps, { getPlayAll, selectPlaylist })(Admin);
+export default connect(mapStateToProps)(Admin);

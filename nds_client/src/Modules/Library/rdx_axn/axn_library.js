@@ -20,14 +20,12 @@ export const getLibrary = () => async dispatch => {
   console.log('FXN: getLibrary()');
   try {
     const res = await axios.get('/api/library');
-
     dispatch({
       type: LIBRARY_GET,
       payload: res.data
     });
   } catch (err) {
     console.log('catch{} getLibrary() error');
-
     dispatch({
       type: LIBRARY_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }

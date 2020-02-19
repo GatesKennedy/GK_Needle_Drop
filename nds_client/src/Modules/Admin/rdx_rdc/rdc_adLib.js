@@ -8,8 +8,7 @@ import {
 } from '../../../Main/util/axn_types';
 
 const initialState = {
-  pListAll: null,
-  pListSelect: null,
+  pListChosen: null,
   trkChosen: null,
   loading: true,
   error: {}
@@ -29,7 +28,7 @@ export default function(state = initialState, action) {
     case AD_PLAYLIST_GET:
       return {
         ...state,
-        pListSelect: payload,
+        pListChosen: payload,
         loading: false
       };
 
@@ -37,7 +36,7 @@ export default function(state = initialState, action) {
     case AD_PLAYLIST_UPDATE:
       return {
         ...state,
-        pListSelect: payload,
+        pListChosen: payload,
         loading: false
       };
     //  DELETE
@@ -45,7 +44,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         pListAll: payload,
-        pListSelect: null,
+        pListChosen: null,
         trkChosen: null,
         loading: false
       };
