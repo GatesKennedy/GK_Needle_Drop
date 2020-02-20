@@ -9,7 +9,7 @@ import { logout } from '../User/rdx_axn/axn_auth';
 import { ReactComponent as ND_logo } from '../NDS/assets/vex/Logo_ND-header.svg';
 
 const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
-  const authLinks = (
+  return (
     <nav className='bg-gry4' id='navi-cont'>
       <div className='center menu'>
         <Link to='/hello' className='center'>
@@ -19,59 +19,20 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
       </div>
       <div className='center main menu-head navi-links'>
         {' '}
-        <Link to='/hello'>
-          <div className='btn navi'>ABOUT</div>
+        <Link to='/admin/strapi'>
+          <div className='btn navi'>Strapi (CMS)</div>
         </Link>
-        <Link to='/library'>
-          <div className='btn navi'>BROWSE MUSIC</div>
+        <Link to='/admin/library'>
+          <div className='btn navi'>Library</div>
         </Link>
-        <Link to='/playlists'>
-          <div className='btn navi'>PLAYLISTS</div>
+        <Link to='/admin/playlist'>
+          <div className='btn navi'>Playlists</div>
         </Link>{' '}
-        <Link to='/profile'>
-          <div className='btn navi'>ACCOUNT</div>
-        </Link>
-        <Link to='/purchase'>
-          <div className='btn navi'>CONTACT</div>
+        <Link to='/admin/account'>
+          <div className='btn navi'>Accounts</div>
         </Link>
       </div>
     </nav>
-  );
-
-  const guestLinks = (
-    <nav className='navi dark'>
-      <div className='center menu'>
-        <Link to='/hello' id='menuAOE' className='center'>
-          {' '}
-          <i className='fas fa-infinity' />
-        </Link>
-      </div>
-      <div className='center menu'>
-        <Link to='/login'>
-          <btn className='btn dark'>Profile</btn>
-        </Link>
-        <Link to='/library'>
-          <btn className='btn dark'>Library</btn>
-        </Link>
-        <Link to='/purchase'>
-          <btn className='btn dark'>Checkout</btn>
-        </Link>
-      </div>
-      <div className='center menu'>
-        <Link to='/login' className=''>
-          {' '}
-          <i className='fas fa-wave-square' />
-        </Link>
-      </div>
-    </nav>
-  );
-
-  return (
-    <Fragment>
-      {!loading && (
-        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-      )}
-    </Fragment>
   );
 };
 

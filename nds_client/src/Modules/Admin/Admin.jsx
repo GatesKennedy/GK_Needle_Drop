@@ -15,12 +15,8 @@ const Admin = ({ admin: { loading } }) => {
     <Fragment>
       <Navi />
       <div className='row'>
-        <div className='col'>
-          <Playlist />
-        </div>
-        <div className='col'>
-          <Browse />
-        </div>
+        <div className='col'>Hello, Admin</div>
+        <div className='col'> -Gates_Kennedy</div>
       </div>
     </Fragment>
   );

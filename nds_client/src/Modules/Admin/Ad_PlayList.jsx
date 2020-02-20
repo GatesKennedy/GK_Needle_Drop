@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPlayAll, getPlaylist } from '../Library/rdx_axn/axn_playlist';
 //  COMPS
+import Navi from '../Admin/Ad_Navi';
 import Trk from '../Library/TrkList';
 import Browse from './Ad_Browse';
 import Spinner from '../Notify/Spin';
+import Ad_Navi from '../Admin/Ad_Navi';
 
 const Ad_Playlist = ({
   getPlaylist,
@@ -21,6 +23,7 @@ const Ad_Playlist = ({
 
   return (
     <Fragment>
+      <Ad_Navi />
       {loading ? (
         <Spinner />
       ) : (
@@ -38,7 +41,7 @@ const Ad_Playlist = ({
               </div>
             </section>
             {/* PLAYLIST */}
-            <section id='ad-playlist' className='stack'>
+            <section id='ad-playlist'>
               <p>Change Me</p>
               <div className='stack' id='brow-list'>
                 {pListChosen ? (
