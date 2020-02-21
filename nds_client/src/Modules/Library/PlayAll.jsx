@@ -9,13 +9,14 @@ import {
 } from '../Library/rdx_axn/axn_playlist';
 //  COMPS
 import Spinner from '../Notify/Spin';
+import Playlist from './Playlist';
 
 const PlayAll = ({
   getPListNames,
   getPlayAll,
   getPlaylist,
   library: { libData },
-  playlist: { pListNames, pListData, loading }
+  playlist: { pListNames, loading }
 }) => {
   useEffect(() => {
     getPListNames();
@@ -26,17 +27,27 @@ const PlayAll = ({
       {loading ? (
         <Spinner />
       ) : (
-        <div className='grid3'>
-          {pListNames.map(plist => (
-            <button
-              key={plist.id}
-              className='grid'
-              onClick={() => getPlaylist(plist.id)}
-            >
-              {plist.name}
-            </button>
-          ))}
+        <Fragment>
+          {' '}
+          <div className='grid3'>
+            {pListNames.map(plist => (
+              <button
+                key={plist.id}
+                className='grid'
+                onClick={() => getPlaylist(plist.id)}
+              >
+                {plist.name}
+              </button>
+            ))}
+          </div>
+        </Fragment>
+      )}
+      {libData ? (
+        <div className='stack'>
+          <Playlist libData={libData} />
         </div>
+      ) : (
+        <p>oh No</p>
       )}
     </Fragment>
   );
