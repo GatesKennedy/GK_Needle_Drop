@@ -1,6 +1,8 @@
 import {
   LIBRARY_GET,
   LIBRARY_ERROR,
+  PLAYLIST_GET,
+  PLAYLIST_ERROR,
   ARTISTS_GET,
   ARTISTS_ERROR,
   ARTIST_GET,
@@ -11,7 +13,7 @@ import {
 
 const initialState = {
   libData: null,
-  artistData: null,
+  artistsData: null,
   trkData: null,
   loading: true,
   error: {}
@@ -22,17 +24,19 @@ export default function(state = initialState, action) {
 
   switch (type) {
     //  GET
+    //  Display Library
     case LIBRARY_GET:
-    case ARTISTS_GET:
+    case ARTIST_GET:
+    case PLAYLIST_GET:
       return {
         ...state,
         libData: payload,
         loading: false
       };
-    case ARTIST_GET:
+    case ARTISTS_GET:
       return {
         ...state,
-        artistData: payload,
+        artistsData: payload,
         loading: false
       };
     case TRK_SELECT:
@@ -43,6 +47,7 @@ export default function(state = initialState, action) {
       };
     //  ERROR
     case LIBRARY_ERROR:
+    case PLAYLIST_ERROR:
     case ARTISTS_ERROR:
     case ARTIST_ERROR:
     case TRK_ERROR:

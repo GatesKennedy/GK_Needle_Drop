@@ -60,7 +60,8 @@ Trk.propTypes = {
   // time: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
-  playlist: state.playlist.pListData
+  playlist: state.playlist.pListData,
+  library: state.library
 });
 
 export default connect(mapStateToProps)(Trk);
