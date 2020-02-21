@@ -13,15 +13,35 @@ const router = Router();
 //  @desc       Get ALL playlists
 //  @access     PUBLIC
 router.get('/all', (request, response, next) => {
-  pool.query(
-    'SELECT list_name, json_agg(song_id) FROM tbl_playlists group by 1;',
-    (err, res) => {
-      if (err) return next(err);
-
-      response.json(res.rows);
+  pool.connect((err, client, release) => {
+    if (err) {
+      return console.error('Error acquiring client', err.stack);
     }
-  );
+    const query =
+      'SELECT tbl_playlists.id, name, song_id, rank FROM tbl_playlists INNER JOIN tbl_playall ON tbl_playlists.id = tbl_playall.list_id';
+    client.query(query, (err, res) => {
+      release();
+      if (err) {
+        return console.error('Error executing query', err.stack);
+      }
+      response.json(res.rows);
+    });
+  });
 });
+
+//  @route      GET /api/library/playlist/all
+//  @desc       Get ALL playlists
+//  @access     PUBLIC
+// router.get('/all', (request, response, next) => {
+//   pool.query(
+//     'SELECT id, list_name, json_agg(song_id) FROM tbl_playlists group by 1;',
+//     (err, res) => {
+//       if (err) return next(err);
+
+//       response.json(res.rows);
+//     }
+//   );
+// });
 
 //  @route      GET /api/library/playlist/1/:name
 //  @desc       Get Playlist by Name

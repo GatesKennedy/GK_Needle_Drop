@@ -4,29 +4,43 @@ DROP TABLE IF EXISTS tbl_playlists CASCADE;
 
 CREATE TABLE IF NOT EXISTS tbl_playlists(
     id SERIAL PRIMARY KEY,
-    list_name TEXT NOT NULL,
-    song_id INTEGER REFERENCES tbl_library(id)
+    name TEXT NOT NULL,
+    date_created DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
+CREATE TABLE IF NOT EXISTS tbl_playall(
+    id SERIAL PRIMARY KEY,
+    list_id INTEGER REFERENCES tbl_playlists(id),
+    song_id INTEGER REFERENCES tbl_library(id),
+    rank INTEGER NOT NULL DEFAULT 0
+);
 
-INSERT INTO tbl_playlists( list_name, song_id )
+INSERT INTO tbl_playlists( name )
 VALUES
-    ('GoodList',34),
-    ('BadList',256),
-    ('Better than bad..',334),
-    ('GoodList',134),
-    ('GoodList',846),
-    ('GoodList',346),
-    ('Better than bad..',95),
-    ('GoodList',80),
-    ('Better than bad..',456),
-    ('Better than bad..',342),
-    ('Better than bad..',37),
-    ('BadList',394),
-    ('BadList',253)
+    ('GoodList'),
+    ('Better than bad..'),
+    ('BadList')
+;
+
+INSERT INTO tbl_playall( list_id, song_id, rank )
+VALUES
+    (1,34,1),
+    (3,256,2),
+    (2,334,0),
+    (1,134,0),
+    (1,846,0),
+    (1,346,0),
+    (2,95,0),
+    (1,80,0),
+    (2,456,3),
+    (2,342,1),
+    (2,37,2),
+    (3,394,5),
+    (3,253,4)
 ;
 
 SELECT * FROM tbl_playlists;
+SELECT * FROM tbl_playall;
 
 --  .sql Script from CMD
 --===============================

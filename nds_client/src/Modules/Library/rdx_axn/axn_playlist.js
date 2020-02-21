@@ -53,7 +53,7 @@ export const getPlaylist = list_name => async dispatch => {
 };
 
 //============================
-//  GET: Select Playlist Button
+//  GET: Select Playlist (Button)
 export const selectPlaylist = pList => {
   try {
     return {

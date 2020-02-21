@@ -9,6 +9,7 @@ import Trk from '../Library/TrkList';
 import Browse from './Ad_Browse';
 import Spinner from '../Notify/Spin';
 import Ad_Navi from '../Admin/Ad_Navi';
+import { selectPlist } from '../Library/rdx_axn/axn_library';
 
 const Ad_Playlist = ({
   getPlaylist,
@@ -35,7 +36,12 @@ const Ad_Playlist = ({
                 <p className=''>Choose Me</p>
                 <div className=''>
                   {allListData.map(plist => (
-                    <button className='col'>{plist.list_name}</button>
+                    <button
+                      className='col'
+                      onClick={() => getPlaylist(plist.list_name)}
+                    >
+                      {plist.list_name}
+                    </button>
                   ))}
                 </div>
               </div>
@@ -70,9 +76,7 @@ const Ad_Playlist = ({
   );
 };
 
-Ad_Playlist.propTypes = {
-  allListData: PropTypes.object.isRequired
-};
+Ad_Playlist.propTypes = {};
 
 const mapStateToProps = state => ({
   admin: state.admin,

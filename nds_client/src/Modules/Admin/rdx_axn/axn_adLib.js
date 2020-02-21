@@ -29,6 +29,21 @@ export const selectPlaylist = pList => {
   }
 };
 
+//============================
+//  GET: Select Playlist Button
+export const selectPlaylist = pList => {
+  try {
+    return {
+      type: 'AD_PLAYLIST_GET',
+      payload: pList
+    };
+  } catch (err) {
+    return {
+      type: 'AD_PLAYLIST_ERROR'
+    };
+  }
+};
+
 //  ==============
 //  ==   POST   ==
 //  ==============

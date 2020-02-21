@@ -10,7 +10,6 @@ import { loadUser } from './Modules/User/rdx_axn/axn_auth';
 import './sass/App.scss';
 // === comps ===
 //    === Admin ===
-import Admin from './Modules/Admin/Admin';
 import Ad_Playlist from './Modules/Admin/Ad_Playlist';
 import Ad_Library from './Modules/Admin/Ad_Library';
 import Ad_Strapi from './Modules/Admin/Ad_Strapi';
@@ -52,7 +51,6 @@ const App = () => {
               <Route exact path='/artist' component={Artist} />
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/purchase' component={Purchase} />
-              <Route exact path='/admin' component={Admin} />
               <Route exact path='/admin/strapi' component={Ad_Strapi} />
               <Route exact path='/admin/playlist' component={Ad_Playlist} />
               <Route exact path='/admin/library' component={Ad_Library} />

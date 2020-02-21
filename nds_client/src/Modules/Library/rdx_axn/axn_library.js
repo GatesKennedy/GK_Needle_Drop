@@ -19,7 +19,7 @@ import {
 export const getLibrary = () => async dispatch => {
   console.log('FXN: getLibrary()');
   try {
-    const res = await axios.get('/api/library');
+    const res = await axios.get('/api/library/all');
     dispatch({
       type: LIBRARY_GET,
       payload: res.data

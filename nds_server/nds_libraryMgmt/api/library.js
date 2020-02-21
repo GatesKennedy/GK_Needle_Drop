@@ -11,7 +11,7 @@ const router = Router();
 //  @route      GET /api/library
 //  @desc       Display ALL 'songs and artist' in library
 //  @access     PUBLIC
-router.get('/lib', (request, response, next) => {
+router.get('/all', (request, response, next) => {
   pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error acquiring client', err.stack);

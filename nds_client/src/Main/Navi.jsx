@@ -50,13 +50,13 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
       </div>
       <div className='center menu'>
         <Link to='/login'>
-          <btn className='btn dark'>Profile</btn>
+          <div className='btn dark'>Profile</div>
         </Link>
         <Link to='/library'>
-          <btn className='btn dark'>Library</btn>
+          <div className='btn dark'>Library</div>
         </Link>
         <Link to='/purchase'>
-          <btn className='btn dark'>Checkout</btn>
+          <div className='btn dark'>Checkout</div>
         </Link>
       </div>
       <div className='center menu'>
