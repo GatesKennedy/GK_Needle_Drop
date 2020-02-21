@@ -19,11 +19,10 @@ import Purchase from './Modules/Ecomm/Purchase';
 //    === Library ===
 import Library from './Modules/Library/Library';
 import Artist from './Modules/Library/Artist';
-import Playlists from './Modules/Library/Collections';
+import Playlists from './Modules/Library/PlayAll';
 //    === Main ===
 import Hello from './Main/Hello';
 import NavStd from './Main/Navi';
-import Header from './Main/Header';
 import Footer from './Main/Footer';
 //    === Notify ===
 import Alert from './Modules/Notify/Alert';
