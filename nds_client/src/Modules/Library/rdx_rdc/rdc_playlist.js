@@ -1,5 +1,6 @@
 import {
   PLAYLIST_GET,
+  PLISTNAMES_GET,
   PLAYLIST_ERROR,
   PLAYLIST_CLEAR,
   PLAYLIST_UPDATE,
@@ -8,8 +9,9 @@ import {
 } from '../../../Main/util/axn_types';
 
 const initialState = {
+  pListNames: null,
   allListData: null,
-  plistData: null,
+  pListData: null,
   loading: true,
   error: {}
 };
@@ -19,10 +21,16 @@ export default function(state = initialState, action) {
 
   switch (type) {
     //  GET
+    case PLISTNAMES_GET:
+      return {
+        ...state,
+        pListNames: payload,
+        loading: false
+      };
     case PLAYLIST_GET:
       return {
         ...state,
-        plistData: payload,
+        pListData: payload,
         loading: false
       };
     case PLAYALL_GET:
@@ -35,14 +43,14 @@ export default function(state = initialState, action) {
     case PLAYLIST_UPDATE:
       return {
         ...state,
-        plistData: payload,
+        pListData: payload,
         loading: false
       };
     //  CLEAR
     case PLAYLIST_CLEAR:
       return {
         ...state,
-        plistData: null,
+        pListData: null,
         loading: false
       };
     //  ERROR

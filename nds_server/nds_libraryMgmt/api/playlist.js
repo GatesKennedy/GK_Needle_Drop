@@ -10,7 +10,26 @@ const router = Router();
 //  =============
 
 //  @route      GET /api/library/playlist/all
-//  @desc       Get ALL playlists
+//  @desc       Get All Playlist Names
+//  @access     PUBLIC
+router.get('/names', (request, response, next) => {
+  pool.connect((err, client, release) => {
+    if (err) {
+      return console.error('Error acquiring client', err.stack);
+    }
+    const query = 'SELECT * FROM tbl_playlists';
+    client.query(query, (err, res) => {
+      release();
+      if (err) {
+        return console.error('Error executing query', err.stack);
+      }
+      response.json(res.rows);
+    });
+  });
+});
+
+//  @route      GET /api/library/playlist/all
+//  @desc       Get ALL Playlist Data
 //  @access     PUBLIC
 router.get('/all', (request, response, next) => {
   pool.connect((err, client, release) => {
@@ -46,13 +65,13 @@ router.get('/all', (request, response, next) => {
 //  @route      GET /api/library/playlist/1/:name
 //  @desc       Get Playlist by Name
 //  @access     PUBLIC
-router.get('/1/:list_name', (request, response, next) => {
-  const { list_name } = request.params;
+router.get('/1/:id', (request, response, next) => {
+  const { id } = request.params;
   const query = {
     text:
-      //'SELECT name, json_agg(song_list_name) FROM tbl_playlists WHERE list_name = $1;',
-      'SELECT song_id FROM tbl_playlists WHERE list_name = $1',
-    values: [list_name]
+      //'SELECT name, json_agg(song_id) FROM tbl_playlists WHERE id = $1;',
+      "SELECT tbl_playall.list_id, song_id, tbl_library.data_json ->> 'song' AS song, tbl_library.data_json ->> 'artist' AS artist, tbl_library.data_json ->> 'time' AS time, rank FROM tbl_playall INNER JOIN tbl_library ON tbl_playall.song_id = tbl_library.id WHERE tbl_playall.list_id = $1",
+    values: [id]
   };
 
   pool.query(query, (err, res) => {

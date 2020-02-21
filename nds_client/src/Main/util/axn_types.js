@@ -23,6 +23,7 @@ export const TRK_UPDATE = 'TRK_UPDATE';
 export const TRK_CLEAR = 'TRK_CLEAR';
 export const TRK_ERROR = 'TRK_ERROR';
 
+export const PLISTNAMES_GET = 'PLISTNAMES_GET';
 export const PLAYLIST_GET = 'PLAYLIST_GET';
 export const PLAYLIST_ERROR = 'PLAYLIST_ERROR';
 export const PLAYLIST_CLEAR = 'PLAYLIST_CLEAR';

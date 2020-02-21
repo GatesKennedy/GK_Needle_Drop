@@ -2,24 +2,29 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 //  REDUX
 import { connect } from 'react-redux';
-import { getPlayAll, getPlaylist } from '../Library/rdx_axn/axn_playlist';
+import {
+  getPListNames,
+  getPlayAll,
+  getPlaylist
+} from '../Library/rdx_axn/axn_playlist';
 //  COMPS
-import Navi from '../Admin/Ad_Navi';
+import Navi from './Ad_Navi';
 import Trk from '../Library/TrkList';
 import Browse from './Ad_Browse';
 import Spinner from '../Notify/Spin';
-import Ad_Navi from '../Admin/Ad_Navi';
+import Ad_Navi from './Ad_Navi';
 import { selectPlist } from '../Library/rdx_axn/axn_library';
 
 const Ad_Playlist = ({
+  getPListNames,
   getPlaylist,
   getPlayAll,
   admin: { pListChosen, trkChosen },
   library: { trkData },
-  playlist: { allListData, plistData, loading }
+  playlist: { pListNames, allListData, pListData, loading }
 }) => {
   useEffect(() => {
-    getPlayAll();
+    getPListNames();
   }, []);
 
   return (
@@ -35,12 +40,13 @@ const Ad_Playlist = ({
               <div className='col bg-gry2 menu'>
                 <p className=''>Choose Me</p>
                 <div className=''>
-                  {allListData.map(plist => (
+                  {pListNames.map(plist => (
                     <button
+                      key={plist.id}
                       className='col'
-                      onClick={() => getPlaylist(plist.list_name)}
+                      onClick={() => getPlaylist(plist.id)}
                     >
-                      {plist.list_name}
+                      {plist.name}
                     </button>
                   ))}
                 </div>
@@ -49,12 +55,14 @@ const Ad_Playlist = ({
             {/* PLAYLIST */}
             <section id='ad-playlist'>
               <p>Change Me</p>
+              <p>=========</p>
               <div className='stack' id='brow-list'>
-                {pListChosen ? (
+                {pListData ? (
                   <ul className='stack'>
-                    {pListChosen.map(trk => (
-                      <li key={trk.id}>
-                        <Trk trk={trk} />
+                    {pListData.map(trk => (
+                      <li key={trk.song_id}>
+                        <div className='row'>{trk.artist}</div>
+                        <div className='row'> "{trk.song}"</div>
                       </li>
                     ))}
                   </ul>
@@ -84,6 +92,8 @@ const mapStateToProps = state => ({
   playlist: state.playlist
 });
 
-export default connect(mapStateToProps, { getPlaylist, getPlayAll })(
-  Ad_Playlist
-);
+export default connect(mapStateToProps, {
+  getPListNames,
+  getPlaylist,
+  getPlayAll
+})(Ad_Playlist);

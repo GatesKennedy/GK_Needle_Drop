@@ -1,4 +1,6 @@
 import React from '../../../node_modules/react';
+//  REDUX
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { ReactComponent as Play } from './assets/vex/trk-play.svg';
@@ -57,5 +59,8 @@ Trk.propTypes = {
   // file: PropTypes.object.isRequired,
   // time: PropTypes.object.isRequired
 };
+const mapStateToProps = state => ({
+  playlist: state.playlist.pListData
+});
 
-export default Trk;
+export default connect(mapStateToProps)(Trk);

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 
 import {
+  PLISTNAMES_GET,
   PLAYLIST_GET,
   PLAYLIST_ERROR,
   PLAYLIST_CLEAR,
@@ -13,6 +14,24 @@ import {
 //  =============
 //  ==   GET   ==
 //  =============
+
+//============================
+//  GET: All Playlist Names
+export const getPListNames = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/library/playlist/names');
+
+    dispatch({
+      type: PLISTNAMES_GET,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PLAYALL_ERROR,
+      payload: err.stack
+    });
+  }
+};
 
 //============================
 //  GET: ALL Playlists
@@ -34,9 +53,9 @@ export const getPlayAll = () => async dispatch => {
 
 //============================
 //  GET: Playlist by Name (list_name)
-export const getPlaylist = list_name => async dispatch => {
+export const getPlaylist = list_id => async dispatch => {
   try {
-    const res = await axios.get(`/api/library/playlist/1/${list_name}`);
+    const res = await axios.get(`/api/library/playlist/1/${list_id}`);
 
     dispatch({
       type: PLAYLIST_GET,
