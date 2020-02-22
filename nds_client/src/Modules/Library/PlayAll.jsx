@@ -10,6 +10,7 @@ import {
 //  COMPS
 import Spinner from '../Notify/Spin';
 import Playlist from './Playlist';
+import PListCard from '../NDS/PListCard';
 
 const PlayAll = ({
   getPListNames,
@@ -24,6 +25,7 @@ const PlayAll = ({
 
   return (
     <Fragment>
+      <Playlist />
       {loading ? (
         <Spinner />
       ) : (
@@ -31,24 +33,14 @@ const PlayAll = ({
           {' '}
           <div className='grid3'>
             {pListNames.map(plist => (
-              <button
-                key={plist.id}
-                className='grid'
-                onClick={() => getPlaylist(plist.id)}
-              >
-                {plist.name}
-              </button>
+              <div className='row' onClick={() => getPlaylist(plist.id)}>
+                <PListCard key={plist.id} title={plist.name} />
+              </div>
             ))}
           </div>
         </Fragment>
       )}
-      {libData ? (
-        <div className='stack'>
-          <Playlist libData={libData} />
-        </div>
-      ) : (
-        <p>oh No</p>
-      )}
+      {libData ? <div className='stack'>oops</div> : <p>oh No</p>}
     </Fragment>
   );
 };
