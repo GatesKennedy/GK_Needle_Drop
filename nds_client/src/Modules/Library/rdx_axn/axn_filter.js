@@ -15,7 +15,8 @@ import {
   TRAITS_CLEAR,
   TRAITS_ERROR,
   ITEMS_GET,
-  ITEMS_ERROR
+  ITEMS_ERROR,
+  TRK_UPDATE
 } from '../../../Main/util/axn_types';
 
 //  =============
@@ -27,14 +28,6 @@ import {
 export const getTraits = () => async dispatch => {
   try {
     const res = await axios.get('/api/library/filter/traits');
-
-    // const traits = res.data => {
-    //   const traitObj =
-    //   return traitObj;
-    // };
-
-    //console.log(res.data);
-
     dispatch({
       type: TRAITS_GET,
       payload: res.data
@@ -173,6 +166,43 @@ export const createTraits = (
 //  ==============
 //  ==  UPDATE  ==
 //  ==============
+export const updateFilterIn = (trait, filterIn) => async dispatch => {
+  console.log('FXN: updateFilterIn ,, Trait: ' + trait);
+
+  try {
+    //if (Object.values(filterIn).includes(trait)) {
+    if (!filterIn) {
+      //  filtersIn = null
+      const newFilters = [trait];
+
+      dispatch({
+        type: FILTER_UPDATE,
+        payload: newFilters
+      });
+    } else if (filterIn) {
+      if (filterIn.includes(trait)) {
+        //  Remove 'trait' from 'filterIn'
+        const newFilters = filterIn.filter(filter => filter !== trait);
+        dispatch({
+          type: FILTER_UPDATE,
+          payload: newFilters
+        });
+      } else {
+        //  Add 'trait' to 'filterIn'
+        dispatch({
+          type: FILTER_UPDATE,
+          payload: [...filterIn, trait]
+        });
+      }
+    }
+  } catch (err) {
+    console.log('FXN: updateFilterIn ,, Error');
+    dispatch({
+      type: FILTER_ERROR,
+      payload: null
+    });
+  }
+};
 
 //  ==============
 //  ==  DELETE  ==

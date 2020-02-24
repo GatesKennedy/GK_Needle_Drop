@@ -2,19 +2,26 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import useCollapse from 'react-collapsed';
-import { getTraitSpecies } from '../Modules/Library/rdx_axn/axn_filter';
+import {
+  getTraitSpecies,
+  updateFilterIn
+} from '../Modules/Library/rdx_axn/axn_filter';
 import Spinner from '../Modules/Notify/Spin';
+import { TRAITS_CLEAR } from './util/axn_types';
+import { getPlaylist } from '../Modules/Library/rdx_axn/axn_playlist';
 
-const Drop = ({ genus, filter: { items, loading }, category }) => {
-  useEffect(() => {
-    getTraitSpecies(genus);
-  }, []);
-
-  // console.log(items);
-  // console.log(genus);
+const Drop = ({
+  genus,
+  species,
+  updateFilterIn,
+  filter: { filterIn, loading }
+}) => {
+  //useEffect(() => {}, []);
 
   const [isOpen, setOpen] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isOpen });
+
+  console.log(species);
 
   return (
     <Fragment>
@@ -23,16 +30,23 @@ const Drop = ({ genus, filter: { items, loading }, category }) => {
       ) : (
         <div className='stack'>
           {' '}
-          <button
+          <div
             {...getToggleProps({
               onClick: () => setOpen(oldOpen => !oldOpen)
             })}
           >
             {isOpen ? genus : genus}
-          </button>
+          </div>
           <section {...getCollapseProps()}>
-            MAPPED
-            {category}
+            <ul className='stack'>
+              {species.map(trait => (
+                <li className='stack'>
+                  <button onClick={() => updateFilterIn(trait, filterIn)}>
+                    {trait}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </section>
         </div>
       )}
@@ -48,8 +62,9 @@ Drop.propTypes = {
 
 const mapStateToProps = state => ({
   category: state.category,
-  filter: state.filter,
-  filterIn: state.filterIn
+  filter: state.filter
 });
 
-export default connect(mapStateToProps, { getTraitSpecies })(Drop);
+export default connect(mapStateToProps, { getTraitSpecies, updateFilterIn })(
+  Drop
+);

@@ -14,7 +14,7 @@ const router = Router();
 //  @access     PUBLIC
 router.get('/traits', (request, response, next) => {
   pool.query(
-    'SELECT genus, json_agg(species) FROM tbl_filters group by 1;',
+    'SELECT genus, json_agg(species) AS species FROM tbl_filters group by 1;',
     (err, res) => {
       if (err) return next(err);
 
@@ -83,7 +83,7 @@ router.get('/:search', (request, response, next) => {
 
 //  Catch-All Error Function
 router.use((err, request, response, next) => {
-  res.json(err);
+  response.json(err);
 });
 
 module.exports = router;

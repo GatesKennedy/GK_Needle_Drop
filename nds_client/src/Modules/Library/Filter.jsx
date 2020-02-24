@@ -26,7 +26,11 @@ const Filter = ({ getTraits, filter: { traits, loading } }) => {
             <Add className='menu-title row  menu-btn' />
           </div>
           {traits.map(genus => (
-            <Collapse genus={genus.genus} />
+            <Collapse
+              key={genus.id}
+              genus={genus.genus}
+              species={genus.species}
+            />
           ))}
         </section>
       )}

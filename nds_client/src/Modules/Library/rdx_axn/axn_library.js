@@ -4,7 +4,7 @@ import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 import {
   LIBRARY_GET,
   LIBRARY_ERROR,
-  FILTER_CLEAR,
+  LIBDATA_CLEAR,
   ARTISTS_GET,
   ARTISTS_ERROR,
   ARTIST_GET,
@@ -13,6 +13,9 @@ import {
   TRK_ERROR
 } from '../../../Main/util/axn_types';
 
+//  =============
+//  ==   GET   ==
+//  =============
 //=============================
 // GET: Library Tracks (All)
 
@@ -116,4 +119,15 @@ export const selectPlist = trkId => async dispatch => {
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
+};
+
+//  =============
+//  ==  CLEAR  ==
+//  =============
+
+export const clrLibData = () => async dispatch => {
+  dispatch({
+    type: LIBDATA_CLEAR,
+    payload: null
+  });
 };

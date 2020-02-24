@@ -1,6 +1,7 @@
 import {
   LIBRARY_GET,
   LIBRARY_ERROR,
+  LIBDATA_CLEAR,
   PLAYLIST_GET,
   PLAYLIST_ERROR,
   ARTISTS_GET,
@@ -43,6 +44,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         trkData: payload,
+        loading: false
+      };
+    //  CLEAR
+    case LIBDATA_CLEAR:
+      return {
+        ...state,
+        libData: null,
         loading: false
       };
     //  ERROR

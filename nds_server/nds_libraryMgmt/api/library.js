@@ -17,8 +17,8 @@ router.get('/all', (request, response, next) => {
       return console.error('Error acquiring client', err.stack);
     }
     client.query(
-      //"SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json->> 'time' AS time FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';",
-      "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json ->> 'time' AS time FROM tbl_library;",
+      "SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json->> 'time' AS time FROM tbl_library WHERE data_json @> '{\"artist\": \"Boone Howard\"}';",
+      //"SELECT id, data_json ->> 'song' AS song, data_json->> 'artist' AS artist, data_json ->> 'time' AS time FROM tbl_library;",
       (err, res) => {
         release();
         if (err) {

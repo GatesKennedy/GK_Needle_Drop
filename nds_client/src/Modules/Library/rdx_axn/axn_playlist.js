@@ -56,14 +56,11 @@ export const getPlayAll = () => async dispatch => {
 export const getPlaylist = list_id => async dispatch => {
   try {
     const res = await axios.get(`/api/library/playlist/1/${list_id}`);
-
     dispatch({
       type: PLAYLIST_GET,
       payload: res.data
     });
   } catch (err) {
-    console.log('axn_adLib: catch error');
-
     dispatch({
       type: PLAYLIST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }

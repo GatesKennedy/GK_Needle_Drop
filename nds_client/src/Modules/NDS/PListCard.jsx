@@ -10,7 +10,7 @@ const PListCard = ({ img, title }) => {
     <div id='plist-card'>
       <img src={image} alt=''></img>
       <Play />
-      <div>Slow Jams</div>
+      <div>{title}</div>
     </div>
   );
 };

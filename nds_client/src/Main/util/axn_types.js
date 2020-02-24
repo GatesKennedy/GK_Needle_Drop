@@ -13,6 +13,8 @@ export const AD_PLAYLIST_ERROR = 'AD_PLAYLIST_ERROR';
 //    === Library ===
 export const LIBRARY_GET = 'LIBRARY_GET';
 export const LIBRARY_ERROR = 'LIBRARY_ERROR';
+export const LIBDATA_CLEAR = 'LIBDATA_CLEAR';
+
 export const ARTISTS_GET = 'ARTISTS_GET';
 export const ARTISTS_ERROR = 'ARTISTS_ERROR';
 export const ARTIST_GET = 'ARTIST_GET';
@@ -31,7 +33,7 @@ export const PLAYLIST_UPDATE = 'PLAYLIST_UPDATE';
 export const PLAYALL_GET = 'PLAYALL_GET';
 export const PLAYALL_ERROR = 'PLAYALL_ERROR';
 
-export const FILTER_GET = 'FILTER_GET';
+export const FILTER_GET = 'FLITER_GET';
 export const FILTER_UPDATE = 'FILTER_UPDATE';
 export const FILTER_CLEAR = 'FILTER_CLEAR';
 export const FILTER_ERROR = 'FILTER_ERROR';

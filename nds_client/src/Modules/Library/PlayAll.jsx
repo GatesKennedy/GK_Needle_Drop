@@ -7,6 +7,7 @@ import {
   getPlayAll,
   getPlaylist
 } from '../Library/rdx_axn/axn_playlist';
+import { clrLibData } from '../Library/rdx_axn/axn_library';
 //  COMPS
 import Spinner from '../Notify/Spin';
 import Playlist from './Playlist';
@@ -33,8 +34,12 @@ const PlayAll = ({
           {' '}
           <div className='grid3'>
             {pListNames.map(plist => (
-              <div className='row' onClick={() => getPlaylist(plist.id)}>
-                <PListCard key={plist.id} title={plist.name} />
+              <div
+                className='row'
+                key={plist.id}
+                onClick={() => getPlaylist(plist.id)}
+              >
+                <PListCard title={plist.name} />
               </div>
             ))}
           </div>
