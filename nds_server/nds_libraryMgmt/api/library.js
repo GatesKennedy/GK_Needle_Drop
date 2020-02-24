@@ -23,8 +23,6 @@ router.get('/all', (request, response, next) => {
         release();
         if (err) {
           return console.error('Error executing query', err.stack);
-          console.log('API Server Error: /api/library');
-          response.status(500).send('Server Error');
         }
         response.json(res.rows);
       }

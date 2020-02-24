@@ -9,7 +9,23 @@ const router = Router();
 //  ==   GET   ==
 //  =============
 
-//  @route      GET /api/library/filter
+//  @route      GET /api/library/filter/libtraits
+//  @desc       Get ALL traits
+//  @access     PUBLIC
+/*  Trait Columns
+  arc
+  kw1, 2, 3
+  tag1, 2, 3
+  type
+  inst1, 2, 3
+  genre1, 2, 3
+  style1, 2, 3
+*/
+router.get('/libtraits', (request, response, next) => {
+  pool.query('SELECT id, data_json ->> ');
+});
+
+//  @route      GET /api/library/filter/traits
 //  @desc       Get ALL traits
 //  @access     PUBLIC
 router.get('/traits', (request, response, next) => {

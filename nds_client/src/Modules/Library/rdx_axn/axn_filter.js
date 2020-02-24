@@ -24,6 +24,10 @@ import {
 //  =============
 
 //============================
+//  GET: Library of Traits
+export const getLibTraits = () => async dispatch => {};
+
+//============================
 //  GET: ALL Traits
 export const getTraits = () => async dispatch => {
   try {
