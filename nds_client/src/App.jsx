@@ -10,7 +10,7 @@ import { loadUser } from './Modules/User/rdx_axn/axn_auth';
 import './sass/App.scss';
 // === comps ===
 //    === Admin ===
-import Ad_Playlist from './Modules/Admin/Ad_Playlist';
+import Ad_Playlist from './Modules/Admin/Ad_PlayList';
 import Ad_Library from './Modules/Admin/Ad_Library';
 import Ad_Strapi from './Modules/Admin/Ad_Strapi';
 import Ad_Account from './Modules/Admin/Ad_Account';

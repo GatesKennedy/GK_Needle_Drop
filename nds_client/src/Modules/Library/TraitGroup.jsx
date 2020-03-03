@@ -2,20 +2,14 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import useCollapse from 'react-collapsed';
-import { updateFilterIn, getFiltered } from './rdx_axn/axn_filter';
+import { updateFilterIn } from './rdx_axn/axn_filter';
 
 const TraitGroup = ({
   updateFilterIn,
-  getFiltered,
   genus,
   species,
-  filterIn,
-  filter: { loading }
+  filter: { loading, filterIn }
 }) => {
-  useEffect(() => {
-    getFiltered();
-  }, []);
-
   const [isOpen, setOpen] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isOpen });
 
@@ -50,10 +44,7 @@ const TraitGroup = ({
 TraitGroup.propTypes = {};
 
 const mapStateToProps = state => ({
-  filter: state.filter,
-  filterIn: state.filterIn
+  filter: state.filter
 });
 
-export default connect(mapStateToProps, { updateFilterIn, getFiltered })(
-  TraitGroup
-);
+export default connect(mapStateToProps, { updateFilterIn })(TraitGroup);
