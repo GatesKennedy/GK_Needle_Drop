@@ -1,5 +1,6 @@
 //  React
 import React, { Component, Fragment } from 'react';
+import { Collapse } from 'react-collapse';
 import { Link } from 'react-router-dom';
 //  REDUX
 import PropTypes from 'prop-types';
@@ -11,6 +12,11 @@ import Search from './Search';
 import Filter from './Filter';
 import Lists from '../../Main/Lists';
 import Spinner from '../Notify/Spin';
+
+//import Collapse from '../../Main/Collapse';
+import Drop from '../../Main/Drop';
+//  Assets
+import { ReactComponent as Add } from './assets/vex/menu-add.svg';
 
 function Library(props) {
   return (

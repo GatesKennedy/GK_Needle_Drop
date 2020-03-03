@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS tbl_library(
 
 INSERT INTO tbl_library(data_json)
 VALUES
-('{"artist":"artist","album":"album","song":"song","time":"time","feat":"feat","type":"type","tempo":"tempo","arc":"arc","":"","kw":["kw1","kw2","kw3"],"inst":["inst1","inst2","inst3"],"tag":["tag1","tag2","tag3"],"style":["style1","style2","style3"],"genre":["genre1","genre2","genre3"]}'),
+
 ('{"artist":"Adam Selzer","album":"","song":"Birds","time":"0:32","feat":"","type":"instr","tempo":1,"arc":"Steady","":"","kw":["Folk","Harmonic","Melodic"],"inst":["Mallets","Strings",""],"tag":["Hopeful","Imaginative","Light"],"style":["Childrens","Holiday","Trailer"],"genre":["Folk & Americana","Cinematic","Holiday"]}'),
 ('{"artist":"Adam Selzer","album":"","song":"Calvin","time":"0:34","feat":"Featured","type":"instr","tempo":2,"arc":"Steady","":"","kw":["Harmonic","Reflective","Soulful"],"inst":["Electric Piano","Drums","Backing Vocals"],"tag":["Calm","Human","Minimal"],"style":["Trailer","Romantic Comedy","Documentary"],"genre":["Folk & Americana","Indie Pop","Slowjams"]}'),
 ('{"artist":"Adam Selzer","album":"","song":"Circles","time":"0:32","feat":"","type":"instr","tempo":3,"arc":"Steady","":"","kw":["Playful","Happy",""],"inst":["Synthesizer","Drum Machine",""],"tag":["Bouncy","Fun","Bouncy"],"style":["Comedy","Childrens","Science Fiction"],"genre":["Electronic","Nerdcore","Pop"]}'),

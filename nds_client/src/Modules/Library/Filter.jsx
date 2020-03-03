@@ -1,52 +1,65 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getTraitGenus, getTraits } from './rdx_axn/axn_filter';
+import useCollapse from 'react-collapsed';
+//  REDUX
+import {
+  getTraitSpecies,
+  updateFilterIn,
+  getTraits,
+  getLibTraits
+} from './rdx_axn/axn_filter';
 //  Comps
 import Collapse from '../../Main/Collapse';
 import Spinner from '../Notify/Spin';
+import TraitGroup from './TraitGroup';
 //  Assets
 import { ReactComponent as Add } from './assets/vex/menu-add.svg';
 
-const Filter = ({ getTraits, filter: { traits, loading } }) => {
+const Filter = ({ getTraits, getLibTraits, filter: { traits, loading } }) => {
   useEffect(() => {
     getTraits();
+    getLibTraits();
   }, []);
 
-  console.log(traits);
+  const [isOpen, setOpen] = useState(false);
+  const { getCollapseProps, getToggleProps } = useCollapse({ isOpen });
 
   return (
     <Fragment>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <section className='menu stack Filter' id='fitler-cont'>
-          <div className='menu-head bg-blu2'>
-            <h2 className='menu-title row'>Filter</h2>
-            <Add className='menu-title row  menu-btn' />
-          </div>
-          {traits.map(genus => (
-            <Collapse
-              key={genus.id}
-              genus={genus.genus}
-              species={genus.species}
-            />
-          ))}
-        </section>
-      )}
+      <div
+        className='menu-head bg-blu2'
+        {...getToggleProps({
+          onClick: () => setOpen(oldOpen => !oldOpen)
+        })}
+      >
+        <h2 className='menu-title row'>{isOpen ? 'Filter' : 'Filter'}</h2>
+        <Add className='menu-title row  menu-btn' />
+      </div>
+      <section {...getCollapseProps()}>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <section className='menu stack Filter' id='fitler-cont'>
+            {traits.map(genus => (
+              <TraitGroup
+                key={genus.id}
+                genus={genus.genus}
+                species={genus.species}
+              />
+            ))}
+          </section>
+        )}
+      </section>
     </Fragment>
   );
 };
 
-Filter.propTypes = {
-  getTraits: PropTypes.func.isRequired,
-  getTraitGenus: PropTypes.func.isRequired,
-  filter: PropTypes.object.isRequired
-};
+Filter.propTypes = {};
 
 const mapStateToProps = state => ({
   filter: state.filter,
   filterIn: state.filterIn
 });
 
-export default connect(mapStateToProps, { getTraitGenus, getTraits })(Filter);
+export default connect(mapStateToProps, { getLibTraits, getTraits })(Filter);

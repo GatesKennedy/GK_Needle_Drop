@@ -7,6 +7,8 @@ import {
   FILTER_UPDATE,
   FILTER_CLEAR,
   FILTER_ERROR,
+  LIBTRAITS_GET,
+  LIBTRAITS_ERROR,
   TRAITS_GET,
   TRAITS_UPDATE,
   TRAITS_ERROR,
@@ -30,13 +32,13 @@ export default function(state = initialState, action) {
 
   switch (type) {
     //  GET
+    case FILTER_GET:
     case SEARCH_GET:
       return {
         ...state,
         libraryOut: payload,
         loading: false
       };
-
     case ITEMS_GET:
       return {
         ...state,
@@ -47,6 +49,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         traits: payload,
+        loading: false
+      };
+    case LIBTRAITS_GET:
+      return {
+        ...state,
+        libTraits: payload,
         loading: false
       };
     //  UPDATE
@@ -74,6 +82,7 @@ export default function(state = initialState, action) {
     //  ERROR
     case FILTER_ERROR:
     case SEARCH_ERROR:
+    case LIBTRAITS_ERROR:
     case TRAITS_ERROR:
     case ITEMS_ERROR:
       return {

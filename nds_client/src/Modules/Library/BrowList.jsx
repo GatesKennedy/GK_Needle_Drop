@@ -3,13 +3,24 @@ import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getLibrary } from './rdx_axn/axn_library';
+import { getLibTraits, getFiltered } from './rdx_axn/axn_filter';
 //  Comps
 import Trk from './Trk';
 import Spinner from '../Notify/Spin';
 
-const BrowList = ({ getLibrary, library: { libData, loading } }) => {
+const BrowList = ({
+  getLibrary,
+  getLibTraits,
+  getFiltered,
+  filterIn,
+  libraryOut,
+  libTraits,
+  library: { libData, loading }
+}) => {
   useEffect(() => {
     getLibrary();
+    getLibTraits();
+    getFiltered(filterIn, libTraits, libraryOut);
   }, []);
 
   return (
@@ -43,7 +54,14 @@ BrowList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  library: state.library
+  library: state.library,
+  filterIn: state.filter.filterIn,
+  libTraits: state.filter.libTraits,
+  libraryOut: state.filter.libraryOut
 });
 
-export default connect(mapStateToProps, { getLibrary })(BrowList);
+export default connect(mapStateToProps, {
+  getLibrary,
+  getFiltered,
+  getLibTraits
+})(BrowList);

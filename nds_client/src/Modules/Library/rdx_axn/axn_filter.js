@@ -10,6 +10,8 @@ import {
   SEARCH_UPDATE,
   SEARCH_CLEAR,
   SEARCH_ERROR,
+  LIBTRAITS_GET,
+  LIBTRAITS_ERROR,
   TRAITS_GET,
   TRAITS_UPDATE,
   TRAITS_CLEAR,
@@ -25,7 +27,20 @@ import {
 
 //============================
 //  GET: Library of Traits
-export const getLibTraits = () => async dispatch => {};
+export const getLibTraits = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/library/filter/libtraits');
+    dispatch({
+      type: LIBTRAITS_GET,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: LIBTRAITS_ERROR,
+      payload: err.stack
+    });
+  }
+};
 
 //============================
 //  GET: ALL Traits
@@ -87,21 +102,27 @@ export const getTraitSpecies = genus => async dispatch => {
 
 //============================
 //  GET: Filtered
-export const getFiltered = () => async dispatch => {
-  try {
-    const res = await axios.get('/api/library/filter');
-
-    dispatch({
-      type: FILTER_GET,
-      payload: res.data
-    });
-  } catch (err) {
-    console.log('axn_FILTER.js: catch error');
-
-    dispatch({
-      type: FILTER_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+export const getFiltered = (
+  filterIn,
+  libTraits,
+  libraryOut
+) => async dispatch => {
+  const libOut = [];
+  if (!filterIn) {
+    try {
+      const res = await axios.get('/api/library/all');
+      dispatch({
+        type: FILTER_GET,
+        payload: res.data
+      });
+    } catch (err) {
+      console.log('catch{} getLibrary() error');
+      dispatch({
+        type: FILTER_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
+  } else if (filterIn) {
   }
 };
 
@@ -177,6 +198,7 @@ export const updateFilterIn = (trait, filterIn) => async dispatch => {
     //if (Object.values(filterIn).includes(trait)) {
     if (!filterIn) {
       //  filtersIn = null
+      console.log('filtersIn = null');
       const newFilters = [trait];
 
       dispatch({
@@ -184,8 +206,10 @@ export const updateFilterIn = (trait, filterIn) => async dispatch => {
         payload: newFilters
       });
     } else if (filterIn) {
+      console.log('filtersIn != null');
       if (filterIn.includes(trait)) {
         //  Remove 'trait' from 'filterIn'
+        console.log('filtersIn includes ' + trait);
         const newFilters = filterIn.filter(filter => filter !== trait);
         dispatch({
           type: FILTER_UPDATE,
@@ -193,6 +217,7 @@ export const updateFilterIn = (trait, filterIn) => async dispatch => {
         });
       } else {
         //  Add 'trait' to 'filterIn'
+        console.log('filtersIn added ' + trait);
         dispatch({
           type: FILTER_UPDATE,
           payload: [...filterIn, trait]

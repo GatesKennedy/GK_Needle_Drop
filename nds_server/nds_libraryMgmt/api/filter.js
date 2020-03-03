@@ -12,17 +12,18 @@ const router = Router();
 //  @route      GET /api/library/filter/libtraits
 //  @desc       Get ALL traits
 //  @access     PUBLIC
-/*  Trait Columns
-  arc
-  kw1, 2, 3
-  tag1, 2, 3
-  type
-  inst1, 2, 3
-  genre1, 2, 3
-  style1, 2, 3
-*/
+
+//  SELECT jsonb_object_keys(data_json) FROM tbl_library;
+
 router.get('/libtraits', (request, response, next) => {
-  pool.query('SELECT id, data_json ->> ');
+  const query =
+    "SELECT id, song_url, data_json ->> 'kw' AS keyword, data_json ->> 'tag' AS tag, data_json ->> 'inst' AS instrument, data_json ->> 'type' AS type, data_json ->> 'genre' AS genre, data_json ->> 'style' AS style FROM tbl_library;";
+  pool.query(query, (err, res) => {
+    if (err) {
+      return console.error('Error: executing query', err.stack);
+    }
+    response.json(res.rows);
+  });
 });
 
 //  @route      GET /api/library/filter/traits

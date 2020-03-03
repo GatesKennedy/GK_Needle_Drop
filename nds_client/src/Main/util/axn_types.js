@@ -43,6 +43,9 @@ export const SEARCH_UPDATE = 'SEARCH_UPDATE';
 export const SEARCH_CLEAR = 'SEARCH_CLEAR';
 export const SEARCH_ERROR = 'SEARCH_ERROR';
 
+export const LIBTRAITS_GET = 'LIBTRAITS_GET';
+export const LIBTRAITS_ERROR = 'LIBTRAITS_ERROR';
+
 export const TRAITS_GET = 'TRAITS_GET';
 export const TRAITS_UPDATE = 'TRAITS_UPDATE';
 export const TRAITS_CLEAR = 'TRAITS_CLEAR';
