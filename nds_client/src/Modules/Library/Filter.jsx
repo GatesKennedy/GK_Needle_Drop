@@ -16,7 +16,12 @@ import TraitGroup from './TraitGroup';
 //  Assets
 import { ReactComponent as Add } from './assets/vex/menu-add.svg';
 
-const Filter = ({ getTraits, getLibTraits, filter: { traits, loading } }) => {
+const Filter = ({
+  getTraits,
+  getLibTraits,
+  updateFilterIn,
+  filter: { traits, filterIn, loading }
+}) => {
   useEffect(() => {
     getTraits();
     getLibTraits();
@@ -27,30 +32,49 @@ const Filter = ({ getTraits, getLibTraits, filter: { traits, loading } }) => {
 
   return (
     <Fragment>
-      <div
-        className='menu-head bg-blu2'
-        {...getToggleProps({
-          onClick: () => setOpen(oldOpen => !oldOpen)
-        })}
-      >
-        <h2 className='menu-title row'>{isOpen ? 'Filter' : 'Filter'}</h2>
-        <Add className='menu-title row  menu-btn' />
+      <div className='menu' id='menu-side'>
+        <section>
+          <div
+            className='menu-head bg-blu2'
+            {...getToggleProps({
+              onClick: () => setOpen(oldOpen => !oldOpen)
+            })}
+          >
+            <h2 className='menu-title row'>{isOpen ? 'Filter' : 'Filter'}</h2>
+            <Add className='menu-title row  menu-btn' />
+          </div>
+        </section>
+
+        <section>
+          {Array.isArray(filterIn) ? (
+            <div>
+              {filterIn.map(trait => (
+                <button onClick={() => updateFilterIn(trait, filterIn)}>
+                  {trait}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div>filterless</div>
+          )}
+        </section>
+
+        <section {...getCollapseProps()}>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <section className='menu stack Filter' id='fitler-cont'>
+              {traits.map(genus => (
+                <TraitGroup
+                  key={genus.genus}
+                  genus={genus.genus}
+                  species={genus.species}
+                />
+              ))}
+            </section>
+          )}
+        </section>
       </div>
-      <section {...getCollapseProps()}>
-        {loading ? (
-          <Spinner />
-        ) : (
-          <section className='menu stack Filter' id='fitler-cont'>
-            {traits.map(genus => (
-              <TraitGroup
-                key={genus.id}
-                genus={genus.genus}
-                species={genus.species}
-              />
-            ))}
-          </section>
-        )}
-      </section>
     </Fragment>
   );
 };
@@ -58,8 +82,11 @@ const Filter = ({ getTraits, getLibTraits, filter: { traits, loading } }) => {
 Filter.propTypes = {};
 
 const mapStateToProps = state => ({
-  filter: state.filter,
-  filterIn: state.filterIn
+  filter: state.filter
 });
 
-export default connect(mapStateToProps, { getLibTraits, getTraits })(Filter);
+export default connect(mapStateToProps, {
+  getLibTraits,
+  getTraits,
+  updateFilterIn
+})(Filter);

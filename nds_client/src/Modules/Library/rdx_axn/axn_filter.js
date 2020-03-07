@@ -47,9 +47,11 @@ export const getLibTraits = () => async dispatch => {
 export const getTraits = () => async dispatch => {
   try {
     const res = await axios.get('/api/library/filter/traits');
+    console.log(res.data);
+    const payload = res.data.map(genus => ({ ...genus, isOpen: false }));
     dispatch({
       type: TRAITS_GET,
-      payload: res.data
+      payload: payload
     });
   } catch (err) {
     dispatch({
@@ -192,13 +194,11 @@ export const createTraits = (
 //  ==  UPDATE  ==
 //  ==============
 export const updateFilterIn = (trait, filterIn) => async dispatch => {
-  console.log('FXN: updateFilterIn ,, Trait: ' + trait);
-
   try {
     //if (Object.values(filterIn).includes(trait)) {
     if (!filterIn) {
       //  filtersIn = null
-      console.log('filtersIn = null');
+      //console.log('filtersIn = null');
       const newFilters = [trait];
 
       dispatch({
@@ -206,10 +206,9 @@ export const updateFilterIn = (trait, filterIn) => async dispatch => {
         payload: newFilters
       });
     } else if (filterIn) {
-      console.log('filtersIn != null');
       if (filterIn.includes(trait)) {
         //  Remove 'trait' from 'filterIn'
-        console.log('filtersIn includes ' + trait);
+        //console.log('filtersIn includes ' + trait);
         const newFilters = filterIn.filter(filter => filter !== trait);
         dispatch({
           type: FILTER_UPDATE,
@@ -217,7 +216,7 @@ export const updateFilterIn = (trait, filterIn) => async dispatch => {
         });
       } else {
         //  Add 'trait' to 'filterIn'
-        console.log('filtersIn added ' + trait);
+        //console.log('filtersIn added ' + trait);
         dispatch({
           type: FILTER_UPDATE,
           payload: [...filterIn, trait]
@@ -233,9 +232,30 @@ export const updateFilterIn = (trait, filterIn) => async dispatch => {
   }
 };
 
+//============================
+//  UPDATE: ALL Traits
+export const updateTraits = (genusActive, traitsState) => async dispatch => {
+  const payload = traitsState.map(trait => {
+    console.log('genusActive: ' + genusActive);
+    console.log('genus: ' + trait.genus);
+    if (genusActive == trait.genus) trait.isOpen = true;
+    else trait.isOpen = false;
+  });
+  console.log('genusActive: ' + genusActive);
+
+  dispatch({
+    type: TRAITS_GET,
+    payload: payload
+  });
+};
+
 //  ==============
 //  ==  DELETE  ==
 //  ==============
+
+//============================
+//  CLR: Trait from 'FilterIn'
+//export const removeTrait = ();
 
 //============================
 //  CLR: Traits
