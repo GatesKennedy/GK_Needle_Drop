@@ -8,6 +8,8 @@ import { loadUser } from './Modules/User/rdx_axn/axn_auth';
 
 // === Style ===
 import './sass/App.scss';
+import '../node_modules/slick-carousel/slick/slick.css';
+import '../node_modules/slick-carousel/slick/slick-theme.css';
 // === comps ===
 //    === Admin ===
 import Ad_Playlist from './Modules/Admin/Ad_PlayList';
