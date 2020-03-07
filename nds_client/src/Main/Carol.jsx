@@ -1,4 +1,5 @@
 import React, { Component, Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
 import PropTypes from 'prop-types';
@@ -11,7 +12,7 @@ import {
 } from '../Modules/Library/rdx_axn/axn_playlist';
 import CarolMockasin from '../Modules/Library/assets/img/carol-mocks.png';
 
-const Carol = ({ getPListNames, playlist }) => {
+const Carol = ({ getPListNames, getPlaylist, playlist }) => {
   useEffect(() => {
     getPListNames();
   }, []);
@@ -29,10 +30,15 @@ const Carol = ({ getPListNames, playlist }) => {
       <Slider {...settings}>
         {playlist.pListNames ? (
           playlist.pListNames.map(plist => (
-            <div>
+            <Link
+              to='/playlists'
+              className='carol-img'
+              key={plist.id}
+              onClick={() => getPlaylist(plist.id)}
+            >
               <img src={CarolMockasin} />
               <h1>{plist.name}</h1>
-            </div>
+            </Link>
           ))
         ) : (
           <div>
@@ -40,27 +46,6 @@ const Carol = ({ getPListNames, playlist }) => {
             <h1>demolishit</h1>
           </div>
         )}
-
-        <div>
-          <img src={CarolMockasin} />
-          <h1>demolishit</h1>
-        </div>
-        <div>
-          <img src={CarolMockasin} />
-          <h1>demolishit</h1>
-        </div>
-        <div>
-          <img src={CarolMockasin} />
-          <h1>demolishit</h1>
-        </div>
-        <div>
-          <img src={CarolMockasin} />
-          <h1>demolishit</h1>
-        </div>
-        <div>
-          <img src={CarolMockasin} />
-          <h1>demolishit</h1>
-        </div>
       </Slider>
     </div>
   );
@@ -72,4 +57,4 @@ const mapStateToProps = state => ({
   playlist: state.playlist
 });
 
-export default connect(mapStateToProps, { getPListNames })(Carol);
+export default connect(mapStateToProps, { getPListNames, getPlaylist })(Carol);
