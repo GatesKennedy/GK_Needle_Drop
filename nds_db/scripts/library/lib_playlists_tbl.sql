@@ -1,6 +1,7 @@
 USE db_nds;
 
 DROP TABLE IF EXISTS tbl_playlists CASCADE;
+DROP TABLE IF EXISTS tbl_playall CASCADE;
 
 CREATE TABLE IF NOT EXISTS tbl_playlists(
     id      SERIAL PRIMARY  KEY,
@@ -18,9 +19,11 @@ CREATE TABLE IF NOT EXISTS tbl_playall(
 
 INSERT INTO tbl_playlists( name )
 VALUES
-    ('GoodList'),
-    ('Better than bad..'),
-    ('BadList')
+    ('Good Bad Boy'),
+    ('Biden The Buyable'),
+    ('Realize .:. Real Lies'),
+    ('DeadAss'),
+    ('Family Planning')
 ;
 
 INSERT INTO tbl_playall( list_id, song_id, rank )
@@ -37,7 +40,11 @@ VALUES
     (2,342,1),
     (2,37,2),
     (3,394,5),
-    (3,253,4)
+    (3,253,4),
+    (4,666,1),
+    (4,420,2),
+    (5,69,1),
+    (5,1987,2)
 ;
 
 SELECT * FROM tbl_playlists;
