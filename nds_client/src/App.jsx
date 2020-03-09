@@ -30,6 +30,7 @@ import Footer from './Main/Footer';
 import Alert from './Modules/Notify/Alert';
 //    === User ===
 import Profile from './Modules/User/Profile';
+import User from './Modules/User/User';
 
 const App = () => {
   //  Research: React Hooks: useEffect 'infinite loop' , second parameter
@@ -50,6 +51,7 @@ const App = () => {
               <Route exact path='/library' component={Library} />
               <Route exact path='/playlists' component={Playlists} />
               <Route exact path='/artist' component={Artist} />
+              <Route exact path='/user' component={User} />
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/purchase' component={Purchase} />
               <Route exact path='/admin/strapi' component={Ad_Strapi} />

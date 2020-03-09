@@ -10,6 +10,7 @@ import { ReactComponent as ND_logo } from '../Modules/NDS/assets/vex/Logo_ND-hea
 import { ReactComponent as Cart } from '../Modules/NDS/assets/vex/Cart.svg';
 
 const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
+  //  AUTH links
   const authLinks = (
     <nav className='bg-blu2' id='navi-cont'>
       <div className='center menu'>
@@ -40,43 +41,34 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
     </nav>
   );
 
+  //  GUEST links
   const guestLinks = (
-    <nav className='navi dark'>
+    <nav className='bg-blu2' id='navi-cont'>
       <div className='center menu'>
-        <Link to='/hello' id='menuAOE' className='center'>
+        <Link to='/hello' className='center'>
           {' '}
-          <i className='fas fa-infinity' />
+          <ND_logo id='navi-logo' />
         </Link>
       </div>
-      <div className='center menu'>
-        <Link to='/login'>
-          <div className='btn dark'>Profile</div>
+      <div className='center main menu-head navi-links'>
+        <Link to='/hello'>
+          <div className='btn navi'>About</div>
         </Link>
         <Link to='/library'>
-          <div className='btn dark'>Library</div>
+          <div className='btn navi'>Browse Music</div>
         </Link>
-        <Link to='/purchase'>
-          <div className='btn dark'>Checkout</div>
+        <Link to='/playlists'>
+          <div className='btn navi'>Playlists</div>
         </Link>
-      </div>
-      <div className='center menu'>
-        <Link to='/login' className=''>
-          {' '}
-          <i className='fas fa-wave-square' />
+        <Link to='/user'>
+          <div className='btn navi'>Login</div>
         </Link>
       </div>
     </nav>
   );
 
-  return (
-    <Fragment>
-      {!loading && (
-        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-      )}
-    </Fragment>
-  );
+  return <Fragment>{isAuthenticated ? guestLinks : authLinks}</Fragment>;
 };
-
 NavStd.propTypes = {
   //logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
