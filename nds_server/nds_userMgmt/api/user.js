@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const request = require('request');
+
+const passport = require('passport');
 const bcrypt = require('bcryptjs');
+const uuid = require('uuid/v4');
+const LocalStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
 
 const pool = require('../../../nds_db/db');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-
-//const { Router } = require('express');
-//const gravatar = require('gravatar');
 
 //  =============
 //  ==   GET   ==
@@ -37,14 +39,66 @@ router.get('/:id', (request, response, next) => {
   });
 });
 
+//  @route      GET api/user/profile/:id
+//  @desc       Display User Profile by id
+//  @access     PUBLIC
+router.get('/user', (request, response, next) => {
+  if (request.isAuthenticated()) {
+    //  GET User :id for Redirect
+    //  REDIRECT to Profile
+    response.redirect('/profile/:id');
+  } else {
+    response.redirect('/auth');
+  }
+});
+
+//  @route      GET api/user/profile/:id
+//  @desc       RETURN User Profile Data
+//  @access     PRIVATE
+router.get('/profile/:id', (request, response, next) => {
+  if (request.isAuthenticated()) {
+    // RETURN USER profile data
+    response.json('/profile/:id');
+  }
+});
+
+//  @route      GET api/user/logout
+//  @desc       LOGOUT User
+//  @access     PRIVATE
+router.get('/logout', (request, response, next) => {
+  console.log('preLogout: ' + req.isAuthenticated());
+  request.logout();
+  console.log('postLogout: ' + req.isAuthenticated());
+  response.redirect('/');
+});
+
 //  ==============
 //  ==   POST   ==
 //  ==============
-//  @route      POST api/user
+//  @route      POST api/auth/login
+//  @desc       Login User
+//  @access     PUBLIC
+router.post(
+  '/auth/login',
+  passport.authenticate('local', {
+    successRedirect: '/profile/:id',
+    failureRedirect: '/auth'
+  }),
+  (request, response, next) => {
+    if (request.body.remember) {
+      request.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
+    } else {
+      request.session.cookie.expires = false; // Cookie expires after this session
+    }
+    response.redirect('/');
+  }
+);
+
+//  @route      POST api/auth/register
 //  @desc       Register User
 //  @access     PUBLIC
 router.post(
-  '/',
+  '/auth/register',
   [
     check('name', 'Name is required')
       .not()
@@ -56,6 +110,8 @@ router.post(
     const errors = validationResult(request);
     const { name, email, password } = request.body;
     let body = JSON.stringify(request.body);
+
+    //^\\
     console.log('Request Body: ' + body);
 
     //  Error Response
@@ -65,86 +121,120 @@ router.post(
 
     try {
       //  Create Client Instances of Pool
-      pool.connect((err, client, done) => {
-        const shouldAbort = err => {
-          if (err) {
-            console.error('Error in transaction', err.stack);
-            client.query('ROLLBACK', err => {
-              if (err) {
-                console.error('Error rolling back client', err.stack);
-              }
-              // release the client back to the pool
-              done();
-            });
-          }
-          return !!err;
-        };
-        //  Check: User Registration
-        console.log('Enter Try Block');
-        client.query('BEGIN', err => {
-          if (shouldAbort(err)) return;
-          console.log('Pass shouldAbort()');
-          const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
-          client.query(queryText, [email], async (err, res, next) => {
-            if (shouldAbort(err)) return;
-            let resBody = JSON.stringify(res.rows);
-            console.log('Check Name res: ' + resBody);
-
-            //  IF email already Exists...
-            if (res.rows.length > 0) {
-              console.log(res.rows);
-              return response
-                .status(400)
-                .json({ errors: [{ msg: 'User already exists' }] });
-            }
-            console.log('User email is Available');
-
-            //  Encrypt User Password
-            const salt = await bcrypt.genSalt(10);
-            const pwCrypt = await bcrypt.hash(password, salt);
-
-            //  Create User (SQL: tbl_user)
-            const insertText =
-              'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
-            const insertValues = [name, email, pwCrypt];
-            client.query(insertText, insertValues, (errz, rez) => {
-              if (errz) return next(errz);
-              console.log('Create User Fxn');
-              console.log('New User id: ' + rez.rows[0].id);
-              const userId = rez.rows[0].id;
-
-              //  Return JWT
-              const payload = {
-                user: {
-                  id: userId
-                }
-              };
-              jwt.sign(
-                payload,
-                config.get('auth_config.jwtShhh'),
-                { expiresIn: 18000 },
-                (err, token) => {
-                  if (err) throw err;
-                  response.json({ token });
+      const client = await pool.connect();
+      await client.query('BEGIN');
+      var pwd = await bcrypt.hash(request.body.password, 5);
+      await JSON.stringify(
+        client.query(
+          'SELECT id FROM tbl_user WHERE email=$1',
+          [request.body.email],
+          (err, result) => {
+            if (result.rows[0]) {
+              console.log('WARN: This email address is already registered');
+              response.redirect('/auth/register');
+            } else {
+              client.query(
+                'INSERT INTO tbl_user (name, email, password) VALUES ($1, $2, $3)',
+                [request.body.name, request.body.email, pwd],
+                (err, result) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    client.query('COMMIT');
+                    console.log(result);
+                    response.redirect('/auth/login');
+                    return;
+                  }
                 }
               );
-
-              client.query('COMMIT', err => {
-                if (err) {
-                  console.error('Error committing transaction', err.stack);
-                }
-                done();
-              });
-            });
-          });
-        });
-      });
-    } catch (error) {
-      //console.error(err.mesage);
-      response.status(500).send('Server error');
+            }
+          }
+        )
+      );
+      client.release();
+    } catch (e) {
+      throw e;
     }
   }
 );
+
+//       pool.connect((err, client, done) => {
+//         const shouldAbort = err => {
+//           if (err) {
+//             console.error('Error in transaction', err.stack);
+//             client.query('ROLLBACK', err => {
+//               if (err) {
+//                 console.error('Error rolling back client', err.stack);
+//               }
+//               // release the client back to the pool
+//               done();
+//             });
+//           }
+//           return !!err;
+//         };
+
+//         //  Check: User Registration
+//         console.log('Enter Try Block');
+//         client.query('BEGIN', err => {
+//           if (shouldAbort(err)) return;
+//           console.log('Pass shouldAbort()');
+//           const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
+//           client.query(queryText, [email], async (err, res, next) => {
+//             if (shouldAbort(err)) return;
+//             let resBody = JSON.stringify(res.rows);
+//             console.log('Check Name res: ' + resBody);
+//             //  IF email already Exists...
+//             if (res.rows.length > 0) {
+//               console.log(res.rows);
+//               return response
+//                 .status(400)
+//                 .json({ errors: [{ msg: 'User already exists' }] });
+//             }
+//             console.log('User email is Available');
+//             //  Encrypt User Password
+//             const salt = await bcrypt.genSalt(10);
+//             const pwCrypt = await bcrypt.hash(password, salt);
+//             //  Create User (SQL: tbl_user)
+//             const insertText =
+//               'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
+//             const insertValues = [name, email, pwCrypt];
+//             client.query(insertText, insertValues, (errz, rez) => {
+//               if (errz) return next(errz);
+//               console.log('Create User Fxn');
+//               console.log('New User id: ' + rez.rows[0].id);
+//               const userId = rez.rows[0].id;
+//               //  Return JWT
+//               const payload = {
+//                 user: {
+//                   id: userId
+//                 }
+//               };
+//               jwt.sign(
+//                 payload,
+//                 config.get('auth_config.jwtShhh'),
+//                 { expiresIn: 18000 },
+//                 (err, token) => {
+//                   if (err) throw err;
+//                   response.json({ token });
+//                 }
+//               );
+
+//               client.query('COMMIT', err => {
+//                 if (err) {
+//                   console.error('Error committing transaction', err.stack);
+//                 }
+//                 done();
+//               });
+//             });
+//           });
+//         });
+//       });
+//     } catch (error) {
+//       //console.error(err.mesage);
+//       response.status(500).send('Server error');
+//     }
+//   }
+// );
 
 //  =============
 //  ==   PUT   ==

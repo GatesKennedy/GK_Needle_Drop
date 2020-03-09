@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+const { Pool, Client } = require('pg');
 const config = require('config');
 const { user, host, database, password, port } = config.get('db_config');
 

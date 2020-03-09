@@ -6,18 +6,18 @@ import { connect } from 'react-redux';
 import PlayAll from './PlayAll';
 import Trk from '../Library/Trk';
 
-const Playlist = ({ playlist: { pListData } }) => {
+const Playlist = ({ library: { libData, loading } }) => {
   return (
     <Fragment>
-      {pListData ? (
+      {libData ? (
         <div className='stack'>
-          <div className='stack'>
-            <ul className='stack'>
-              {pListData.map(trk => (
-                <li>{trk.song}</li>
-              ))}
-            </ul>
-          </div>
+          <ul className='stack'>
+            {libData.map(trk => (
+              <li key={trk.song_id}>
+                <Trk trk={trk} />
+              </li>
+            ))}
+          </ul>
         </div>
       ) : (
         <h3>Select a Playlist</h3>
@@ -29,6 +29,7 @@ const Playlist = ({ playlist: { pListData } }) => {
 Playlist.propTypes = {};
 
 const mapStatToProps = state => ({
+  library: state.library,
   playlist: state.playlist
 });
 
