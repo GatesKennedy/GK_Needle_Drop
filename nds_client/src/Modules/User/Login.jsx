@@ -33,10 +33,10 @@ const Login = ({ login, isAuthenticated }) => {
     <Fragment>
       <section className='theme dark hello center'>
         <div className='greeting center'>
-          <h2 className='msg center'>welcome back, Friend</h2>
+          <h2 className='font-blk center'>welcome back, Friend</h2>
         </div>
         <form className='center options' onSubmit={e => onSubmit(e)}>
-          <div className='column form-group center'>
+          <div className='col form-group center'>
             <div className='form-field center'>
               <input
                 name='username'
@@ -64,6 +64,9 @@ const Login = ({ login, isAuthenticated }) => {
             </div>
           </div>
         </form>
+      </section>
+      <section className='center'>
+        <Link to='/register'>Register</Link>
       </section>
     </Fragment>
   );

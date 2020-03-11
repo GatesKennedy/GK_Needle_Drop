@@ -1,7 +1,6 @@
 //  React
 import React, { Fragment, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-//import NavStd from '../nav/NavStd';
 import PropTypes from 'prop-types';
 //  REDUX
 import { connect } from 'react-redux';
@@ -16,19 +15,23 @@ const Register = ({ setAlert, register }) => {
     password: '',
     pwConfirm: ''
   });
+
   //  formData (declare)
   const { username, email, password, pwConfirm } = formData;
   //  formData (change)
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
   //  formData (submit)
   const onSubmit = async e => {
     e.preventDefault();
     if (password !== pwConfirm) {
       // destructured props.setAlert
       setAlert("oh no... passwords don't match", 'warn');
+      console.log('oh no... badwords');
     } else {
       register({ username, email, password });
+      console.log('oh no... youre good...');
     }
   };
   //  Redirect (auth?)
@@ -39,9 +42,9 @@ const Register = ({ setAlert, register }) => {
   //  Redirect (!auth)
   return (
     <Fragment>
-      <section className='theme dark hello center'>
+      <section className=' hello center'>
         <div className='greeting center'>
-          <h2 className='msg center'>glad You could make it</h2>
+          <h2 className='font-blk center'>glad You could make it</h2>
         </div>
         <form className='form-auth center' onSubmit={e => onSubmit(e)}>
           <div className='column form-group'>
@@ -92,6 +95,9 @@ const Register = ({ setAlert, register }) => {
             </div>
           </div>
         </form>
+      </section>
+      <section className='center'>
+        <Link to='/login'>Login</Link>
       </section>
     </Fragment>
   );

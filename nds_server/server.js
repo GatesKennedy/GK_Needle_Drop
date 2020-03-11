@@ -14,7 +14,6 @@ const purchase = require('./nds_eCom/api/purchase');
 const library = require('./nds_libraryMgmt/api/library');
 const filter = require('./nds_libraryMgmt/api/filter');
 const playlist = require('./nds_libraryMgmt/api/playlist');
-const auth = require('./nds_userMgmt/api/auth');
 const user = require('./nds_userMgmt/api/user');
 const profile = require('./nds_userMgmt/api/profile');
 
@@ -40,7 +39,6 @@ serv.use('/api/library/filter', filter);
 serv.use('/api/library/playlist', playlist);
 //  _userMgmt
 serv.use('/api/user', user);
-serv.use('/api/user/auth', auth);
 serv.use('/api/user/profile', profile);
 //      auth
 serv.use(passport.initialize());

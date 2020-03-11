@@ -31,6 +31,8 @@ import Alert from './Modules/Notify/Alert';
 //    === User ===
 import Profile from './Modules/User/Profile';
 import User from './Modules/User/User';
+import Login from './Modules/User/Login';
+import Register from './Modules/User/Register';
 
 const App = () => {
   //  Research: React Hooks: useEffect 'infinite loop' , second parameter
@@ -52,6 +54,8 @@ const App = () => {
               <Route exact path='/playlists' component={Playlists} />
               <Route exact path='/artist' component={Artist} />
               <Route exact path='/user' component={User} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/register' component={Register} />
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/purchase' component={Purchase} />
               <Route exact path='/admin/strapi' component={Ad_Strapi} />

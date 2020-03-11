@@ -61,7 +61,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
           <div className='btn navi'>Playlists</div>
         </Link>
         <Link to='/user'>
-          <div className='btn navi'>Login</div>
+          <div className='btn navi'>Account</div>
         </Link>
       </div>
     </nav>

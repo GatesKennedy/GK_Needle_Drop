@@ -85,6 +85,7 @@ router.post(
     failureRedirect: '/auth'
   }),
   (request, response, next) => {
+    console.log('Login FXN @ user.js');
     if (request.body.remember) {
       request.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
     } else {
