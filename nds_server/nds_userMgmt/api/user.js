@@ -76,93 +76,6 @@ router.get('/logout', (request, response, next) => {
 //  ==   POST   ==
 //  ==============
 
-//  @route      POST api/user/auth/login
-//  @desc       LOGIN User
-//  @access     PUBLIC
-router.post(
-  '/auth/login',
-  passport.authenticate('local', {
-    successRedirect: '/profile/:id',
-    failureRedirect: '/auth'
-  }),
-  (request, response, next) => {
-    console.log('Login FXN @ user.js');
-    if (request.body.remember) {
-      request.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
-    } else {
-      request.session.cookie.expires = false; // Cookie expires after this session
-    }
-    response.redirect('/');
-  }
-);
-
-//  @route      POST api/user/auth/register
-//  @desc       REGISTER User
-//  @access     PUBLIC
-router.post(
-  '/auth/register',
-  [
-    check('name', 'Name is required')
-      .not()
-      .isEmpty(),
-    check('email', 'Email is required').isEmail(),
-    check('password', 'Password: 6 characters min').isLength({ min: 6 })
-  ],
-  async (request, response, next) => {
-    const errors = validationResult(request);
-    const { name, email, password } = request.body;
-    let body = JSON.stringify(request.body);
-
-    //^\\
-    console.log('Request Body: ' + body);
-
-    //  Error Response
-    if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
-    }
-
-    try {
-      //  Create Client Instances of Pool
-      const client = await pool.connect();
-
-      await client.query('BEGIN');
-      //  Encrypt Password
-      var pwd = await bcrypt.hash(request.body.password, 5);
-
-      await JSON.stringify(
-        client.query(
-          'SELECT id FROM tbl_user WHERE email=$1',
-          [request.body.email],
-          (err, result) => {
-            if (result.rows[0]) {
-              console.log('WARN: This email address is already registered');
-              response.redirect('/auth/register');
-            } else {
-              client.query(
-                'INSERT INTO tbl_user (name, email, password) VALUES ($1, $2, $3)',
-                [request.body.name, request.body.email, pwd],
-                (err, result) => {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                    client.query('COMMIT');
-                    console.log(result);
-                    response.redirect('/auth/login');
-                    return;
-                  }
-                }
-              );
-            }
-          }
-        )
-      );
-      client.release();
-    } catch (e) {
-      throw e;
-    }
-  }
-);
-
 //  @route      POST api/user/register
 //  @desc       REGISTER User
 //  @access     PUBLIC
@@ -227,7 +140,7 @@ router.post(
     } catch (e) {
       //  Catch
       await client.query('ROLLBACK');
-      console.error(e.mesage);
+      console.error('CatchBlock Err: ' + e.mesage);
       response.status(500).send('Server error');
       throw e;
     } finally {

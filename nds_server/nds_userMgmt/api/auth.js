@@ -10,7 +10,7 @@ const config = require('config');
 const { check, validationResult } = require('express-validator');
 
 //  @route      POST api/auth
-//  @desc       Test Route
+//  @desc       Authenticate User Token
 //  @access     PRIVATE
 router.get('/', auth, (request, response) => {
   try {
@@ -19,7 +19,7 @@ router.get('/', auth, (request, response) => {
       [request.user.id],
       (err, res) => {
         if (err) return next(err);
-
+        console.error('User found..');
         response.json(res.rows);
       }
     );
@@ -30,7 +30,7 @@ router.get('/', auth, (request, response) => {
 });
 
 //  @route      POST api/auth
-//  @desc       Authenticate user & get token
+//  @desc       Login Auth user & get token
 //  @access     PUBLIC
 router.post(
   '/',
@@ -38,103 +38,56 @@ router.post(
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password is required').exists()
   ],
-  (request, response, next) => {
-    const errors = validationResult(request);
+  async (request, response, next) => {
     const { email, password } = request.body;
-    //  Error Response
+    //  Validation Error Response
+    const errors = validationResult(request);
     if (!errors.isEmpty()) {
       return response.status(400).json({ errors: errors.array() });
     }
-    //^\\
-    console.log('Request Body: ' + request.body);
-
+    //  Async db Connection
+    const client = await pool.connect();
     try {
-      pool.connect((err, client, done) => {
-        //  Abort Function
-        const shouldAbort = err => {
-          if (err) {
-            console.error('Error in transaction', err.stack);
-            client.query('ROLLBACK', err => {
-              if (err) {
-                console.error('Error rolling back client', err.stack);
-              }
-              // release the client back to the pool
-              done();
-            });
-          }
-          return !!err;
-        };
-
-        //  Check: User Registration
-        console.log('Enter Try Block');
-
-        client.query('BEGIN', err => {
-          //  Check Connection
-          if (shouldAbort(err)) return;
-
-          console.log('Pass shouldAbort()');
-          //  Check Email
-          const queryText = 'SELECT * FROM tbl_user WHERE email = ($1)';
-
-          const user = client.query(
-            queryText,
-            [email],
-            async (err, res, next) => {
-              if (shouldAbort(err)) return;
-
-              let resBody = JSON.stringify(res.rows);
-              //const passCrypt = JSON.stringify(res.password);
-              console.log('Check Email res: ' + resBody);
-              console.log('res: ' + res.rows[2]);
-              //console.log(passCrypt);
-
-              //  IF email does not Exist...
-              if (!res.rows.length > 0) {
-                console.log(res.rows);
-                return response
-                  .status(400)
-                  .json({ errors: [{ msg: 'Invalid Credentials' }] });
-              }
-
-              // const isMatch = await bcrypt.compare(password, res.password);
-
-              // if (!isMatch) {
-              //   console.log(res.rows);
-              //   return response
-              //     .status(400)
-              //     .json({ errors: [{ msg: 'Invalid Credentials' }] });
-              // }
-
-              const userId = res.rows[0].id;
-              const payload = {
-                user: {
-                  id: userId
-                }
-              };
-              //  Return JWT
-              jwt.sign(
-                payload,
-                config.get('auth_config.jwtShhh'),
-                { expiresIn: 18000 },
-                (err, token) => {
-                  if (err) throw err;
-                  response.json({ token });
-                }
-              );
-
-              client.query('COMMIT', err => {
-                if (err) {
-                  console.error('Error committing transaction', err.stack);
-                }
-                done();
-              });
-            }
-          );
-        });
-      });
-    } catch (error) {
-      console.error(err.mesage);
+      await client.query('BEGIN');
+      //  Check Email exists
+      const queryText = 'SELECT * FROM tbl_user WHERE email = ($1)';
+      const res = await client.query(queryText, [email]);
+      if (!res.rows.length > 0) {
+        return response
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid Credentials' }] });
+      }
+      //  Check Password
+      const isMatch = await bcrypt.compare(password, res.rows[0].password);
+      if (!isMatch) {
+        return response
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid Credentials' }] });
+      }
+      //  Return JWT
+      const userId = res.rows[0].id;
+      const payload = {
+        user: {
+          id: userId
+        }
+      };
+      jwt.sign(
+        payload,
+        config.get('auth_config.jwtShhh'),
+        { expiresIn: 18000 },
+        (err, token) => {
+          if (err) throw err;
+          response.json({ token });
+        }
+      );
+      await client.query('COMMIT');
+    } catch (e) {
+      await client.query('ROLLBACK');
+      console.error('CatchBlock Err: ' + e.mesage);
       response.status(500).send('Server error');
+      throw e;
+    } finally {
+      client.release();
     }
   }
 );

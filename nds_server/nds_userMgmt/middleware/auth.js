@@ -7,12 +7,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function(req, res, next) {
-  console.log('FXN: /middleware/auth.js , auth()');
-
+  //console.log('FXN: /middleware/auth.js , auth()');
   //  Get token from header
   const token = req.header('x-auth-token');
-  console.log(token);
-
+  console.log('Token: ' + token);
   //  Check if no token
   if (!token) {
     return res.status(401).json({
