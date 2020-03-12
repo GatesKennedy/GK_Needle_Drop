@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
+//  REDUX
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+//  Comps
 import { ReactComponent as Add } from '../Modules/NDS/assets/vex/Add.svg';
 
-const Lists = props => {
+const Lists = ({ title, list, isAuth }) => {
   return (
     <Fragment>
       <section className='menu stack Lists' id='fitler-cont'>
@@ -22,6 +24,14 @@ const Lists = props => {
   );
 };
 
-Lists.propTypes = {};
+Lists.propTypes = {
+  title: PropTypes.object.isRequired,
+  list: PropTypes.object.isRequired,
+  isAuth: PropTypes.object.isRequired
+};
 
-export default Lists;
+const mapStateToProps = state => ({
+  isAuth: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps)(Lists);

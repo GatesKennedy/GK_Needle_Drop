@@ -82,7 +82,7 @@ router.get('/logout', (request, response, next) => {
 router.post(
   '/register',
   [
-    check('name', 'Name is required')
+    check('username', 'username is required')
       .not()
       .isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
@@ -91,7 +91,7 @@ router.post(
     })
   ],
   async (request, response, next) => {
-    const { name, email, password } = request.body;
+    const { username, email, password } = request.body;
     //  Error Response
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -102,9 +102,11 @@ router.post(
     try {
       //  Check: User Registration
       await client.query('BEGIN');
+      console.log('>BEGIN');
       //  Check Email exists
       const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
       const res = await client.query(queryText, [email]);
+      console.log('>Email get');
       //  IF email already Exists...
       if (res.rows.length > 0) {
         console.log(res.rows);
@@ -112,14 +114,17 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: 'User already exists' }] });
       }
+      console.log('>Email');
       //  Encrypt User Password
       const salt = await bcrypt.genSalt(10);
       const pwCrypt = await bcrypt.hash(password, salt);
+      console.log('>Password');
       //  Create User (SQL: tbl_user)
       const insertText =
         'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
-      const insertValues = [name, email, pwCrypt];
+      const insertValues = [username, email, pwCrypt];
       const rez = await client.query(insertText, insertValues);
+      console.log('>INSERT');
       //  Return JWT
       const userId = rez.rows[0].id;
       const payload = {
@@ -136,6 +141,7 @@ router.post(
           response.json({ token });
         }
       );
+      console.log('>JWT');
       await client.query('COMMIT');
     } catch (e) {
       //  Catch
@@ -154,7 +160,7 @@ router.post(
 //  ==   PUT   ==
 //  =============
 //  @route      PUT api/user/:id
-//  @desc       Edit User (name, email)
+//  @desc       Edit User (username, email)
 //  @access     PRIVATE
 router.put('/:id', (request, response, next) => {
   const { name, email } = request.body;

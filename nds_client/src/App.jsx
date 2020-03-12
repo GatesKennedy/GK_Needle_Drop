@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './Main/util/store';
 import { loadUser } from './Modules/User/rdx_axn/axn_auth';
-//import setAuthToken from './util/setAuthToken';
+import setAuthToken from './Main/util/setAuthToken';
 
 // === Style ===
 import './sass/App.scss';
@@ -34,12 +34,15 @@ import User from './Modules/User/User';
 import Login from './Modules/User/Login';
 import Register from './Modules/User/Register';
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 const App = () => {
-  //  Research: React Hooks: useEffect 'infinite loop' , second parameter
-  //  https://reactjs.org/docs/hooks-effect.html
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
+
   return (
     <Provider store={store}>
       <Router>

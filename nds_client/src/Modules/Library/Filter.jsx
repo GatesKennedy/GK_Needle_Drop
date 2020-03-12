@@ -10,7 +10,6 @@ import {
   getLibTraits
 } from './rdx_axn/axn_filter';
 //  Comps
-import Collapse from '../../Main/Collapse';
 import Spinner from '../Notify/Spin';
 import TraitGroup from './TraitGroup';
 //  Assets

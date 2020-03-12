@@ -15,22 +15,21 @@ const { check, validationResult } = require('express-validator');
 router.get('/', auth, (request, response) => {
   try {
     pool.query(
-      'SELECT * FROM tbl_user WHERE id=($1)',
+      'SELECT id, name, email, date_join FROM tbl_user WHERE id=($1)',
       [request.user.id],
       (err, res) => {
         if (err) return next(err);
-        console.error('User found..');
         response.json(res.rows);
       }
     );
   } catch (err) {
-    console.error(err.mesage);
+    console.error('catch: ' + err.mesage);
     response.status(500).send('Server error');
   }
 });
 
 //  @route      POST api/auth
-//  @desc       Login Auth user & get token
+//  @desc       LOGIN Auth user & get token
 //  @access     PUBLIC
 router.post(
   '/',
@@ -83,14 +82,25 @@ router.post(
       await client.query('COMMIT');
     } catch (e) {
       await client.query('ROLLBACK');
-      console.error('CatchBlock Err: ' + e.mesage);
+      console.error('CatchBlock Err: ' + err.mesage);
       response.status(500).send('Server error');
       throw e;
     } finally {
       client.release();
     }
+    response.redirect('/');
   }
 );
+
+//  @route      POST api/auth
+//  @desc       LOGOUT User
+//  @access     PRIVATE
+router.get('/logout', (request, response, next) => {
+  console.log('preLogout: ' + req.isAuthenticated());
+  request.logout();
+  console.log('postLogout: ' + req.isAuthenticated());
+  response.redirect('/');
+});
 
 //  Catch-All Error Function
 router.use((err, req, res, next) => {

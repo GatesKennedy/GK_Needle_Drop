@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../Notify/rdx_axn/axn_alert';
 import { register } from './rdx_axn/axn_auth';
 
-const Register = ({ setAlert, register }) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   //  useState(formData)
   const [formData, setFormData] = useState({
     username: '',
@@ -36,10 +36,10 @@ const Register = ({ setAlert, register }) => {
     }
   };
   //  Redirect (auth?)
-  /*if (isAuthenticated) {
-    return <Redirect to='/profile' />;
+  if (isAuthenticated) {
+    return <Redirect to='/library' />;
   }
-  */
+
   //  Redirect (!auth)
   return (
     <Fragment>
@@ -104,18 +104,14 @@ const Register = ({ setAlert, register }) => {
   );
 };
 
-//  Prop Types
-//  snip: <ptfr> 'func prop type required'
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired
-  // isAuthenticated: PropTypes.bool
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 };
 
-//  Map State to Props
 const mapStateToProps = state => ({
-  //isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated
 });
 
-//  Connect Actions (state, {axn,..}) to Component (Register) to REDUX
 export default connect(mapStateToProps, { setAlert, register })(Register);

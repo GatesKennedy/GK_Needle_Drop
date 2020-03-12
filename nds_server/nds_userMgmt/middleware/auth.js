@@ -17,15 +17,11 @@ module.exports = function(req, res, next) {
       msg: 'No token, authorization denied'
     });
   }
-  console.log('/middleware/auth.js req.user: ' + req.user);
-
   //  Verify token
   try {
     const decoded = jwt.verify(token, config.get('auth_config.jwtShhh'));
-
     //  set request object to the decoded object value
     req.user = decoded.user;
-    console.log('/middleware/auth.js req.user (decoded): ' + req.user);
     next();
   } catch (err) {
     res.status(401).json({

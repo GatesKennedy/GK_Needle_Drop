@@ -7,28 +7,25 @@ import { login } from './rdx_axn/axn_auth';
 
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
 
-  const { username, password } = formData;
+  const { email, password } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async e => {
     e.preventDefault();
-    login({ username, password });
-    console.log('Login.jsx: onSubmit(): formData:');
-    console.log(formData);
+    login({ email, password });
   };
 
   //  Redirect if User Authenticated
-  /*
   if (isAuthenticated) {
-    return <Redirect to='/dash' />;
+    return <Redirect to='/library' />;
   }
-  */
+
   return (
     <Fragment>
       <section className='theme dark hello center'>
@@ -39,11 +36,11 @@ const Login = ({ login, isAuthenticated }) => {
           <div className='col form-group center'>
             <div className='form-field center'>
               <input
-                name='username'
+                name='email'
                 type='text'
-                value={username}
+                value={email}
                 onChange={e => onChange(e)}
-                placeholder='username'
+                placeholder='email'
                 className='center input'
               />
             </div>
@@ -73,14 +70,12 @@ const Login = ({ login, isAuthenticated }) => {
 };
 
 Login.propTypes = {
-  // prop:  snip= <ptfr> 'func prop type required'
-  login: PropTypes.func.isRequired
-  //isAuthenticated: PropTypes.bool
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
-  //isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated
 });
 
-//  Connect Actions (state, {axn,..}) to Component (Register) to REDUX
 export default connect(mapStateToProps, { login })(Login);
