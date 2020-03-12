@@ -179,24 +179,19 @@ router.post(
   ],
   async (request, response, next) => {
     const { name, email, password } = request.body;
-    let body = JSON.stringify(request.body);
-    //console.log('Request Body: ' + body);
     //  Error Response
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
       return response.status(400).json({ errors: errors.array() });
     }
-
+    //  Async db Connection
     const client = await pool.connect();
-
     try {
       //  Check: User Registration
       await client.query('BEGIN');
       //  Check Email exists
       const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
       const res = await client.query(queryText, [email]);
-      //let resBody = JSON.stringify(res.rows);
-      //console.log('Check Name res: ' + resBody);
       //  IF email already Exists...
       if (res.rows.length > 0) {
         console.log(res.rows);
@@ -204,7 +199,6 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: 'User already exists' }] });
       }
-      //console.log('User email is Available');
       //  Encrypt User Password
       const salt = await bcrypt.genSalt(10);
       const pwCrypt = await bcrypt.hash(password, salt);
@@ -213,10 +207,8 @@ router.post(
         'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
       const insertValues = [name, email, pwCrypt];
       const rez = await client.query(insertText, insertValues);
-      //console.log('Create User Fxn');
-      //console.log('New User id: ' + rez.rows[0].id);
-      const userId = rez.rows[0].id;
       //  Return JWT
+      const userId = rez.rows[0].id;
       const payload = {
         user: {
           id: userId
@@ -233,11 +225,13 @@ router.post(
       );
       await client.query('COMMIT');
     } catch (e) {
+      //  Catch
       await client.query('ROLLBACK');
       console.error(e.mesage);
       response.status(500).send('Server error');
       throw e;
     } finally {
+      //  Finally
       client.release();
     }
   }
