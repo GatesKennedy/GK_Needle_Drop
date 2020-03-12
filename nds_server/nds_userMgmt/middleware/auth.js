@@ -62,6 +62,7 @@ module.exports = function(req, res, next) {
 //     return res.redirect('/login');
 // }
 
+/*
 passport.use(
   'local',
   new LocalStrategy(
@@ -131,7 +132,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
-
+*/
 //  Catch-All Error Function
 router.use((err, req, res, next) => {
   res.json(err);

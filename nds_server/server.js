@@ -27,8 +27,8 @@ serv.listen(PORT, () => console.log(`GOOD: Server listening on port ${PORT}`));
 
 //  Express bodyParser
 serv.use(express.json({ extended: false }));
-serv.use(require('body-parser').urlencoded({ extended: true }));
-serv.use(cookieParser());
+//serv.use(require('body-parser').urlencoded({ extended: true }));
+//serv.use(cookieParser());
 //  _admin
 serv.use('/api/admin', admin);
 serv.use('/api/needledrop', needledrop);
