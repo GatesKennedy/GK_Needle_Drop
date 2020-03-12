@@ -30,6 +30,7 @@ const Register = ({ setAlert, register }) => {
       setAlert("oh no... passwords don't match", 'warn');
       console.log('oh no... badwords');
     } else {
+      setAlert('WELCOME!', 'warn');
       register({ username, email, password });
       console.log('oh no... youre good...');
     }

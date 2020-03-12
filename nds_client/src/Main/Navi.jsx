@@ -67,7 +67,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
     </nav>
   );
 
-  return <Fragment>{isAuthenticated ? guestLinks : authLinks}</Fragment>;
+  return <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>;
 };
 NavStd.propTypes = {
   //logout: PropTypes.func.isRequired,

@@ -8,6 +8,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function(req, res, next) {
   console.log('FXN: /middleware/auth.js , auth()');
+
   //  Get token from header
   const token = req.header('x-auth-token');
   console.log(token);
@@ -34,6 +35,32 @@ module.exports = function(req, res, next) {
     });
   }
 };
+
+// app.get('/login', (req, res) => {
+//         res.render('login');
+// });
+
+// app.post('/login', passport.authenticate('local', {
+//         failureRedirect: '/login',
+//         successRedirect: '/dashboard'
+// }));
+
+// passport.use(new LocalStrategy(
+//      (username, password, done) => {
+//          if(username === 'test@gmail.com' && password === '1234') {
+//              return done(null, {username: 'test@gmail.com'});
+//          } else {
+//              return done(null, false);
+//          }
+//       }
+// ));
+
+// function isLoggedIn(req ,res, next){
+//   if(req.isAuthenticated()){
+//     return next();
+//   }else{
+//     return res.redirect('/login');
+// }
 
 passport.use(
   'local',

@@ -15,6 +15,7 @@ const library = require('./nds_libraryMgmt/api/library');
 const filter = require('./nds_libraryMgmt/api/filter');
 const playlist = require('./nds_libraryMgmt/api/playlist');
 const user = require('./nds_userMgmt/api/user');
+const auth = require('./nds_userMgmt/api/auth');
 const profile = require('./nds_userMgmt/api/profile');
 
 const serv = express();
@@ -40,6 +41,7 @@ serv.use('/api/library/playlist', playlist);
 //  _userMgmt
 serv.use('/api/user', user);
 serv.use('/api/user/profile', profile);
+serv.use('/api/auth', auth);
 //      auth
 serv.use(passport.initialize());
 serv.use(passport.session());

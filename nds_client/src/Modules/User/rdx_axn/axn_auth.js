@@ -23,14 +23,14 @@ export const register = ({ username, email, password }) => async dispatch => {
   const body = JSON.stringify({ username, email, password });
 
   try {
-    const res = await axios.post('/user/register', body, config);
+    const res = await axios.post('/api/user/register', body, config);
     // disp  1
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
     });
     // disp  2
-    dispatch(loadUser());
+    //dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
     // disp 1
@@ -46,13 +46,12 @@ export const register = ({ username, email, password }) => async dispatch => {
 
 //  Login User
 export const login = ({ username, password }) => async dispatch => {
+  const body = JSON.stringify({ username, password });
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   };
-
-  const body = JSON.stringify({ username, password });
 
   try {
     const res = await axios.post('/api/user/auth', body, config);
@@ -62,7 +61,7 @@ export const login = ({ username, password }) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(loadUser());
+    //dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
     console.log('axn_auth.js FAIL');

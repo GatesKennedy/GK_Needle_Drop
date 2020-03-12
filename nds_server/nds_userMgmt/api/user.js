@@ -39,14 +39,14 @@ router.get('/:id', (request, response, next) => {
   });
 });
 
-//  @route      GET api/user/profile/:id
-//  @desc       Display User Profile by id
-//  @access     PUBLIC
-router.get('/user', (request, response, next) => {
+//  @route      GET api/user/
+//  @desc       GET Auth User
+//  @access     PRIVATE
+router.get('/auth', (request, response, next) => {
   if (request.isAuthenticated()) {
     //  GET User :id for Redirect
     //  REDIRECT to Profile
-    response.redirect('/profile/:id');
+    response.redirect('/profile/');
   } else {
     response.redirect('/auth');
   }
@@ -75,8 +75,9 @@ router.get('/logout', (request, response, next) => {
 //  ==============
 //  ==   POST   ==
 //  ==============
-//  @route      POST api/auth/login
-//  @desc       Login User
+
+//  @route      POST api/user/auth/login
+//  @desc       LOGIN User
 //  @access     PUBLIC
 router.post(
   '/auth/login',
@@ -95,8 +96,8 @@ router.post(
   }
 );
 
-//  @route      POST api/auth/register
-//  @desc       Register User
+//  @route      POST api/user/auth/register
+//  @desc       REGISTER User
 //  @access     PUBLIC
 router.post(
   '/auth/register',
@@ -123,8 +124,11 @@ router.post(
     try {
       //  Create Client Instances of Pool
       const client = await pool.connect();
+
       await client.query('BEGIN');
+      //  Encrypt Password
       var pwd = await bcrypt.hash(request.body.password, 5);
+
       await JSON.stringify(
         client.query(
           'SELECT id FROM tbl_user WHERE email=$1',
@@ -159,83 +163,111 @@ router.post(
   }
 );
 
-//       pool.connect((err, client, done) => {
-//         const shouldAbort = err => {
-//           if (err) {
-//             console.error('Error in transaction', err.stack);
-//             client.query('ROLLBACK', err => {
-//               if (err) {
-//                 console.error('Error rolling back client', err.stack);
-//               }
-//               // release the client back to the pool
-//               done();
-//             });
-//           }
-//           return !!err;
-//         };
+//  @route      POST api/user/register
+//  @desc       REGISTER User
+//  @access     PUBLIC
+router.post(
+  '/register',
+  [
+    check('name', 'Name is required')
+      .not()
+      .isEmpty(),
+    check('email', 'Please include a valid email').isEmail(),
+    check('password', 'Password must be at least 6 characters').isLength({
+      min: 6
+    })
+  ],
+  (request, response, next) => {
+    const errors = validationResult(request);
+    //  Error Response
+    if (!errors.isEmpty()) {
+      return response.status(400).json({ errors: errors.array() });
+    }
+    const { name, email, password } = request.body;
+    //^\\
+    let body = JSON.stringify(request.body);
+    console.log('Request Body: ' + body);
 
-//         //  Check: User Registration
-//         console.log('Enter Try Block');
-//         client.query('BEGIN', err => {
-//           if (shouldAbort(err)) return;
-//           console.log('Pass shouldAbort()');
-//           const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
-//           client.query(queryText, [email], async (err, res, next) => {
-//             if (shouldAbort(err)) return;
-//             let resBody = JSON.stringify(res.rows);
-//             console.log('Check Name res: ' + resBody);
-//             //  IF email already Exists...
-//             if (res.rows.length > 0) {
-//               console.log(res.rows);
-//               return response
-//                 .status(400)
-//                 .json({ errors: [{ msg: 'User already exists' }] });
-//             }
-//             console.log('User email is Available');
-//             //  Encrypt User Password
-//             const salt = await bcrypt.genSalt(10);
-//             const pwCrypt = await bcrypt.hash(password, salt);
-//             //  Create User (SQL: tbl_user)
-//             const insertText =
-//               'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
-//             const insertValues = [name, email, pwCrypt];
-//             client.query(insertText, insertValues, (errz, rez) => {
-//               if (errz) return next(errz);
-//               console.log('Create User Fxn');
-//               console.log('New User id: ' + rez.rows[0].id);
-//               const userId = rez.rows[0].id;
-//               //  Return JWT
-//               const payload = {
-//                 user: {
-//                   id: userId
-//                 }
-//               };
-//               jwt.sign(
-//                 payload,
-//                 config.get('auth_config.jwtShhh'),
-//                 { expiresIn: 18000 },
-//                 (err, token) => {
-//                   if (err) throw err;
-//                   response.json({ token });
-//                 }
-//               );
+    try {
+      pool.connect((err, client, done) => {
+        //  Abort Function
+        const shouldAbort = err => {
+          if (err) {
+            console.error('Error in transaction', err.stack);
+            client.query('ROLLBACK', err => {
+              if (err) {
+                console.error('Error rolling back client', err.stack);
+              }
+              // release the client back to the pool
+              done();
+            });
+          }
+          return !!err;
+        };
 
-//               client.query('COMMIT', err => {
-//                 if (err) {
-//                   console.error('Error committing transaction', err.stack);
-//                 }
-//                 done();
-//               });
-//             });
-//           });
-//         });
-//       });
-//     } catch (error) {
-//       //console.error(err.mesage);
-//       response.status(500).send('Server error');
-//     }
-//   }
-// );
+        //  Check: User Registration
+        client.query('BEGIN', err => {
+          //  Check Connection
+          if (shouldAbort(err)) return;
+          //  Check Email
+          const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
+          client.query(queryText, [email], async (err, res, next) => {
+            if (shouldAbort(err)) return;
+            let resBody = JSON.stringify(res.rows);
+            console.log('Check Name res: ' + resBody);
+            //  IF email already Exists...
+            if (res.rows.length > 0) {
+              console.log(res.rows);
+              return response
+                .status(400)
+                .json({ errors: [{ msg: 'User already exists' }] });
+            }
+            console.log('User email is Available');
+            //  Encrypt User Password
+            const salt = await bcrypt.genSalt(10);
+            const pwCrypt = await bcrypt.hash(password, salt);
+            //  Create User (SQL: tbl_user)
+            const insertText =
+              'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
+            const insertValues = [name, email, pwCrypt];
+
+            client.query(insertText, insertValues, (errz, rez) => {
+              if (errz) return next(errz);
+              console.log('Create User Fxn');
+              console.log('New User id: ' + rez.rows[0].id);
+              const userId = rez.rows[0].id;
+              //  Return JWT
+              const payload = {
+                user: {
+                  id: userId
+                }
+              };
+              jwt.sign(
+                payload,
+                config.get('auth_config.jwtShhh'),
+                { expiresIn: 18000 },
+                (err, token) => {
+                  if (err) throw err;
+                  response.json({ token });
+                }
+              );
+
+              client.query('COMMIT', err => {
+                if (err) {
+                  console.error('Error committing transaction', err.stack);
+                }
+                done();
+              });
+            });
+          });
+        });
+      });
+    } catch (error) {
+      console.error(err.mesage);
+      response.status(500).send('Server error');
+    }
+  }
+);
 
 //  =============
 //  ==   PUT   ==
