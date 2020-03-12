@@ -4,6 +4,7 @@ import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 import {
   PLISTNAMES_GET,
   PLAYLIST_GET,
+  PLAYLIST_CREATE,
   PLAYLIST_ERROR,
   PLAYLIST_CLEAR,
   PLAYLIST_UPDATE,
@@ -80,6 +81,38 @@ export const selectPlaylist = pList => {
     return {
       type: 'PLAYLIST_ERROR'
     };
+  }
+};
+
+//  ==============
+//  ==   POST   ==
+//  ==============
+//  @route      POST
+//  @desc       Create Playlist
+//  @access     PRIVATE
+export const createPlaylist = ({ name, creator }) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify({ name, creator });
+
+  try {
+    const res = await axios.post('/api/library/playlist', body, config);
+    dispatch({
+      type: PLAYLIST_CREATE,
+      payload: res.data
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'warn')));
+    }
+    dispatch({
+      type: PLAYLIST_ERROR
+    });
   }
 };
 

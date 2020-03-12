@@ -1,10 +1,11 @@
-USE db_nds;
+--USE db_nds;
 
-DROP TABLE IF EXISTS tbl_playlists CASCADE;
 DROP TABLE IF EXISTS tbl_playall CASCADE;
+DROP TABLE IF EXISTS tbl_playlists CASCADE;
 
 CREATE TABLE IF NOT EXISTS tbl_playlists(
     id      SERIAL PRIMARY  KEY,
+    creator UUID REFERENCES tbl_user(id),
     name    TEXT            NOT NULL,
     image   TEXT,
     date_created DATE NOT NULL DEFAULT CURRENT_DATE

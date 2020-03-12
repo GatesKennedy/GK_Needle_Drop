@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const pool = require('../../../nds_db/db');
+const auth = require('../../nds_userMgmt/middleware/auth');
+const { check, validationResult } = require('express-validator');
 
 const router = Router();
 
@@ -48,22 +50,8 @@ router.get('/all', (request, response, next) => {
   });
 });
 
-//  @route      GET /api/library/playlist/all
-//  @desc       Get ALL playlists
-//  @access     PUBLIC
-// router.get('/all', (request, response, next) => {
-//   pool.query(
-//     'SELECT id, list_name, json_agg(song_id) FROM tbl_playlists group by 1;',
-//     (err, res) => {
-//       if (err) return next(err);
-
-//       response.json(res.rows);
-//     }
-//   );
-// });
-
 //  @route      GET /api/library/playlist/1/:name
-//  @desc       Get Playlist by Name
+//  @desc       Get Playlist by ID
 //  @access     PUBLIC
 router.get('/1/:id', (request, response, next) => {
   const { id } = request.params;
@@ -100,9 +88,50 @@ router.get('/1/:id', (request, response, next) => {
 //  ==============
 //  ==   POST   ==
 //  ==============
-//  @route      POST
-//  @desc
-//  @access     PUBLIC
+//  @route      POST /api/library/playlist
+//  @desc       Create Playlist
+//  @access     PRIVATE
+
+router.post(
+  '/',
+  auth,
+  [
+    check('name', 'Playlist name is required')
+      .not()
+      .isEmpty(),
+    check('name', 'Playlist name can only be 20 characters').isLength({
+      max: 21
+    })
+  ],
+  async (request, response, next) => {
+    const { name, creator } = request.body;
+    //  Error Response
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+      return response.status(400).json({ errors: errors.array() });
+    }
+    //  Async db Connection
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      const insertText =
+        'INSERT INTO tbl_playlists(name, creator) VALUES($1, $2) RETURNING id';
+      const insertVals = [name, creator];
+      const res = await client.query(insertText, insertVals);
+      response.json(res.rows[0].id);
+      await client.query('COMMIT');
+    } catch (e) {
+      //  Catch
+      await client.query('ROLLBACK');
+      console.error('CatchBlock Err: ' + e.mesage);
+      response.status(500).send('Server error');
+      throw e;
+    } finally {
+      //  Finally
+      client.release();
+    }
+  }
+);
 
 //  ==============
 //  ==  DELETE  ==

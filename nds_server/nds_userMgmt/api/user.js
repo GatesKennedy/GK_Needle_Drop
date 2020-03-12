@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-
-const passport = require('passport');
 const bcrypt = require('bcryptjs');
-const uuid = require('uuid/v4');
-const LocalStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
 
 const pool = require('../../../nds_db/db');
@@ -37,19 +33,6 @@ router.get('/:id', (request, response, next) => {
 
     response.json(res.rows);
   });
-});
-
-//  @route      GET api/user/
-//  @desc       GET Auth User
-//  @access     PRIVATE
-router.get('/auth', (request, response, next) => {
-  if (request.isAuthenticated()) {
-    //  GET User :id for Redirect
-    //  REDIRECT to Profile
-    response.redirect('/profile/');
-  } else {
-    response.redirect('/auth');
-  }
 });
 
 //  @route      GET api/user/profile/:id

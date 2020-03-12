@@ -26,7 +26,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   const onSubmit = async e => {
     e.preventDefault();
     if (password !== pwConfirm) {
-      // destructured props.setAlert
       setAlert("oh no... passwords don't match", 'warn');
       console.log('oh no... badwords');
     } else {

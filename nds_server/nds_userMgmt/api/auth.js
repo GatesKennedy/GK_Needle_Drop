@@ -88,7 +88,7 @@ router.post(
     } finally {
       client.release();
     }
-    response.redirect('/');
+    //response.redirect('/');
   }
 );
 

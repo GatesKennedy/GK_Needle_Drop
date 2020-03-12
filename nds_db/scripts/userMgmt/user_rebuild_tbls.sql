@@ -33,27 +33,12 @@ CREATE TABLE tbl_favorites(
     PRIMARY KEY (user_id, song_id)
 );
 
-CREATE TABLE tbl_playlist(
-    id SERIAL PRIMARY KEY,
-    user_id UUID REFERENCES tbl_user(id),
-    name_plist VARCHAR NOT NULL
-);
-
 CREATE TABLE tbl_history(
     user_id UUID REFERENCES tbl_user(id),
-    library_id INTEGER REFERENCES tbl_library(id),
-    playlist_id INTEGER REFERENCES tbl_playlist(id),
+    song_id INTEGER REFERENCES tbl_library(id),
     payment_status BOOLEAN NOT NULL DEFAULT 'false',
-    PRIMARY KEY (user_id, library_id)
+    PRIMARY KEY (user_id, song_id)
 );
-
-
-INSERT INTO tbl_user( name, email, password )
-VALUES
-    ('coco','goodstuff@blah.com','ohnococo'),
-    ('bobo','simplestuff@blah.com','ohnobobo'),
-    ('jojo','safestuff@blah.com','ohnojojo')
-;
 
 SELECT * FROM tbl_user;
 SELECT * FROM tbl_profile;
