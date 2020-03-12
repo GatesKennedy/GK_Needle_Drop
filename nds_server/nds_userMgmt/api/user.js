@@ -177,94 +177,68 @@ router.post(
       min: 6
     })
   ],
-  (request, response, next) => {
-    const errors = validationResult(request);
+  async (request, response, next) => {
+    const { name, email, password } = request.body;
+    let body = JSON.stringify(request.body);
+    //console.log('Request Body: ' + body);
     //  Error Response
+    const errors = validationResult(request);
     if (!errors.isEmpty()) {
       return response.status(400).json({ errors: errors.array() });
     }
-    const { name, email, password } = request.body;
-    //^\\
-    let body = JSON.stringify(request.body);
-    console.log('Request Body: ' + body);
+
+    const client = await pool.connect();
 
     try {
-      pool.connect((err, client, done) => {
-        //  Abort Function
-        const shouldAbort = err => {
-          if (err) {
-            console.error('Error in transaction', err.stack);
-            client.query('ROLLBACK', err => {
-              if (err) {
-                console.error('Error rolling back client', err.stack);
-              }
-              // release the client back to the pool
-              done();
-            });
-          }
-          return !!err;
-        };
-
-        //  Check: User Registration
-        client.query('BEGIN', err => {
-          //  Check Connection
-          if (shouldAbort(err)) return;
-          //  Check Email
-          const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
-          client.query(queryText, [email], async (err, res, next) => {
-            if (shouldAbort(err)) return;
-            let resBody = JSON.stringify(res.rows);
-            console.log('Check Name res: ' + resBody);
-            //  IF email already Exists...
-            if (res.rows.length > 0) {
-              console.log(res.rows);
-              return response
-                .status(400)
-                .json({ errors: [{ msg: 'User already exists' }] });
-            }
-            console.log('User email is Available');
-            //  Encrypt User Password
-            const salt = await bcrypt.genSalt(10);
-            const pwCrypt = await bcrypt.hash(password, salt);
-            //  Create User (SQL: tbl_user)
-            const insertText =
-              'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
-            const insertValues = [name, email, pwCrypt];
-
-            client.query(insertText, insertValues, (errz, rez) => {
-              if (errz) return next(errz);
-              console.log('Create User Fxn');
-              console.log('New User id: ' + rez.rows[0].id);
-              const userId = rez.rows[0].id;
-              //  Return JWT
-              const payload = {
-                user: {
-                  id: userId
-                }
-              };
-              jwt.sign(
-                payload,
-                config.get('auth_config.jwtShhh'),
-                { expiresIn: 18000 },
-                (err, token) => {
-                  if (err) throw err;
-                  response.json({ token });
-                }
-              );
-
-              client.query('COMMIT', err => {
-                if (err) {
-                  console.error('Error committing transaction', err.stack);
-                }
-                done();
-              });
-            });
-          });
-        });
-      });
-    } catch (error) {
-      console.error(err.mesage);
+      //  Check: User Registration
+      await client.query('BEGIN');
+      //  Check Email exists
+      const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
+      const res = await client.query(queryText, [email]);
+      //let resBody = JSON.stringify(res.rows);
+      //console.log('Check Name res: ' + resBody);
+      //  IF email already Exists...
+      if (res.rows.length > 0) {
+        console.log(res.rows);
+        return response
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists' }] });
+      }
+      //console.log('User email is Available');
+      //  Encrypt User Password
+      const salt = await bcrypt.genSalt(10);
+      const pwCrypt = await bcrypt.hash(password, salt);
+      //  Create User (SQL: tbl_user)
+      const insertText =
+        'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
+      const insertValues = [name, email, pwCrypt];
+      const rez = await client.query(insertText, insertValues);
+      //console.log('Create User Fxn');
+      //console.log('New User id: ' + rez.rows[0].id);
+      const userId = rez.rows[0].id;
+      //  Return JWT
+      const payload = {
+        user: {
+          id: userId
+        }
+      };
+      jwt.sign(
+        payload,
+        config.get('auth_config.jwtShhh'),
+        { expiresIn: 18000 },
+        (err, token) => {
+          if (err) throw err;
+          response.json({ token });
+        }
+      );
+      await client.query('COMMIT');
+    } catch (e) {
+      await client.query('ROLLBACK');
+      console.error(e.mesage);
       response.status(500).send('Server error');
+      throw e;
+    } finally {
+      client.release();
     }
   }
 );
