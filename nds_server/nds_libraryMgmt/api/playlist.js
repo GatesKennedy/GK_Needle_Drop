@@ -11,10 +11,15 @@ const router = Router();
 //  ==   GET   ==
 //  =============
 
-//  @route      GET /api/library/playlist/all
-//  @desc       Get All Playlist Names
+//  @route      GET /api/library/playlist/json
+//  @desc       Get All Playlists
 //  @access     PUBLIC
-router.get('/names', (request, response, next) => {
+router.get('/json', (request, response, next) => {});
+
+//  @route      GET /api/library/playlist/names/all
+//  @desc       Get All Playlists
+//  @access     PUBLIC
+router.get('/names/all', (request, response, next) => {
   pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error acquiring client', err.stack);
@@ -29,11 +34,47 @@ router.get('/names', (request, response, next) => {
     });
   });
 });
+//  @route      GET /api/library/playlist/admin
+//  @desc       Get Admin Playlists
+//  @access     PUBLIC
+router.get('/names/admin', (request, response, next) => {
+  pool.connect((err, client, release) => {
+    if (err) {
+      return console.error('Error acquiring client', err.stack);
+    }
+    const query = 'SELECT * FROM tbl_playlists WHERE creator IS NULL ';
+    client.query(query, (err, res) => {
+      release();
+      if (err) {
+        return console.error('Error executing query', err.stack);
+      }
+      response.json(res.rows);
+    });
+  });
+});
+//  @route      GET /api/library/playlist/user
+//  @desc       Get User Playlists
+//  @access     PRIVATE
+router.get('/names/user', auth, (request, response, next) => {
+  pool.connect((err, client, release) => {
+    if (err) {
+      return console.error('Error acquiring client', err.stack);
+    }
+    const query = 'SELECT * FROM tbl_playlists WHERE creator IS NULL ';
+    client.query(query, (err, res) => {
+      release();
+      if (err) {
+        return console.error('Error executing query', err.stack);
+      }
+      response.json(res.rows);
+    });
+  });
+});
 
-//  @route      GET /api/library/playlist/all
+//  @route      GET /api/library/playlist/data/all
 //  @desc       Get ALL Playlist Data
 //  @access     PUBLIC
-router.get('/all', (request, response, next) => {
+router.get('/data/all', (request, response, next) => {
   pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error acquiring client', err.stack);

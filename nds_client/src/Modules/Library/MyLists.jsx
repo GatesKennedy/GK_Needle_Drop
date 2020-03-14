@@ -60,7 +60,7 @@ const Lists = ({
                 className='btn submit'
               />
             </form>
-
+            {}
             <div className='menu-title'>My Lists</div>
           </section>
         ) : (

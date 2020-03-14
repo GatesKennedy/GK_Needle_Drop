@@ -12,6 +12,7 @@ import { clrLibData } from '../Library/rdx_axn/axn_library';
 import Spinner from '../Notify/Spin';
 import Playlist from './Playlist';
 import PListCard from '../NDS/PListCard';
+import Header from '../NDS/Header';
 
 const PlayAll = ({
   getPListNames,

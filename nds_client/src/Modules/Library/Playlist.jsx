@@ -1,14 +1,25 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 //  REDUX
 import { connect } from 'react-redux';
+import { clrLibData } from './rdx_axn/axn_library';
 //  COMPS
 import PlayAll from './PlayAll';
 import Trk from '../Library/Trk';
+import Header from '../NDS/Header';
 
-const Playlist = ({ library: { libData, loading } }) => {
+const Playlist = ({
+  library: { libData, loading },
+  playlist: { pListData },
+  clrLibData
+}) => {
+  useEffect(() => {
+    clrLibData();
+  }, []);
+
   return (
     <Fragment>
+      <Header title='Playlists' />
       {libData ? (
         <div className='stack'>
           <ul className='stack'>
@@ -33,4 +44,4 @@ const mapStatToProps = state => ({
   playlist: state.playlist
 });
 
-export default connect(mapStatToProps)(Playlist);
+export default connect(mapStatToProps, { clrLibData })(Playlist);
