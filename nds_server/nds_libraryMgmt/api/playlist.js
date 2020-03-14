@@ -14,7 +14,15 @@ const router = Router();
 //  @route      GET /api/library/playlist/json
 //  @desc       Get All Playlists
 //  @access     PUBLIC
-router.get('/json', (request, response, next) => {});
+router.get('/json', async (request, response, next) => {
+  //  Async db Connection
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const queryText =
+      'SELECT lib.id sid, p_all.list_id pid, p_list.creator uid, user.role';
+  } catch (err) {}
+});
 
 //  @route      GET /api/library/playlist/names/all
 //  @desc       Get All Playlists

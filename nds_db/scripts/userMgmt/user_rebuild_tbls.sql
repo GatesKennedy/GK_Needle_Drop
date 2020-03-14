@@ -5,19 +5,20 @@ DROP TABLE IF EXISTS tbl_favorites CASCADE;
 DROP TABLE IF EXISTS tbl_playlist CASCADE;
 DROP TABLE IF EXISTS tbl_history CASCADE;
 
-DROP TYPE IF EXISTS entity CASCADE;
+DROP TYPE IF EXISTS entity_type CASCADE;
+DROP TYPE IF EXISTS role_type CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TYPE entity  AS ENUM ('personal', 'biz_sml', 'biz_med', 'biz_lrg');
-CREATE TYPE role    AS ENUM ('admin', 'dev', 'user');
+CREATE TYPE entity_type  AS ENUM ('personal', 'biz_sml', 'biz_med', 'biz_lrg');
+CREATE TYPE role_type   AS ENUM ('admin', 'dev', 'user');
 
 CREATE TABLE tbl_user(
     id UUID DEFAULT uuid_generate_v4(),
     name VARCHAR(64) NOT NULL,
     email VARCHAR(128) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    role_type role NOT NULL DEFAULT 'user',
+    role role_type NOT NULL DEFAULT 'user',
     date_join date NOT NULL DEFAULT CURRENT_DATE,
     PRIMARY KEY (id)
 );
@@ -25,7 +26,7 @@ CREATE TABLE tbl_user(
 
 CREATE TABLE tbl_profile(
     user_id UUID REFERENCES tbl_user(id),
-    entity_type entity NOT NULL DEFAULT 'personal',
+    entity entity_type NOT NULL DEFAULT 'personal',
     payment_info VARCHAR NOT NULL,
     location VARCHAR(50)
 );

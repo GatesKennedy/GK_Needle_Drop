@@ -8,7 +8,7 @@ const router = Router();
 //  =============
 //  ==   GET   ==
 //  =============
-//  @route      GET /api/library
+//  @route      GET /api/library/all
 //  @desc       Display ALL 'songs and artist' in library
 //  @access     PUBLIC
 router.get('/all', (request, response, next) => {
