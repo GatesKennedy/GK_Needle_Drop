@@ -20,7 +20,7 @@ router.get('/json', async (request, response, next) => {
   try {
     await client.query('BEGIN');
     const queryText =
-      'SELECT lib.id sid, p_all.list_id pid, p_list.creator uid, user.role';
+      'SELECT lib.id sid, p_all.list_id pid, p_list.creator uid, user.role role FROM tbl_library';
   } catch (err) {}
 });
 
@@ -32,8 +32,8 @@ router.get('/names/all', (request, response, next) => {
     if (err) {
       return console.error('Error acquiring client', err.stack);
     }
-    const query = 'SELECT * FROM tbl_playlists';
-    client.query(query, (err, res) => {
+    const queryText = 'SELECT * FROM tbl_playlist';
+    client.query(queryText, (err, res) => {
       release();
       if (err) {
         return console.error('Error executing query', err.stack);
@@ -50,7 +50,7 @@ router.get('/names/admin', (request, response, next) => {
     if (err) {
       return console.error('Error acquiring client', err.stack);
     }
-    const query = 'SELECT * FROM tbl_playlists WHERE creator IS NULL ';
+    const query = 'SELECT * FROM tbl_playlist WHERE creator IS NULL ';
     client.query(query, (err, res) => {
       release();
       if (err) {
@@ -68,7 +68,7 @@ router.get('/names/user', auth, (request, response, next) => {
     if (err) {
       return console.error('Error acquiring client', err.stack);
     }
-    const query = 'SELECT * FROM tbl_playlists WHERE creator IS NULL ';
+    const query = 'SELECT * FROM tbl_playlist WHERE creator IS NULL ';
     client.query(query, (err, res) => {
       release();
       if (err) {
@@ -88,7 +88,7 @@ router.get('/data/all', (request, response, next) => {
       return console.error('Error acquiring client', err.stack);
     }
     const query =
-      'SELECT tbl_playlists.id, name, song_id, rank FROM tbl_playlists INNER JOIN tbl_playall ON tbl_playlists.id = tbl_playall.list_id';
+      'SELECT tbl_playlist.id, name, song_id, rank FROM tbl_playlist INNER JOIN tbl_playall ON tbl_playlist.id = tbl_playall.list_id';
     client.query(query, (err, res) => {
       release();
       if (err) {
@@ -106,7 +106,7 @@ router.get('/1/:id', (request, response, next) => {
   const { id } = request.params;
   const query = {
     text:
-      //'SELECT name, json_agg(song_id) FROM tbl_playlists WHERE id = $1;',
+      //'SELECT name, json_agg(song_id) FROM tbl_playlist WHERE id = $1;',
       "SELECT tbl_playall.list_id, song_id, tbl_library.data_json ->> 'song' AS song, tbl_library.data_json ->> 'artist' AS artist, tbl_library.data_json ->> 'time' AS time, rank FROM tbl_playall INNER JOIN tbl_library ON tbl_playall.song_id = tbl_library.id WHERE tbl_playall.list_id = $1",
     values: [id]
   };
@@ -164,7 +164,7 @@ router.post(
     try {
       await client.query('BEGIN');
       const insertText =
-        'INSERT INTO tbl_playlists(name, creator) VALUES($1, $2) RETURNING id';
+        'INSERT INTO tbl_playlist(name, creator) VALUES($1, $2) RETURNING id';
       const insertVals = [name, creator];
       const res = await client.query(insertText, insertVals);
       response.json(res.rows[0].id);

@@ -2,6 +2,7 @@
 DROP TABLE IF EXISTS tbl_user CASCADE;
 DROP TABLE IF EXISTS tbl_profile CASCADE;
 DROP TABLE IF EXISTS tbl_favorites CASCADE;
+DROP TABLE IF EXISTS tbl_favorite CASCADE;
 DROP TABLE IF EXISTS tbl_playlist CASCADE;
 DROP TABLE IF EXISTS tbl_history CASCADE;
 
@@ -31,7 +32,7 @@ CREATE TABLE tbl_profile(
     location VARCHAR(50)
 );
 
-CREATE TABLE tbl_favorites(
+CREATE TABLE tbl_favorite(
     user_id UUID REFERENCES tbl_user(id),
     song_id INTEGER REFERENCES tbl_library(id),
     PRIMARY KEY (user_id, song_id)

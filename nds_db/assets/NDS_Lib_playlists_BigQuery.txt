@@ -1,0 +1,29 @@
+SELECT 
+	lib.id 		AS sid, 
+	p_all.list_id 	AS pid, 
+	p_lists.creator AS uid, 
+	user.role 	AS role 
+FROM 
+	  tbl_library AS lib 	
+	INNER JOIN 
+	  tbl_playall AS p_all 	
+	  ON lib.id = p_all.song_id
+	INNER JOIN 
+	  tbl_playlists AS p_lists 	
+	  ON p_all.list_id = p_lists.id
+	INNER JOIN 
+	  tbl_user AS user 	
+	  ON p_lists.creator = user.id
+
+============================================================================================================
+
+SELECT 
+	lib.id sid, 
+	p_all.list_id pid, 
+	p_lists.creator uid
+FROM 
+	tbl_library lib INNER JOIN tbl_playall p_all on lib.id = p_all.song_id
+	INNER JOIN tbl_playlists p_lists on p_all.list_id = p_lists.id
+
+
+cf12dc36-5eed-4e64-8b57-fb0be1c7853b

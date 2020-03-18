@@ -54,7 +54,7 @@ const Filter = ({
               ))}
             </div>
           ) : (
-            <div>filterless</div>
+            <div>select a filter..</div>
           )}
         </section>
 

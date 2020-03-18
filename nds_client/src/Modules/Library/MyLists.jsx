@@ -23,13 +23,11 @@ const Lists = ({
   const onSubmit = async e => {
     e.preventDefault();
     if (!isAuthenticated) {
-      setAlert("oh no... passwords don't match", 'warn');
-      console.log('oh no... badwords');
+      setAlert("oh no... you're not logged in", 'warn');
     } else {
       const creator = user[0].id;
       setAlert('WELCOME!', 'warn');
       createPlaylist({ name, creator });
-      console.log('oh no... youre good...');
     }
   };
 

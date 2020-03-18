@@ -37,8 +37,8 @@ serv.use('/api/needledrop', needledrop);
 serv.use('/api/purchase', purchase);
 //  _fileMgmt
 serv.use('/api/library', library);
-serv.use('/api/library/filters', filter);
-serv.use('/api/library/playlists', playlist);
+serv.use('/api/library/filter', filter);
+serv.use('/api/library/playlist', playlist);
 serv.use('/api/library/playall', playall);
 //  _userMgmt
 serv.use('/api/user', user);

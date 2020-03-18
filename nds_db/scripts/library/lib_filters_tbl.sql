@@ -1,19 +1,20 @@
 USE db_nds;
 
 DROP TABLE IF EXISTS tbl_filters CASCADE;
+DROP TABLE IF EXISTS tbl_filter CASCADE;
 DROP TABLE IF EXISTS tbl_genre CASCADE;
 DROP TABLE IF EXISTS tbl_instrument CASCADE;
 DROP TABLE IF EXISTS tbl_keyword CASCADE;
 DROP TABLE IF EXISTS tbl_project CASCADE;
 
-CREATE TABLE IF NOT EXISTS tbl_filters(
+CREATE TABLE IF NOT EXISTS tbl_filter(
     id SERIAL PRIMARY KEY,
     genus text NOT NULL,
     species text NOT NULL
 );
 
 
-INSERT INTO tbl_filters( genus, species )
+INSERT INTO tbl_filter( genus, species )
 VALUES
     ('genre','ambient'),
     ('genre','cinematic'),
@@ -90,4 +91,9 @@ VALUES
     ('project','western')
 ;
 
-SELECT * FROM tbl_filters;
+SELECT * FROM tbl_filter;
+
+--  .sql Script from CMD
+--===============================
+--  psql -U ohnodamn -d db_nds -a -f <file_path>
+--  psql -U ohnodamn -d db_nds -a -f C:\Programming\Gates_Kennedy\GK_Needle_Drop\nds_db\scripts\library\lib_filters_tbl.sql

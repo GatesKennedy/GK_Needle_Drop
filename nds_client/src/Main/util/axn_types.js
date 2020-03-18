@@ -13,6 +13,7 @@ export const AD_PLAYLIST_ERROR = 'AD_PLAYLIST_ERROR';
 //    === Library ===
 export const LIBRARY_GET = 'LIBRARY_GET';
 export const LIBRARY_ERROR = 'LIBRARY_ERROR';
+export const LIBDATA_UPDATE = 'LIBDATA_UPDATE';
 export const LIBDATA_CLEAR = 'LIBDATA_CLEAR';
 
 export const ARTISTS_GET = 'ARTISTS_GET';
@@ -74,3 +75,7 @@ export const PROFILE_GET = 'PROFILE_GET';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const PROFILE_CLEAR = 'PROFILE_CLEAR';
 export const PROFILE_UPDATE = 'PROFILE_UPDATE';
+
+export const FAVORITE_GET = 'FAVORITE_GET';
+export const FAVORITE_UPDATE = 'FAVORITE_UPDATE';
+export const FAVORITE_ERROR = 'FAVORITE_ERROR';

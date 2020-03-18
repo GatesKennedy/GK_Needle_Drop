@@ -2,8 +2,9 @@
 
 DROP TABLE IF EXISTS tbl_playall CASCADE;
 DROP TABLE IF EXISTS tbl_playlists CASCADE;
+DROP TABLE IF EXISTS tbl_playlist CASCADE;
 
-CREATE TABLE IF NOT EXISTS tbl_playlists(
+CREATE TABLE IF NOT EXISTS tbl_playlist(
     id      SERIAL PRIMARY  KEY,
     creator UUID REFERENCES tbl_user(id),
     name    TEXT            NOT NULL,
@@ -13,12 +14,12 @@ CREATE TABLE IF NOT EXISTS tbl_playlists(
 
 CREATE TABLE IF NOT EXISTS tbl_playall(
     id          SERIAL PRIMARY  KEY,
-    list_id     INTEGER         REFERENCES tbl_playlists(id),
+    list_id     INTEGER         REFERENCES tbl_playlist(id),
     song_id     INTEGER         REFERENCES tbl_library(id),
     rank        INTEGER         NOT NULL DEFAULT 0
 );
 
-INSERT INTO tbl_playlists( name )
+INSERT INTO tbl_playlist( name )
 VALUES
     ('Good Bad Boy'),
     ('Biden The Buyable'),
@@ -48,7 +49,7 @@ VALUES
     (5,1987,2)
 ;
 
-SELECT * FROM tbl_playlists;
+SELECT * FROM tbl_playlist;
 SELECT * FROM tbl_playall;
 
 --  .sql Script from CMD

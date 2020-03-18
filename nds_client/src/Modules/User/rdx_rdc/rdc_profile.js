@@ -3,13 +3,16 @@ import {
   PROFILE_ERROR,
   PROFILE_CLEAR,
   PROFILE_UPDATE,
-  PROFILES_GET
+  PROFILES_GET,
+  FAVORITE_GET,
+  FAVORITE_UPDATE,
+  FAVORITE_ERROR
 } from '../../../Main/util/axn_types';
 
 const initialState = {
   profile: null,
   profiles: [],
-  repos: [],
+  favorites: [],
   loading: true,
   error: {}
 };
@@ -37,11 +40,17 @@ export default function(state = initialState, action) {
         profile: null,
         loading: false
       };
-    //  THEY
     case PROFILES_GET:
       return {
         ...state,
         profiles: payload,
+        loading: false
+      };
+    case FAVORITE_GET:
+    case FAVORITE_UPDATE:
+      return {
+        ...state,
+        favorites: payload,
         loading: false
       };
     //  ERRORS

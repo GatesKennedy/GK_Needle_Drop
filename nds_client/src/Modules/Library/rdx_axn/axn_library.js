@@ -4,6 +4,7 @@ import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 import {
   LIBRARY_GET,
   LIBRARY_ERROR,
+  LIBDATA_UPDATE,
   LIBDATA_CLEAR,
   ARTISTS_GET,
   ARTISTS_ERROR,
@@ -25,6 +26,25 @@ export const getLibrary = () => async dispatch => {
     const res = await axios.get('/api/library/all');
     dispatch({
       type: LIBRARY_GET,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('catch{} getLibrary() error');
+    dispatch({
+      type: LIBRARY_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+//=============================
+// GET: Library To Display
+export const getLibData = () => async dispatch => {
+  console.log('FXN: getLibData()');
+  try {
+    const res = await axios.get('/api/library/all');
+    dispatch({
+      type: LIBDATA_UPDATE,
       payload: res.data
     });
   } catch (err) {

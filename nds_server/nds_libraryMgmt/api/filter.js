@@ -31,7 +31,7 @@ router.get('/libtraits', (request, response, next) => {
 //  @access     PUBLIC
 router.get('/traits', (request, response, next) => {
   pool.query(
-    'SELECT genus, json_agg(species) AS species FROM tbl_filters group by 1;',
+    'SELECT genus, json_agg(species) AS species FROM tbl_filter group by 1;',
     (err, res) => {
       if (err) return next(err);
 
@@ -44,7 +44,7 @@ router.get('/traits', (request, response, next) => {
 //  @desc       Get all trait types (genus)
 //  @access     PUBLIC
 router.get('/genus', (request, response, next) => {
-  pool.query('SELECT DISTINCT genus FROM tbl_filters;', (err, res) => {
+  pool.query('SELECT DISTINCT genus FROM tbl_filter;', (err, res) => {
     if (err) return next(err);
 
     response.json(res.rows);
@@ -57,7 +57,7 @@ router.get('/genus', (request, response, next) => {
 router.get('/species/:genus', (request, response, next) => {
   const { genus } = request.params;
   const query = {
-    text: 'SELECT species FROM tbl_filters WHERE genus = $1;',
+    text: 'SELECT species FROM tbl_filter WHERE genus = $1;',
     values: [genus]
   };
 

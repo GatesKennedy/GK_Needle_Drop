@@ -80,11 +80,11 @@ router.post(
         }
       );
       await client.query('COMMIT');
-    } catch (e) {
+    } catch (err) {
       await client.query('ROLLBACK');
       console.error('CatchBlock Err: ' + err.mesage);
       response.status(500).send('Server error');
-      throw e;
+      throw err;
     } finally {
       client.release();
     }

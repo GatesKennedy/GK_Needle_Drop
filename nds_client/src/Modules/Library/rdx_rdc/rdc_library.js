@@ -9,10 +9,12 @@ import {
   ARTIST_GET,
   ARTIST_ERROR,
   TRK_SELECT,
-  TRK_ERROR
+  TRK_ERROR,
+  LIBDATA_UPDATE
 } from '../../../Main/util/axn_types';
 
 const initialState = {
+  library: null,
   libData: null,
   artistsData: null,
   trkData: null,
@@ -27,6 +29,7 @@ export default function(state = initialState, action) {
     //  GET
     //  Display Library
     case LIBRARY_GET:
+    case LIBDATA_UPDATE:
     case ARTIST_GET:
     case PLAYLIST_GET:
       return {

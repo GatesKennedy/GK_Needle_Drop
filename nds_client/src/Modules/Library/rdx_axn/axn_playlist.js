@@ -20,7 +20,7 @@ import {
 //  GET: All Playlist Names
 export const getPListNames = () => async dispatch => {
   try {
-    const res = await axios.get('/api/library/playlist/names');
+    const res = await axios.get('/api/library/playlist/names/all');
 
     dispatch({
       type: PLISTNAMES_GET,

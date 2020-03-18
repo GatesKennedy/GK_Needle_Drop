@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 //  REDUX
 import { connect } from 'react-redux';
 import { clrLibData } from './rdx_axn/axn_library';
+import { getPListNames } from './rdx_axn/axn_playlist';
 //  COMPS
 import PlayAll from './PlayAll';
 import Trk from '../Library/Trk';
@@ -11,9 +12,11 @@ import Header from '../NDS/Header';
 const Playlist = ({
   library: { libData, loading },
   playlist: { pListData },
-  clrLibData
+  clrLibData,
+  getPListNames
 }) => {
   useEffect(() => {
+    getPListNames();
     clrLibData();
   }, []);
 
@@ -44,4 +47,4 @@ const mapStatToProps = state => ({
   playlist: state.playlist
 });
 
-export default connect(mapStatToProps, { clrLibData })(Playlist);
+export default connect(mapStatToProps, { clrLibData, getPListNames })(Playlist);
