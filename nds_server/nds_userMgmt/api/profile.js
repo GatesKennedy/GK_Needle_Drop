@@ -14,22 +14,28 @@ const router = Router();
 //  =============
 //  ==   GET   ==
 //  =============
-//  @route      GET /profile/me
+//  @route      GET /api/user/profile/me
 //  @desc       Display profile by 'id'
 //  @access     PRIVATE
 router.get('/me', (request, response, next) => {
   const { id } = request.params;
 
-  pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res) => {
-    if (err) {
-      return next(err);
+  pool.query(
+    'SELECT user.name, pro.entity AS "entityType", pro.location, fav.song_id FROM tbl_profile AS "pro" INNER JOIN tbl_favorite AS "fav" ON pro.user_id = fav.user_id INNER JOIN tbl_user ON pro.user_id = user.id WHERE user.id = $1;',
+    [id],
+    (err, res) => {
+      if (err) {
+        return next(err);
+      }
+      respond.send('coco profile');
+      response.json(res);
     }
-    respond.send('coco profile');
-    response.json(res);
-  });
+  );
 });
 
-//  @route      GET /profile/me/favorite
+//  SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP
+//----------------------------------------------------------
+//  @route      GET /api/user/profile/me/favorite
 //  @desc       Display Favorites by 'user_id'
 //  @access     PRIVATE
 router.get('/me/favorite', auth, async (request, response, next) => {
@@ -51,43 +57,27 @@ router.get('/me/favorite', auth, async (request, response, next) => {
   }
 });
 
-//  @route      GET /profile/me/playlist
-//  @desc       Display playlists for Current User
-//  @access     PRIVATE
-router.get('/me/playlist', auth, (request, response, next) => {
-  const { id } = request.params;
-
-  pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res) => {
-    if (err) {
-      return next(err);
-    }
-    respond.send('coco profile');
-    response.json(res);
-  });
-});
-
 //  ==============
 //  ==   POST   ==
 //  ==============
-//  @route      POST /profile/create
+//  @route      POST /api/user/profile/create
 //  @desc       Create profile
 //  @access     Public
 router.post('/create', auth, (request, response, next) => {
-  const { name, email, password } = request.body;
-  const { id } = request.params;
+  const { user_id } = request.body;
 
   pool.query(
-    'INSERT INTO tbl_profile WHERE id = $1 (name, email, password) VALUES($1, $2, $3)',
-    [name, email, password],
+    'INSERT INTO tbl_profile(user_id) VALUES($1)',
+    [user_id],
     (err, res) => {
       if (err) return next(err);
-
-      response.redirect('/profile/:id');
+      // Return Profile Data
+      response.status(400).json(res.rows);
     }
   );
 });
 
-//  @route      POST /profile/favorite
+//  @route      POST /api/user/profile/favorite
 //  @desc       Update Favorites
 //  @access     PRIVATE
 router.post('/favorite', auth, async (request, response, next) => {
@@ -129,7 +119,7 @@ router.post('/favorite', auth, async (request, response, next) => {
 //  =============
 //  ==   PUT   ==
 //  =============
-//  @route      PUT /profile/edit/:id
+//  @route      PUT /api/user/profile/edit/:id
 //  @desc       Edit USER
 //  @access     PRIVATE
 
@@ -138,4 +128,44 @@ router.use((err, req, res, next) => {
   res.json(err);
 });
 
+//=======================================
+//=============  SCRAP SCRAP SCRAP
+//=======================================
+
+//  @route      GET /api/user/profile/me/favorite
+//  @desc       Display Favorites by 'user_id'
+//  @access     PRIVATE
+router.get('/me/favorite', auth, async (request, response, next) => {
+  const { id } = request.params;
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const queryText =
+      'SELECT data_json AS song_data, song_url AS song_url FROM tbl_favorites AS fav INNER JOIN tbl_library AS lib ON fav.song_id = lib.id WHERE fav.user_id = $1';
+    const res = await client.query(queryText, [id]);
+    response.json(res.rows);
+  } catch (err) {
+    console.error('CatchBlock Err: ' + err.mesage);
+    response.status(500).send('Server error');
+    return next(err);
+  } finally {
+    client.release();
+  }
+});
+
+//  @route      GET /api/user/profile/me/playlist
+//  @desc       Display playlists for Current User
+//  @access     PRIVATE
+router.get('/me/playlist', auth, (request, response, next) => {
+  const { id } = request.params;
+
+  pool.query('SELECT * FROM tbl_profile WHERE id = $1', [id], (err, res) => {
+    if (err) {
+      return next(err);
+    }
+    respond.send('coco profile');
+    response.json(res);
+  });
+});
 module.exports = router;

@@ -34,11 +34,13 @@ import User from './Modules/User/User';
 import Login from './Modules/User/Login';
 import Register from './Modules/User/Register';
 
+//  Set Headers with 'x-auth-token': 'token'
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
 const App = () => {
+  //  axn_auth/loadUser()
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);

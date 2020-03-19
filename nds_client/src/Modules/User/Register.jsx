@@ -6,8 +6,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setAlert } from '../Notify/rdx_axn/axn_alert';
 import { register } from './rdx_axn/axn_auth';
+//import { getCurrentProfile } from './rdx_axn/axn_profile';
 
-const Register = ({ setAlert, register, isAuthenticated }) => {
+const Register = ({
+  setAlert,
+  register,
+  getCurrentProfile,
+  isAuthenticated
+}) => {
   //  useState(formData)
   const [formData, setFormData] = useState({
     username: '',
@@ -27,15 +33,14 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     e.preventDefault();
     if (password !== pwConfirm) {
       setAlert("oh no... passwords don't match", 'warn');
-      console.log('oh no... badwords');
     } else {
       setAlert('WELCOME!', 'warn');
       register({ username, email, password });
-      console.log('oh no... youre good...');
     }
   };
   //  Redirect (auth?)
   if (isAuthenticated) {
+    //getCurrentProfile();
     return <Redirect to='/library' />;
   }
 
@@ -113,4 +118,7 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, { setAlert, register })(Register);
+export default connect(mapStateToProps, {
+  setAlert,
+  register
+})(Register);

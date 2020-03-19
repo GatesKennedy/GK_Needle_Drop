@@ -1,149 +1,18 @@
+//  EXPRESS
 const express = require('express');
 const router = express.Router();
-const request = require('request');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
-const pool = require('../../../nds_db/db');
-const config = require('config');
 const { check, validationResult } = require('express-validator');
 
-//  =============
-//  ==   GET   ==
-//  =============
-//  @route      GET api/user
-//  @desc       Display All Users
-//  @access     PRIVATE
-router.get('/', (request, response, next) => {
-  pool.query('SELECT * FROM tbl_user', (err, res) => {
-    if (err) return next(err);
-
-    response.json(res.rows);
-  });
-});
-
-//  @route      GET api/user/:id
-//  @desc       Display User by id
-//  @access     PRIVATE
-router.get('/:id', (request, response, next) => {
-  const { id } = request.params;
-
-  pool.query('SELECT * FROM tbl_user WHERE id=($1)', [id], (err, res) => {
-    if (err) return next(err);
-
-    response.json(res.rows);
-  });
-});
-
-//  @route      GET api/user/profile/:id
-//  @desc       RETURN User Profile Data
-//  @access     PRIVATE
-router.get('/profile/:id', (request, response, next) => {
-  if (request.isAuthenticated()) {
-    // RETURN USER profile data
-    response.json('/profile/:id');
-  }
-});
-
-//  @route      GET api/user/logout
-//  @desc       LOGOUT User
-//  @access     PRIVATE
-router.get('/logout', (request, response, next) => {
-  console.log('preLogout: ' + req.isAuthenticated());
-  request.logout();
-  console.log('postLogout: ' + req.isAuthenticated());
-  response.redirect('/');
-});
-
-//  ==============
-//  ==   POST   ==
-//  ==============
-
-//  @route      POST api/user/register
-//  @desc       REGISTER User
-//  @access     PUBLIC
-router.post(
-  '/register',
-  [
-    check('username', 'username is required')
-      .not()
-      .isEmpty(),
-    check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Password must be at least 6 characters').isLength({
-      min: 6
-    })
-  ],
-  async (request, response, next) => {
-    const { username, email, password } = request.body;
-    //  Error Response
-    const errors = validationResult(request);
-    if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
-    }
-    //  Async db Connection
-    const client = await pool.connect();
-    try {
-      //  Check: User Registration
-      await client.query('BEGIN');
-      console.log('>BEGIN');
-      //  Check Email exists
-      const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
-      const res = await client.query(queryText, [email]);
-      console.log('>Email get');
-      //  IF email already Exists...
-      if (res.rows.length > 0) {
-        console.log(res.rows);
-        return response
-          .status(400)
-          .json({ errors: [{ msg: 'User already exists' }] });
-      }
-      console.log('>Email');
-      //  Encrypt User Password
-      const salt = await bcrypt.genSalt(10);
-      const pwCrypt = await bcrypt.hash(password, salt);
-      console.log('>Password');
-      //  Create User (SQL: tbl_user)
-      const insertText =
-        'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
-      const insertValues = [username, email, pwCrypt];
-      const rez = await client.query(insertText, insertValues);
-      console.log('>INSERT');
-      //  Return JWT
-      const userId = rez.rows[0].id;
-      const payload = {
-        user: {
-          id: userId
-        }
-      };
-      jwt.sign(
-        payload,
-        config.get('auth_config.jwtShhh'),
-        { expiresIn: 18000 },
-        (err, token) => {
-          if (err) throw err;
-          response.json({ token });
-        }
-      );
-      console.log('>JWT');
-      await client.query('COMMIT');
-    } catch (e) {
-      //  Catch
-      await client.query('ROLLBACK');
-      console.error('CatchBlock Err: ' + e.mesage);
-      response.status(500).send('Server error');
-      throw e;
-    } finally {
-      //  Finally
-      client.release();
-    }
-  }
-);
+//  MID
+const auth = require('../middleware/auth');
+const pool = require('../../../nds_db/db');
 
 //  =============
 //  ==   PUT   ==
 //  =============
+
 //  @route      PUT api/user/:id
-//  @desc       Edit User (username, email)
+//  @desc       EDIT User (username, email)
 //  @access     PRIVATE
 router.put('/:id', (request, response, next) => {
   const { name, email } = request.body;
@@ -161,7 +30,7 @@ router.put('/:id', (request, response, next) => {
 });
 
 //  @route      PUT api/user/shh/:id
-//  @desc       Edit User (password)
+//  @desc       EDIT User (password)
 //  @access     PRIVATE
 router.put('/shh/:id', (request, response, next) => {
   const { name, email, password } = request.body;
@@ -184,9 +53,9 @@ router.put('/shh/:id', (request, response, next) => {
 //  ==  DELETE  ==
 //  ==============
 //  @route      DELETE api/user/:id
-//  @desc       Delete USER
+//  @desc       DELETE User
 //  @access     PRIVATE
-router.delete('/:id', (request, response, next) => {
+router.delete('/:id', auth, (request, response, next) => {
   const { id } = request.params;
 
   pool.query('DELETE FROM tbl_user WHERE id=($1)', [id], (err, res) => {

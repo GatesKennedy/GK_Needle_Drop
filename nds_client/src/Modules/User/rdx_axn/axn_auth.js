@@ -1,4 +1,5 @@
 import axios from '../../../../node_modules/axios';
+//  REDUX
 import { setAlert } from '../../Notify/rdx_axn/axn_alert';
 import {
   REGISTER_SUCCESS,
@@ -8,11 +9,47 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  PROFILE_CLEAR
+  PROFILE_GET,
+  PROFILE_CLEAR,
+  PROFILE_ERROR
 } from '../../../Main/util/axn_types';
+//  UTILS
 import setAuthToken from '../../../Main/util/setAuthToken';
 
-//  Register User
+//  Load User / Auth User
+//==========================
+export const loadUser = () => async dispatch => {
+  //  Set Headers with 'x-auth-token': 'token'
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+  //  LOAD USER
+  try {
+    const res = await axios.get('api/auth');
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR
+    });
+  }
+  //  LOAD PROFILE
+  try {
+    const res = await axios.get('api/auth');
+    dispatch({
+      type: PROFILE_GET,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR
+    });
+  }
+};
+
+//  Register User / Auth User
 //==========================
 export const register = ({ username, email, password }) => async dispatch => {
   const config = {
@@ -22,14 +59,13 @@ export const register = ({ username, email, password }) => async dispatch => {
   };
 
   const body = JSON.stringify({ username, email, password });
-
+  //  Create User
   try {
-    const res = await axios.post('/api/user/register', body, config);
+    const res = await axios.post('/api/auth/register', body, config);
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
     });
-    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -39,9 +75,13 @@ export const register = ({ username, email, password }) => async dispatch => {
       type: REGISTER_FAIL
     });
   }
+  //  Create Profile
+  try {
+    const res = await axios.post('/api/profile/me');
+  } catch (err) {}
 };
 
-//  Login User
+//  Login User / Auth User
 //==========================
 export const login = ({ email, password }) => async dispatch => {
   const body = JSON.stringify({ email, password });
@@ -76,25 +116,4 @@ export const login = ({ email, password }) => async dispatch => {
 export const logout = () => dispatch => {
   dispatch({ type: PROFILE_CLEAR });
   dispatch({ type: LOGOUT });
-};
-
-//  Load User
-//==========================
-export const loadUser = () => async dispatch => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-
-  try {
-    const res = await axios.get('api/auth');
-
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: AUTH_ERROR
-    });
-  }
 };

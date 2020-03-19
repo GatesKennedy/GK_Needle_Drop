@@ -1,21 +1,27 @@
+//  EXPRESS
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const uuid = require('uuid/v4');
-const jwt = require('jsonwebtoken');
-const auth = require('../middleware/auth');
-
-const pool = require('../../../nds_db/db');
-const config = require('config');
 const { check, validationResult } = require('express-validator');
+//  TOOL/PKG
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+//  MID
+const auth = require('../middleware/auth');
+const pool = require('../../../nds_db/db');
 
-//  @route      POST api/auth
-//  @desc       Authenticate User Token
+//  =============
+//  ==   GET   ==
+//  =============
+
+//  LOAD
+//  @route      GET api/auth
+//  @desc       AUTH Token | LOAD User
 //  @access     PRIVATE
 router.get('/', auth, (request, response) => {
   try {
     pool.query(
-      'SELECT id, name, email, date_join FROM tbl_user WHERE id=($1)',
+      'SELECT id, name, email, role, date_join FROM tbl_user WHERE id=($1)',
       [request.user.id],
       (err, res) => {
         if (err) return next(err);
@@ -28,8 +34,13 @@ router.get('/', auth, (request, response) => {
   }
 });
 
+//  ==============
+//  ==   POST   ==
+//  ==============
+
+//  LOGIN
 //  @route      POST api/auth
-//  @desc       LOGIN Auth user & get token
+//  @desc       LOGIN-AUTH User | GET Token
 //  @access     PUBLIC
 router.post(
   '/',
@@ -91,17 +102,89 @@ router.post(
     //response.redirect('/');
   }
 );
+//  REGISTER
+//  @route      POST api/auth/register
+//  @desc       REGISTER User
+//  @access     PUBLIC
+router.post(
+  '/register',
+  [
+    check('username', 'username is required')
+      .not()
+      .isEmpty(),
+    check('email', 'Please include a valid email').isEmail(),
+    check('password', 'Password must be at least 6 characters').isLength({
+      min: 6
+    })
+  ],
+  async (request, response, next) => {
+    const { username, email, password } = request.body;
+    //  Error Response
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+      return response.status(400).json({ errors: errors.array() });
+    }
+    //  Async db Connection
+    const client = await pool.connect();
+    try {
+      //  Check: User Registration
+      await client.query('BEGIN');
+      console.log('>BEGIN');
+      //  Check Email exists
+      const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
+      const res = await client.query(queryText, [email]);
+      console.log('>Email get');
+      //  IF email already Exists...
+      if (res.rows.length > 0) {
+        console.log(res.rows);
+        return response
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists' }] });
+      }
+      console.log('>Email');
+      //  Encrypt User Password
+      const salt = await bcrypt.genSalt(10);
+      const pwCrypt = await bcrypt.hash(password, salt);
+      console.log('>Password');
+      //  Create User (SQL: tbl_user)
+      const insertText =
+        'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
+      const insertValues = [username, email, pwCrypt];
+      const rez = await client.query(insertText, insertValues);
+      console.log('>INSERT');
+      //  Return JWT
+      const userId = rez.rows[0].id;
+      const payload = {
+        user: {
+          id: userId
+        }
+      };
+      jwt.sign(
+        payload,
+        config.get('auth_config.jwtShhh'),
+        { expiresIn: 18000 },
+        (err, token) => {
+          if (err) throw err;
+          response.json({ token });
+        }
+      );
+      console.log('>JWT');
+      await client.query('COMMIT');
+    } catch (e) {
+      //  Catch
+      await client.query('ROLLBACK');
+      console.error('CatchBlock Err: ' + e.mesage);
+      response.status(500).send('Server error');
+      throw e;
+    } finally {
+      //  Finally
+      client.release();
+    }
+    //  Redirect to /root  (/library)
+  }
+);
 
-//  @route      POST api/auth
-//  @desc       LOGOUT User
-//  @access     PRIVATE
-router.get('/logout', (request, response, next) => {
-  console.log('preLogout: ' + req.isAuthenticated());
-  request.logout();
-  console.log('postLogout: ' + req.isAuthenticated());
-  response.redirect('/');
-});
-
+//-----------------------------------------------------------------
 //  Catch-All Error Function
 router.use((err, req, res, next) => {
   res.json(err);

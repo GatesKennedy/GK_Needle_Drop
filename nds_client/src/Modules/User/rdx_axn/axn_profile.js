@@ -11,12 +11,17 @@ import {
   FAVORITE_ERROR
 } from '../../../Main/util/axn_types';
 
-//  =============
-//  ==   GET   ==
-//  =============
+//===========================
+//  Get current User Profile
+export const getCurrentProfile = user_id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 
-//  Get current users profile
-export const getCurrentProfile = () => async dispatch => {
+  const body = JSON.stringify({ user_id });
+
   try {
     const res = await axios.get('/api/profile/me');
 
@@ -34,45 +39,8 @@ export const getCurrentProfile = () => async dispatch => {
   }
 };
 
-// Get all Profiles
-export const getProfiles = () => async dispatch => {
-  dispatch({ type: PROFILE_CLEAR });
-
-  try {
-    const res = await axios.get('/api/profile');
-
-    dispatch({
-      type: PROFILES_GET,
-      payload: res.data
-    });
-  } catch (err) {
-    console.log('axn_profile.js: catch error');
-
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
-
-//  Get Profile by ID
-export const getProfileById = userId => async dispatch => {
-  try {
-    const res = await axios.get(`/api/profile/user${userId}`);
-
-    dispatch({
-      type: PROFILE_GET,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
-
-//  Create or Update Profile
+//===========================
+//  Create Profile
 export const createProfile = (
   formData,
   history,
@@ -111,10 +79,7 @@ export const createProfile = (
   }
 };
 
-//  ==============
-//  ==  UPDATE  ==
-//  ==============
-
+//===========================
 //  @desc       Update Favorites
 //  @access     PRIVATE
 export const updateFavorite = (user_id, song_id, exists) => async dispatch => {
@@ -148,7 +113,3 @@ export const updateFavorite = (user_id, song_id, exists) => async dispatch => {
     });
   }
 };
-
-//  ==============
-//  ==  DELETE  ==
-//  ==============

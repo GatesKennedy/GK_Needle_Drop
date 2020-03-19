@@ -10,10 +10,6 @@ import {
   AD_PLAYLIST_ERROR
 } from '../../../Main/util/axn_types';
 
-//  =============
-//  ==   GET   ==
-//  =============
-
 //============================
 //  GET: Select Playlist Button
 export const selectPlaylist = pList => {
@@ -43,15 +39,3 @@ export const selectPlaylist = pList => {
     };
   }
 };
-
-//  ==============
-//  ==   POST   ==
-//  ==============
-
-//  ==============
-//  ==  UPDATE  ==
-//  ==============
-
-//  ==============
-//  ==  DELETE  ==
-//  ==============

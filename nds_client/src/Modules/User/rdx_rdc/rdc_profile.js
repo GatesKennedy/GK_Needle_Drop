@@ -11,7 +11,8 @@ import {
 
 const initialState = {
   profile: null,
-  profiles: [],
+  history: null,
+  playlists: [],
   favorites: [],
   loading: true,
   error: {}

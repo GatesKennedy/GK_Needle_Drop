@@ -1,9 +1,7 @@
 
 DROP TABLE IF EXISTS tbl_user CASCADE;
 DROP TABLE IF EXISTS tbl_profile CASCADE;
-DROP TABLE IF EXISTS tbl_favorites CASCADE;
 DROP TABLE IF EXISTS tbl_favorite CASCADE;
-DROP TABLE IF EXISTS tbl_playlist CASCADE;
 DROP TABLE IF EXISTS tbl_history CASCADE;
 
 DROP TYPE IF EXISTS entity_type CASCADE;
@@ -11,7 +9,7 @@ DROP TYPE IF EXISTS role_type CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TYPE entity_type  AS ENUM ('personal', 'biz_sml', 'biz_med', 'biz_lrg');
+CREATE TYPE entity_type  AS ENUM ('void','personal', 'biz_sml', 'biz_med', 'biz_lrg');
 CREATE TYPE role_type   AS ENUM ('admin', 'dev', 'user');
 
 CREATE TABLE tbl_user(
@@ -27,8 +25,8 @@ CREATE TABLE tbl_user(
 
 CREATE TABLE tbl_profile(
     user_id UUID REFERENCES tbl_user(id),
-    entity entity_type NOT NULL DEFAULT 'personal',
-    payment_info VARCHAR NOT NULL,
+    entity entity_type NOT NULL DEFAULT 'void',
+    payment_info VARCHAR NOT NULL DEFAULT 'void',
     location VARCHAR(50)
 );
 
@@ -42,6 +40,7 @@ CREATE TABLE tbl_history(
     user_id UUID REFERENCES tbl_user(id),
     song_id INTEGER REFERENCES tbl_library(id),
     payment_status BOOLEAN NOT NULL DEFAULT 'false',
+    date_purchased DATE NOT NULL DEFAULT CURRENT_DATE,
     PRIMARY KEY (user_id, song_id)
 );
 
