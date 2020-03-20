@@ -12,6 +12,10 @@ import '../node_modules/slick-carousel/slick/slick.css';
 import '../node_modules/slick-carousel/slick/slick-theme.css';
 // === comps ===
 //    === Admin ===
+import Ad_Gate from './Modules/Admin/Ad_Gates/Ad_Gate';
+import Ad_Register from './Modules/Admin/Ad_Gates/Ad_Register';
+import Ad_Login from './Modules/Admin/Ad_Gates/Ad_Login';
+
 import Ad_Playlist from './Modules/Admin/Ad_PlayList';
 import Ad_Library from './Modules/Admin/Ad_Library';
 import Ad_Strapi from './Modules/Admin/Ad_Strapi';
@@ -63,10 +67,26 @@ const App = () => {
               <Route exact path='/register' component={Register} />
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/purchase' component={Purchase} />
-              <Route exact path='/admin/strapi' component={Ad_Strapi} />
-              <Route exact path='/admin/playlist' component={Ad_Playlist} />
-              <Route exact path='/admin/library' component={Ad_Library} />
-              <Route exact path='/admin/account' component={Ad_Account} />
+
+              <Route
+                exact
+                path='/blckknght/fornownotever'
+                component={Ad_Gate}
+              />
+              <Route
+                exact
+                path='/blckknght/fornownotever/register'
+                component={Ad_Register}
+              />
+              <Route
+                exact
+                path='/blckknght/fornownotever/login'
+                component={Ad_Login}
+              />
+              <Route exact path='/blckknght/strapi' component={Ad_Strapi} />
+              <Route exact path='/blckknght/playlist' component={Ad_Playlist} />
+              <Route exact path='/blckknght/library' component={Ad_Library} />
+              <Route exact path='/blckknght/account' component={Ad_Account} />
             </Switch>
           </section>
           <Footer />

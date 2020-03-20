@@ -4,25 +4,22 @@ import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 //  REDUX
 import { connect } from 'react-redux';
-import { setAlert } from '../Notify/rdx_axn/axn_alert';
-import { register } from './rdx_axn/axn_auth';
+import { register } from '../../User/rdx_axn/axn_auth';
+//  Comps
+import { setAlert } from '../../Notify/rdx_axn/axn_alert';
 
-const Register = ({
-  setAlert,
-  register,
-  getCurrentProfile,
-  isAuthenticated
-}) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   //  useState(formData)
   const [formData, setFormData] = useState({
     username: '',
     email: '',
+    role: '',
     password: '',
     pwConfirm: ''
   });
 
   //  formData (declare)
-  const { username, email, password, pwConfirm } = formData;
+  const { username, email, role, password, pwConfirm } = formData;
   //  formData (change)
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,8 +29,13 @@ const Register = ({
     e.preventDefault();
     if (password !== pwConfirm) {
       setAlert("oh no... passwords don't match", 'warn');
+    } else if (role != ('admin' || 'dev' || 'user')) {
+      setAlert(
+        'Go Away Go Away Go Away Go Away Go Away Go Away Go Away Go Away Go Away Go Away',
+        'warn'
+      );
     } else {
-      setAlert('WELCOME!', 'warn');
+      setAlert('Yeah, you can hang...', 'warn');
       register({ username, email, password });
     }
   };
@@ -48,7 +50,7 @@ const Register = ({
     <Fragment>
       <section className=' hello center'>
         <div className='greeting center'>
-          <h2 className='font-blk center'>glad You could make it</h2>
+          <h2 className='font-blk center'>...i guess you can hang</h2>
         </div>
         <form className='form-auth center' onSubmit={e => onSubmit(e)}>
           <div className='column form-group'>
@@ -57,7 +59,7 @@ const Register = ({
                 name='username'
                 type='text'
                 value={username}
-                placeholder='username'
+                placeholder='admin username'
                 className='center input'
                 onChange={e => onChange(e)}
               />
@@ -67,7 +69,17 @@ const Register = ({
                 name='email'
                 type='email'
                 value={email}
-                placeholder='email'
+                placeholder='admin email'
+                className='center input'
+                onChange={e => onChange(e)}
+              />
+            </div>
+            <div className='center form-field'>
+              <input
+                name='role'
+                type='role'
+                value={role}
+                placeholder='role: user admin dev'
                 className='center input'
                 onChange={e => onChange(e)}
               />
