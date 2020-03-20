@@ -1,0 +1,43 @@
+============================================================
+
+SELECT 
+	Usr.name AS name,
+	Pro.entity AS entityType, 
+	Pro.location AS location, 
+	json_agg(DISTINCT Fav.song_id) AS favorites,
+	json_agg(DISTINCT Ply.id) AS playlists
+FROM       tbl_user     AS Usr
+LEFT JOIN tbl_favorite AS Fav ON Usr.id = Fav.user_id
+LEFT JOIN tbl_profile  AS Pro ON Usr.id = Pro.user_id
+LEFT JOIN tbl_playlist AS Ply ON Usr.id = Ply.creator
+WHERE Usr.id = '4ae7670e-bbd4-4549-9532-b4c894ee479b'
+GROUP BY Usr.id, Pro.entity, Pro.location;
+
+========================================================
+
+SELECT 
+	Usr.id,
+	json_build_object('name', Usr.name, 'entity', Pro.entity, 'location', Pro.location) AS profile, 
+	json_agg(DISTINCT Fav.song_id) AS favorites,
+	json_agg(DISTINCT Ply.id) AS playlists
+FROM      tbl_user     AS Usr
+LEFT JOIN tbl_favorite AS Fav ON Usr.id = Fav.user_id
+LEFT JOIN tbl_profile  AS Pro ON Usr.id = Pro.user_id
+LEFT JOIN tbl_playlist AS Ply ON Usr.id = Ply.creator
+WHERE Usr.id = '4ae7670e-bbd4-4549-9532-b4c894ee479b'
+GROUP BY Usr.id, Pro.entity, Pro.location;
+
+
+======================================================================
+
+SELECT 
+	json_agg(row_to_json(
+FROM tbl_user
+INNER JOIN tbl_profile ON tbl_user.id = tbl_profile.user_id
+
+;
+
+
+======================================================================
+
+SELECT user.name, pro.entity AS "entityType", pro.location, fav.song_id FROM tbl_profile AS "pro" INNER JOIN tbl_favorite AS "fav" ON pro.user_id = fav.user_id INNER JOIN tbl_user ON pro.user_id = user.id WHERE user.id =  cf12dc36-5eed-4e64-8b57-fb0be1c7853b;

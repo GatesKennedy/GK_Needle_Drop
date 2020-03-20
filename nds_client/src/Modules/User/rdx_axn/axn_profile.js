@@ -19,11 +19,10 @@ export const getCurrentProfile = user_id => async dispatch => {
       'Content-Type': 'application/json'
     }
   };
-
   const body = JSON.stringify({ user_id });
-
+  console.log('axn_profile FXN: getCurrentProfile()');
   try {
-    const res = await axios.get('/api/profile/me');
+    const res = await axios.get('/api/user/profile/me');
 
     dispatch({
       type: PROFILE_GET,

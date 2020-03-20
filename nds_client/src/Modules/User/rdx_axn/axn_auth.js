@@ -37,7 +37,10 @@ export const loadUser = () => async dispatch => {
   }
   //  LOAD PROFILE
   try {
-    const res = await axios.get('api/auth');
+    console.log('enter LOAD_PROFILE');
+    const res = await axios.get('api/user/profile/me');
+    const resString = JSON.stringify(res.data);
+    console.log('LOAD RES.DATA: ' + resString);
     dispatch({
       type: PROFILE_GET,
       payload: res.data

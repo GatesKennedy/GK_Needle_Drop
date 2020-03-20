@@ -17,20 +17,49 @@ const router = Router();
 //  @route      GET /api/user/profile/me
 //  @desc       Display profile by 'id'
 //  @access     PRIVATE
-router.get('/me', (request, response, next) => {
-  const { id } = request.params;
-
-  pool.query(
-    'SELECT user.name, pro.entity AS "entityType", pro.location, fav.song_id FROM tbl_profile AS "pro" INNER JOIN tbl_favorite AS "fav" ON pro.user_id = fav.user_id INNER JOIN tbl_user ON pro.user_id = user.id WHERE user.id = $1;',
-    [id],
-    (err, res) => {
-      if (err) {
-        return next(err);
-      }
-      respond.send('coco profile');
-      response.json(res);
+router.get('/me', auth, async (request, response, next) => {
+  const user_id = request.user.id;
+  console.log('LOAD PROFILE: ' + user_id);
+  //  Async db Connection
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    //  Load Profile Data
+    const queryText = `SELECT 
+    json_build_object(
+      'user_id', Usr.id,
+      'user_name', Usr.name,
+      'user_role', Usr.role, 
+      'entity', Pro.entity, 
+      'location', Pro.location,
+      'payment', Pro.payment_info) AS profile, 
+	  json_agg(DISTINCT Fav.song_id) AS favorites,
+	  json_agg(DISTINCT Ply.id)      AS playlists
+    FROM      tbl_user     AS Usr
+    LEFT JOIN tbl_favorite AS Fav ON Usr.id = Fav.user_id
+    LEFT JOIN tbl_profile  AS Pro ON Usr.id = Pro.user_id
+    LEFT JOIN tbl_playlist AS Ply ON Usr.id = Ply.creator
+    WHERE Usr.id = ($1)
+    GROUP BY Usr.id, Pro.entity, Pro.location, Pro.payment_info;`;
+    const res = await client.query(queryText, [user_id]);
+    //  Error Response
+    if (!res.rows.length > 0) {
+      return response
+        .status(400)
+        .json({ errors: [{ msg: 'No Profile Found' }] });
     }
-  );
+    //  Check response
+    const resLog = JSON.stringify(res.rows);
+    response.json(res.rows);
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('CatchBlock Err: ' + err.mesage);
+    response.status(500).send('Server error');
+    return next(err);
+  } finally {
+    client.release();
+  }
 });
 
 //  SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP.SCRAP

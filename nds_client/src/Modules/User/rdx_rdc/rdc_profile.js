@@ -26,7 +26,9 @@ export default function(state = initialState, action) {
     case PROFILE_GET:
       return {
         ...state,
-        profile: payload,
+        profile: payload[0].profile,
+        playlists: payload[0].playlists,
+        favorites: payload[0].favorites,
         loading: false
       };
     case PROFILE_UPDATE:
