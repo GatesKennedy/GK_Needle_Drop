@@ -10,10 +10,10 @@ import { setAlert } from '../Notify/rdx_axn/axn_alert';
 import { ReactComponent as Add } from '../NDS/assets/vex/Add.svg';
 import Spinner from '../Notify/Spin';
 
-const Lists = ({
+const MyLists = ({
   createPlaylist,
   auth: { user, isAuthenticated, loading },
-  lists
+  profile: { profile, playlists, favorites }
 }) => {
   const [isOpen, setOpen] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isOpen });
@@ -34,7 +34,7 @@ const Lists = ({
   return (
     <Fragment>
       <section
-        className='menu stack Lists'
+        className='menu stack '
         id='mylist-cont'
         {...getToggleProps({
           onClick: () => setOpen(oldOpen => !oldOpen)
@@ -46,27 +46,39 @@ const Lists = ({
         </div>
       </section>
 
-      <section {...getCollapseProps()}>
+      <section {...getCollapseProps()} className='stack'>
         {loading ? (
           <Spinner />
         ) : isAuthenticated ? (
-          <section>
-            <form onSubmit={e => onSubmit(e)}>
-              <input
-                type='submit'
-                value='Create Playlist'
-                className='btn submit'
-              />
-            </form>
-            {}
-            <div className='menu-title'>My Lists</div>
-          </section>
+          <Fragment>
+            <section className='cont btn btn-create' id='mylist-cont'>
+              <form onSubmit={e => onSubmit(e)}>
+                <input
+                  type='submit'
+                  value='Create Playlist'
+                  className='btn submit'
+                />
+              </form>{' '}
+            </section>
+            <section>
+              <div className='menu-title'>
+                <ul className='stack'>
+                  {playlists.map(list => (
+                    <li key={list}>List {list}</li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          </Fragment>
         ) : (
-          <div className='menu-title stack center'>
-            <h5 className='stack'>login to view your playlists</h5>
-            <Link to='/login' className='stack center'>
-              <div className=' btn'>Login</div>
-            </Link>
+          <div className=''>
+            <h5 className='stack center'>...to view your playlists</h5>
+
+            <div className='stack center'>
+              <Link to='/login' className='btn'>
+                Login
+              </Link>
+            </div>
           </div>
         )}
       </section>
@@ -74,14 +86,14 @@ const Lists = ({
   );
 };
 
-Lists.propTypes = {
-  lists: PropTypes.object.isRequired,
+MyLists.propTypes = {
   auth: PropTypes.object.isRequired,
   createPlaylist: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
-export default connect(mapStateToProps, { createPlaylist })(Lists);
+export default connect(mapStateToProps, { createPlaylist })(MyLists);

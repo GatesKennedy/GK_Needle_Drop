@@ -9,5 +9,8 @@
   "client_config": {},
   "auth_config": {
     "jwtShhh": "ineverletyouholdmeback"
+  },
+  "admin_config": {
+    "Shhh": "1AmNotMyBody"
   }
 }

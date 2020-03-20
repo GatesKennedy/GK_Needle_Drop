@@ -5,13 +5,11 @@ import { connect } from 'react-redux';
 import { clrLibData } from './rdx_axn/axn_library';
 import { getPListNames } from './rdx_axn/axn_playlist';
 //  COMPS
-import PlayAll from './PlayAll';
 import Trk from '../Library/Trk';
 import Header from '../NDS/Header';
 
 const Playlist = ({
   library: { libData, loading },
-  playlist: { pListData },
   clrLibData,
   getPListNames
 }) => {
@@ -23,7 +21,7 @@ const Playlist = ({
   return (
     <Fragment>
       <Header title='Playlists' />
-      {libData ? (
+      {libData && !loading ? (
         <div className='stack'>
           <ul className='stack'>
             {libData.map(trk => (
