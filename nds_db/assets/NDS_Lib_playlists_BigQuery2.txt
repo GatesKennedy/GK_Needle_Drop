@@ -1,0 +1,57 @@
+----------------------------------------------------------------------------
+SELECT name, email, role, password from tbl_user;
+
+iAmNotMyBody
+$2a$10$sL.n4uOdkaruYH1NSs4ojOL/O3emJ56mGZHiL2CAPknmFoJlVfrmi
+
+===================================================================
+
+SELECT 
+    json_build_object(
+      'user_id', Usr.id,
+      'user_name', Usr.name,
+      'user_role', Usr.role, 
+      'entity', Pro.entity, 
+      'location', Pro.location,
+      'payment', Pro.payment_info) AS profile, 
+	  json_agg(DISTINCT Fav.song_id) AS favorites,
+	  json_agg(DISTINCT Ply.id)      AS playlists
+    FROM      tbl_user     AS Usr
+    LEFT JOIN tbl_favorite AS Fav ON Usr.id = Fav.user_id
+    LEFT JOIN tbl_profile  AS Pro ON Usr.id = Pro.user_id
+    LEFT JOIN tbl_playlist AS Ply ON Usr.id = Ply.creator
+    WHERE Usr.id = 'ea52f9cd-4bc3-4fa2-a60b-b649122ede21'
+    GROUP BY Usr.id, Pro.entity, Pro.location, Pro.payment_info;
+
+===================================================================
+
+SELECT 
+    json_build_object(
+      'user_id', Usr.id,
+      'user_name', Usr.name,
+      'user_role', Usr.role, 
+      'entity', Pro.entity, 
+      'location', Pro.location,
+      'payment', Pro.payment_info) 		AS profile, 
+	  json_agg(DISTINCT Fav.song_id) 	AS favorites,
+	  json_agg(json_build_object('pList_id', Ply.id, 'pList_name', Ply.name))   AS playlists
+    FROM      tbl_user     AS Usr
+    LEFT JOIN tbl_favorite AS Fav ON Usr.id = Fav.user_id
+    LEFT JOIN tbl_profile  AS Pro ON Usr.id = Pro.user_id
+    LEFT JOIN tbl_playlist AS Ply ON Usr.id = Ply.creator
+    WHERE Usr.id = 'ea52f9cd-4bc3-4fa2-a60b-b649122ede21'
+    GROUP BY Usr.id, Pro.entity, Pro.location, Pro.payment_info;
+
+===================================================================
+
+
+
+
+
+
+
+
+
+
+
+

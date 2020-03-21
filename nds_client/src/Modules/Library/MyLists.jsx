@@ -26,7 +26,7 @@ const MyLists = ({
       setAlert("oh no... you're not logged in", 'warn');
     } else {
       const creator = user[0].id;
-      setAlert('WELCOME!', 'warn');
+      setAlert('NEW Playlist by ' + profile.user_name, 'warn');
       createPlaylist({ name, creator });
     }
   };
@@ -64,7 +64,7 @@ const MyLists = ({
               <div className='menu-title'>
                 <ul className='stack'>
                   {playlists.map(list => (
-                    <li key={list}>List {list}</li>
+                    <li key={list.id}>{list.name}</li>
                   ))}
                 </ul>
               </div>

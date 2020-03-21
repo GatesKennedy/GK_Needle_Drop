@@ -43,16 +43,16 @@ export const loadUser = () => async dispatch => {
   try {
     console.log('enter LOAD_PROFILE');
     const res = await axios.get('api/user/profile/me');
-    // const resString = JSON.stringify(res.data);
-    // const resString_0 = JSON.stringify(res.data[0]);
-    // const resProf = JSON.stringify(res.data[0].profile);
-    // const resFavs = JSON.stringify(res.data[0].favorites);
-    // const resLists = JSON.stringify(res.data[0].playlists);
-    // console.log('AuthLoad res.data: ' + resString);
-    // console.log('AuthLoad res.data[0]: ' + resString_0);
-    // console.log('AUTH LOAD PROF: profile: ' + resProf);
-    // console.log('AUTH LOAD PROF: favorites: ' + resFavs);
-    // console.log('AUTH LOAD PROF: playlists: ' + resLists);
+    const resString = JSON.stringify(res.data);
+    const resString_0 = JSON.stringify(res.data[0]);
+    const resProf = JSON.stringify(res.data[0].profile);
+    const resFavs = JSON.stringify(res.data[0].favorites);
+    const resLists = JSON.stringify(res.data[0].playlists);
+    console.log('AuthLoad res.data: ' + resString);
+    console.log('AuthLoad res.data[0]: ' + resString_0);
+    console.log('AUTH LOAD PROF: profile: ' + resProf);
+    console.log('AUTH LOAD PROF: favorites: ' + resFavs);
+    console.log('AUTH LOAD PROF: playlists: ' + resLists);
     dispatch({
       type: PROFILE_LOADED,
       payload: res.data[0]

@@ -32,9 +32,9 @@ router.get('/me', auth, async (request, response, next) => {
       'user_role', Usr.role, 
       'entity', Pro.entity, 
       'location', Pro.location,
-      'payment', Pro.payment_info) AS profile, 
-	  json_agg(DISTINCT Fav.song_id) AS favorites,
-	  json_agg(DISTINCT Ply.id)      AS playlists
+      'payment', Pro.payment_info) 		AS profile, 
+	  json_agg(DISTINCT Fav.song_id) 	AS favorites,
+	  json_agg(json_build_object('id', Ply.id, 'name', Ply.name))   AS playlists
     FROM      tbl_user     AS Usr
     LEFT JOIN tbl_favorite AS Fav ON Usr.id = Fav.user_id
     LEFT JOIN tbl_profile  AS Pro ON Usr.id = Pro.user_id

@@ -24,21 +24,21 @@ CREATE TABLE tbl_user(
 
 
 CREATE TABLE tbl_profile(
-    user_id UUID REFERENCES tbl_user(id),
+    user_id UUID REFERENCES tbl_user(id) ON DELETE CASCADE,
     entity entity_type NOT NULL DEFAULT 'void',
     payment_info VARCHAR NOT NULL DEFAULT 'void',
     location VARCHAR(50)
 );
 
 CREATE TABLE tbl_favorite(
-    user_id UUID REFERENCES tbl_user(id),
-    song_id INTEGER REFERENCES tbl_library(id),
+    user_id UUID REFERENCES tbl_user(id) ON DELETE CASCADE,
+    song_id INTEGER REFERENCES tbl_library(id) ON DELETE CASCADE,
     PRIMARY KEY (user_id, song_id)
 );
 
 CREATE TABLE tbl_history(
-    user_id UUID REFERENCES tbl_user(id),
-    song_id INTEGER REFERENCES tbl_library(id),
+    user_id UUID REFERENCES tbl_user(id) ON DELETE CASCADE,
+    song_id INTEGER REFERENCES tbl_library(id) ON DELETE CASCADE,
     payment_status BOOLEAN NOT NULL DEFAULT 'false',
     date_purchased DATE NOT NULL DEFAULT CURRENT_DATE,
     PRIMARY KEY (user_id, song_id)
@@ -50,4 +50,4 @@ SELECT * FROM tbl_profile;
 --  .sql Script from CMD
 --===============================
 --  psql -U ohnodamn -d db_nds -a -f <file_path>
---  psql -U ohnodamn -d db_nds -a -f C:\Programming\Gates_Kennedy\GK_Needle_Drop\nds_db\scripts\userMgmt\user_rebuild_tbls.sql
+--  psql -U ohnodamn -d db_nds -a -f C:\Programming\Gates_Kennedy\GK_Needle_Drop\nds_db\scripts\userMgmt\bld-userMgmt.sql

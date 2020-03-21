@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS tbl_playlist CASCADE;
 
 CREATE TABLE IF NOT EXISTS tbl_playlist(
     id      SERIAL PRIMARY  KEY,
-    creator UUID REFERENCES tbl_user(id),
+    creator UUID REFERENCES tbl_user(id) ON DELETE CASCADE,
     name    TEXT            NOT NULL,
     image   TEXT,
     date_created DATE NOT NULL DEFAULT CURRENT_DATE
@@ -14,18 +14,18 @@ CREATE TABLE IF NOT EXISTS tbl_playlist(
 
 CREATE TABLE IF NOT EXISTS tbl_playall(
     id          SERIAL PRIMARY  KEY,
-    list_id     INTEGER         REFERENCES tbl_playlist(id),
-    song_id     INTEGER         REFERENCES tbl_library(id),
+    list_id     INTEGER         REFERENCES tbl_playlist(id) ON DELETE CASCADE,
+    song_id     INTEGER         REFERENCES tbl_library(id) ON DELETE CASCADE,
     rank        INTEGER         NOT NULL DEFAULT 0
 );
 
-INSERT INTO tbl_playlist( name )
+INSERT INTO tbl_playlist( creator, name)
 VALUES
-    ('Good Bad Boy'),
-    ('Biden The Buyable'),
-    ('Realize .:. Real Lies'),
-    ('DeadAss'),
-    ('Family Planning')
+    ('ea52f9cd-4bc3-4fa2-a60b-b649122ede21', 'Good Bad Boy'),
+    ('ea52f9cd-4bc3-4fa2-a60b-b649122ede21', 'Biden The Buyable'),
+    ('ea52f9cd-4bc3-4fa2-a60b-b649122ede21', 'Realize .:. Real Lies'),
+    ('ea52f9cd-4bc3-4fa2-a60b-b649122ede21', 'DeadAss'),
+    ('ea52f9cd-4bc3-4fa2-a60b-b649122ede21', 'Family Planning')
 ;
 
 INSERT INTO tbl_playall( list_id, song_id, rank )
@@ -55,4 +55,4 @@ SELECT * FROM tbl_playall;
 --  .sql Script from CMD
 --===============================
 --  psql -U ohnodamn -d db_nds -a -f <file_path>
---  psql -U ohnodamn -d db_nds -a -f C:\Programming\Gates_Kennedy\GK_Needle_Drop\nds_db\scripts\library\lib_playlists_tbl.sql
+--  psql -U ohnodamn -d db_nds -a -f C:\Programming\Gates_Kennedy\GK_Needle_Drop\nds_db\scripts\library\bld-pop-Playlists.sql
