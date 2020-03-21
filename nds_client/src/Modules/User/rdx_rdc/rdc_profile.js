@@ -1,5 +1,6 @@
 import {
-  PROFILE_GET,
+  PROFILE_LOADED,
+  PROFILE_CREATE,
   PROFILE_ERROR,
   PROFILE_CLEAR,
   PROFILE_UPDATE,
@@ -23,14 +24,15 @@ export default function(state = initialState, action) {
 
   switch (type) {
     //  SELF
-    case PROFILE_GET:
+    case PROFILE_LOADED:
       return {
         ...state,
-        profile: payload[0].profile,
-        playlists: payload[0].playlists,
-        favorites: payload[0].favorites,
+        profile: payload.profile,
+        playlists: payload.playlists,
+        favorites: payload.favorites,
         loading: false
       };
+    case PROFILE_CREATE:
     case PROFILE_UPDATE:
       return {
         ...state,

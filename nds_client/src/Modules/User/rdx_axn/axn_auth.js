@@ -9,7 +9,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  PROFILE_GET,
+  PROFILE_LOADED,
+  PROFILE_CREATE,
   PROFILE_CLEAR,
   PROFILE_ERROR
 } from '../../../Main/util/axn_types';
@@ -26,6 +27,8 @@ export const loadUser = () => async dispatch => {
   //  LOAD USER
   try {
     const res = await axios.get('api/auth');
+    const resString = JSON.stringify(res.data);
+    console.log('AUTH LOAD USER: res.data = ' + resString);
     dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -35,15 +38,24 @@ export const loadUser = () => async dispatch => {
       type: AUTH_ERROR
     });
   }
+
   //  LOAD PROFILE
   try {
     console.log('enter LOAD_PROFILE');
     const res = await axios.get('api/user/profile/me');
-    const resString = JSON.stringify(res.data);
-    console.log('LOAD RES.DATA: ' + resString);
+    // const resString = JSON.stringify(res.data);
+    // const resString_0 = JSON.stringify(res.data[0]);
+    // const resProf = JSON.stringify(res.data[0].profile);
+    // const resFavs = JSON.stringify(res.data[0].favorites);
+    // const resLists = JSON.stringify(res.data[0].playlists);
+    // console.log('AuthLoad res.data: ' + resString);
+    // console.log('AuthLoad res.data[0]: ' + resString_0);
+    // console.log('AUTH LOAD PROF: profile: ' + resProf);
+    // console.log('AUTH LOAD PROF: favorites: ' + resFavs);
+    // console.log('AUTH LOAD PROF: playlists: ' + resLists);
     dispatch({
-      type: PROFILE_GET,
-      payload: res.data
+      type: PROFILE_LOADED,
+      payload: res.data[0]
     });
   } catch (err) {
     dispatch({
@@ -54,17 +66,24 @@ export const loadUser = () => async dispatch => {
 
 //  Register User / Auth User
 //==========================
-export const register = ({ username, email, password }) => async dispatch => {
+export const register = ({
+  username,
+  email,
+  password,
+  role = 'user'
+}) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   };
+  const body = JSON.stringify({ username, email, password, role });
 
-  const body = JSON.stringify({ username, email, password });
   //  Create User
   try {
     const res = await axios.post('/api/auth/register', body, config);
+    const resString = JSON.stringify(res.data);
+    console.log('AUTH REGI: res.data = ' + resString);
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
@@ -80,8 +99,25 @@ export const register = ({ username, email, password }) => async dispatch => {
   }
   //  Create Profile
   try {
-    const res = await axios.post('/api/profile/me');
-  } catch (err) {}
+    //  SET GLOBAL HEADER with Token
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    //  CREATE PROFILE
+    const rez = await axios.post('/api/user/profile/create');
+    const rezString = JSON.stringify(rez.data[0]);
+    console.log('AXN AUTH > Register > rez.data = ' + rezString);
+    dispatch({
+      type: PROFILE_CREATE,
+      payload: rez.data[0]
+    });
+    setAlert('WELCOME, Friend!', 'success');
+    //  LOAD USER/PROFILE
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR
+    });
+  }
 };
 
 //  Login User / Auth User
@@ -95,6 +131,7 @@ export const login = ({ email, password }) => async dispatch => {
   };
 
   try {
+    //  LOAD USER
     const res = await axios.post('/api/auth', body, config);
     dispatch({
       type: LOGIN_SUCCESS,

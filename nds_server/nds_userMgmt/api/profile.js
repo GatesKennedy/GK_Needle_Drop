@@ -15,11 +15,11 @@ const router = Router();
 //  ==   GET   ==
 //  =============
 //  @route      GET /api/user/profile/me
-//  @desc       Display profile by 'id'
+//  @desc       LOAD PROFILE
 //  @access     PRIVATE
 router.get('/me', auth, async (request, response, next) => {
   const user_id = request.user.id;
-  console.log('LOAD PROFILE: ' + user_id);
+  console.log('API > /profile/me > user_id = ' + user_id);
   //  Async db Connection
   const client = await pool.connect();
   try {
@@ -90,20 +90,45 @@ router.get('/me/favorite', auth, async (request, response, next) => {
 //  ==   POST   ==
 //  ==============
 //  @route      POST /api/user/profile/create
-//  @desc       Create profile
+//  @desc       CREATE PROFILE
 //  @access     Public
-router.post('/create', auth, (request, response, next) => {
-  const { user_id } = request.body;
+router.post('/create', auth, async (request, response, next) => {
+  const user_id = request.user.id;
+  console.log('API > /profile/create > user_id = ' + user_id);
+  // const { user_id } = request.body;
+  // console.log('API > /profile/create > user_id =' + user_id);
 
-  pool.query(
-    'INSERT INTO tbl_profile(user_id) VALUES($1)',
-    [user_id],
-    (err, res) => {
-      if (err) return next(err);
-      // Return Profile Data
-      response.status(400).json(res.rows);
-    }
-  );
+  //  async db Connection
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    //  Create Profile - Get user_id
+    const insertText = 'INSERT INTO tbl_profile(user_id) VALUES($1)';
+    await client.query(insertText, [user_id]);
+    //  Return Profile Data
+    const queryText = `
+    SELECT 
+      P.user_id, 
+      U.name user_name, 
+      U.role user_role, 
+      P.entity
+    FROM tbl_user AS U
+    LEFT JOIN tbl_profile AS P ON U.id = P.user_id
+    WHERE P.user_id = $1`;
+    const rez = await client.query(queryText, [user_id]);
+    response.json(rez.rows);
+    await client.query('COMMIT');
+    //  Catch
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('CatchBlock Err: ' + err.mesage);
+    response.status(500).send('Server error');
+    return next(err);
+    //throw err;
+  } finally {
+    //  Finally
+    client.release();
+  }
 });
 
 //  @route      POST /api/user/profile/favorite

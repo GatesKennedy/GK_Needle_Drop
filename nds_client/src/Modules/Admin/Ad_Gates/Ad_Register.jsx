@@ -17,7 +17,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     password: '',
     pwConfirm: ''
   });
-
   //  formData (declare)
   const { username, email, role, password, pwConfirm } = formData;
   //  formData (change)
@@ -36,7 +35,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       );
     } else {
       setAlert('Yeah, you can hang...', 'warn');
-      register({ username, email, password });
+      register({ username, email, password, role });
     }
   };
   //  Redirect (auth?)
@@ -50,7 +49,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     <Fragment>
       <section className=' hello center'>
         <div className='greeting center'>
-          <h2 className='font-blk center'>...i guess you can hang</h2>
+          <h2 className='font-blk center'>hmm, maybe you can hang...</h2>
         </div>
         <form className='form-auth center' onSubmit={e => onSubmit(e)}>
           <div className='column form-group'>

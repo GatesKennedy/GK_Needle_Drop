@@ -14,7 +14,7 @@ const pool = require('../../../nds_db/db');
 //  ==   GET   ==
 //  =============
 
-//  LOAD
+//  LOAD USER
 //  @route      GET api/auth
 //  @desc       AUTH Token | LOAD User
 //  @access     PRIVATE
@@ -102,6 +102,7 @@ router.post(
     //response.redirect('/');
   }
 );
+
 //  REGISTER
 //  @route      POST api/auth/register
 //  @desc       REGISTER User
@@ -118,7 +119,8 @@ router.post(
     })
   ],
   async (request, response, next) => {
-    const { username, email, password } = request.body;
+    //>< >< >< >< !VALIDATE ROLE! >< >< >< ><
+    const { username, email, password, role } = request.body;
     //  Error Response
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -134,9 +136,12 @@ router.post(
       const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
       const res = await client.query(queryText, [email]);
       console.log('>Email get');
+      console.log(
+        'AUTH API: REGI Email Check: res.rows.length = ' + res.rows.length
+      );
       //  IF email already Exists...
       if (res.rows.length > 0) {
-        console.log(res.rows);
+        console.log('AUTH API: Email Check: FAIL');
         return response
           .status(400)
           .json({ errors: [{ msg: 'User already exists' }] });
@@ -148,8 +153,8 @@ router.post(
       console.log('>Password');
       //  Create User (SQL: tbl_user)
       const insertText =
-        'INSERT INTO tbl_user(name, email, password) VALUES($1, $2, $3) RETURNING id';
-      const insertValues = [username, email, pwCrypt];
+        'INSERT INTO tbl_user(name, email, password, role) VALUES($1, $2, $3, $4) RETURNING id';
+      const insertValues = [username, email, pwCrypt, role];
       const rez = await client.query(insertText, insertValues);
       console.log('>INSERT');
       //  Return JWT
@@ -178,6 +183,7 @@ router.post(
       throw e;
     } finally {
       //  Finally
+
       client.release();
     }
     //  Redirect to /root  (/library)

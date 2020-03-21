@@ -7,22 +7,18 @@ import { connect } from 'react-redux';
 import { setAlert } from '../Notify/rdx_axn/axn_alert';
 import { register } from './rdx_axn/axn_auth';
 
-const Register = ({
-  setAlert,
-  register,
-  getCurrentProfile,
-  isAuthenticated
-}) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   //  useState(formData)
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
-    pwConfirm: ''
+    pwConfirm: '',
+    role: 'user'
   });
 
   //  formData (declare)
-  const { username, email, password, pwConfirm } = formData;
+  const { username, email, password, pwConfirm, role } = formData;
   //  formData (change)
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,8 +29,7 @@ const Register = ({
     if (password !== pwConfirm) {
       setAlert("oh no... passwords don't match", 'warn');
     } else {
-      setAlert('WELCOME!', 'warn');
-      register({ username, email, password });
+      await register({ username, email, password, role });
     }
   };
   //  Redirect (auth?)

@@ -11,6 +11,9 @@
     "jwtShhh": "ineverletyouholdmeback"
   },
   "admin_config": {
-    "Shhh": "iAmNotMyBody"
+    "Shhh": "iAmNotMyBody",
+    "bCrypted1": "$2a$10$sL.n4uOdkaruYH1NSs4ojOL/O3emJ56mGZHiL2CAPknmFoJlVfrmi",
+    "bCrypted1": "$2a$10$UV5KakcdOkUKlTu0dGidbOi1pc6P5ge5uU.Qfi8/5UMHUiV6fbMQm",
+    "bCrypted1": ""
   }
 }
