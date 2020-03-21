@@ -11,19 +11,6 @@ const router = Router();
 //  ==   GET   ==
 //  =============
 
-//  @route      GET /api/library/playlist/json
-//  @desc       Get All Playlists
-//  @access     PUBLIC
-router.get('/json', async (request, response, next) => {
-  //  Async db Connection
-  const client = await pool.connect();
-  try {
-    await client.query('BEGIN');
-    const queryText =
-      'SELECT lib.id sid, p_all.list_id pid, p_list.creator uid, user.role role FROM tbl_library';
-  } catch (err) {}
-});
-
 //  @route      GET /api/library/playlist/names/all
 //  @desc       Get All Playlists
 //  @access     PUBLIC
@@ -60,6 +47,7 @@ router.get('/names/admin', (request, response, next) => {
     });
   });
 });
+
 //  @route      GET /api/library/playlist/user
 //  @desc       Get User Playlists
 //  @access     PRIVATE
@@ -79,60 +67,45 @@ router.get('/names/user', auth, (request, response, next) => {
   });
 });
 
-//  @route      GET /api/library/playlist/data/all
+//  @route      GET /api/library/playlist/select
 //  @desc       Get ALL Playlist Data
 //  @access     PUBLIC
-router.get('/data/all', (request, response, next) => {
+router.get('/select/:id', auth, (request, response, next) => {
+  const reqString = JSON.stringify(request.body);
+  console.log('API /playlist/select > reqString = ' + reqString);
+
+  const { id } = request.params;
+  console.log('API /playlist/select > id = ' + id);
+
   pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error acquiring client', err.stack);
     }
-    const query =
-      'SELECT tbl_playlist.id, name, song_id, rank FROM tbl_playlist INNER JOIN tbl_playall ON tbl_playlist.id = tbl_playall.list_id';
-    client.query(query, (err, res) => {
+    const queryText = `SELECT 
+        pl.id, 
+        pl.name, 
+        json_agg(json_build_object(
+          'id', pa.song_id, 
+          'song', li.data_json->>'song',
+          'artist', li.data_json->>'artist',
+          'time', li.data_json->>'time',
+          'rank', pa.rank          )) AS trks
+      FROM tbl_playlist AS pl
+      INNER JOIN tbl_playall AS pa ON pl.id = pa.list_id
+      LEFT JOIN tbl_library AS li ON pa.song_id = li.id
+      WHERE pl.id = ($1)
+      GROUP BY pl.id, pl.name`;
+    client.query(queryText, [id], (err, res) => {
       release();
       if (err) {
         return console.error('Error executing query', err.stack);
       }
+      const resString = JSON.stringify(res.rows);
+      console.log('API /playlist/select > resString = ' + resString);
       response.json(res.rows);
     });
   });
 });
-
-//  @route      GET /api/library/playlist/1/:name
-//  @desc       Get Playlist by ID
-//  @access     PUBLIC
-router.get('/1/:id', (request, response, next) => {
-  const { id } = request.params;
-  const query = {
-    text:
-      //'SELECT name, json_agg(song_id) FROM tbl_playlist WHERE id = $1;',
-      "SELECT tbl_playall.list_id, song_id, tbl_library.data_json ->> 'song' AS song, tbl_library.data_json ->> 'artist' AS artist, tbl_library.data_json ->> 'time' AS time, rank FROM tbl_playall INNER JOIN tbl_library ON tbl_playall.song_id = tbl_library.id WHERE tbl_playall.list_id = $1",
-    values: [id]
-  };
-
-  pool.query(query, (err, res) => {
-    if (err) return next(err);
-
-    response.json(res.rows);
-  });
-});
-
-//  @route      GET /api/library/playlist/:search
-//  @desc       Display Artist library
-//  @access     PUBLIC
-// router.get('/:search', (request, response, next) => {
-//   const { search } = request.params;
-//   pool.query(
-//     'SELECT * FROM tbl_library WHERE data_json @> \'{"search": "$1"}\';',
-//     [artist],
-//     (err, res) => {
-//       if (err) return next(err);
-
-//       response.json(res.rows);
-//     }
-//   );
-// });
 
 //  ==============
 //  ==   POST   ==

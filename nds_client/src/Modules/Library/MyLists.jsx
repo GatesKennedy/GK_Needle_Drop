@@ -4,7 +4,7 @@ import useCollapse from 'react-collapsed';
 //  REDUX
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createPlaylist } from './rdx_axn/axn_playlist';
+import { createPlaylist, selectPlaylist } from './rdx_axn/axn_playlist';
 import { setAlert } from '../Notify/rdx_axn/axn_alert';
 //  Comps
 import { ReactComponent as Add } from '../NDS/assets/vex/Add.svg';
@@ -12,6 +12,7 @@ import Spinner from '../Notify/Spin';
 
 const MyLists = ({
   createPlaylist,
+  selectPlaylist,
   auth: { user, isAuthenticated, loading },
   profile: { profile, playlists, favorites }
 }) => {
@@ -63,8 +64,15 @@ const MyLists = ({
             <section>
               <div className='menu-title'>
                 <ul className='stack'>
-                  {playlists.map(list => (
-                    <li key={list.id}>{list.name}</li>
+                  {playlists.map(plist => (
+                    <li key={plist.id}>
+                      <div
+                        className='btn'
+                        onClick={() => selectPlaylist(plist.id)}
+                      >
+                        {plist.name}
+                      </div>{' '}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -96,4 +104,6 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { createPlaylist })(MyLists);
+export default connect(mapStateToProps, { createPlaylist, selectPlaylist })(
+  MyLists
+);

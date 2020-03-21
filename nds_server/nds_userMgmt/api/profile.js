@@ -136,6 +136,7 @@ router.post('/create', auth, async (request, response, next) => {
 //  @access     PRIVATE
 router.post('/favorite', auth, async (request, response, next) => {
   const { user_id, song_id, exists } = request.body;
+  console.log('API /profile/favorite > song_id = ' + song_id);
 
   const client = await pool.connect();
   try {

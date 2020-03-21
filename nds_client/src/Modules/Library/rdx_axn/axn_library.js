@@ -43,6 +43,8 @@ export const getLibData = () => async dispatch => {
   console.log('FXN: getLibData()');
   try {
     const res = await axios.get('/api/library/all');
+    const resString = JSON.stringify(res.data);
+    console.log('AXN LIB > getLibData() > resString = ' + resString);
     dispatch({
       type: LIBDATA_UPDATE,
       payload: res.data
@@ -65,6 +67,7 @@ export const getArtists = () => async dispatch => {
     console.log('try{} getArtists()');
 
     const res = await axios.get('/api/library/boone_howard');
+
     dispatch({
       type: ARTISTS_GET,
       payload: res.data

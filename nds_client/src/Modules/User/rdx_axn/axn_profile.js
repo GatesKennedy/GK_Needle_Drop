@@ -51,7 +51,6 @@ export const createProfile = (
         'Content-Type': 'application/json'
       }
     };
-
     const res = await axios.post('/api/profile', formData, config);
 
     dispatch({
@@ -87,9 +86,9 @@ export const updateFavorite = (user_id, song_id, exists) => async dispatch => {
       'Content-Type': 'application/json'
     }
   };
-  console.log('axn_PROF: ' + song_id);
+  console.log('AXN PROF > updateFav > song_id = ' + song_id);
   const body = JSON.stringify({ user_id, song_id, exists });
-  console.log(body);
+  console.log('AXN PROF > updateFav > body = ' + body);
 
   try {
     const res = await axios.post('/api/user/profile/favorite', body, config);

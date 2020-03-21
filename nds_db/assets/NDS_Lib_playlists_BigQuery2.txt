@@ -44,10 +44,44 @@ SELECT
 
 ===================================================================
 
+SELECT 
+        pl.id, 
+        pl.name, 
+        json_agg(json_build_object('id', pa.song_id, 'rank', pa.rank)) AS trks
+      FROM tbl_playlist AS pl
+      INNER JOIN tbl_playall AS pa ON pl.id = pa.list_id
+      LEFT JOIN tbl_library AS li ON pa.song_id = li.id
+      WHERE pl.id = 1
+      GROUP BY pl.id, pl.name;
 
+====================================================================
 
+SELECT 
+        pl.id, 
+        pl.name, 
+        json_agg(json_build_object(
+          'id', pa.song_id, 
+          'song', li.data_json->>'song',
+          'artist', li.data_json->>'artist',
+          'time', li.data_json->>'time',
+          'rank', pa.rank          )) AS trks
+      FROM tbl_playlist AS pl
+      INNER JOIN tbl_playall AS pa ON pl.id = pa.list_id
+      LEFT JOIN tbl_library AS li ON pa.song_id = li.id
+      WHERE pl.id = 1
+      GROUP BY pl.id, pl.name
 
+======================================================================
 
+id(pin):2786
+song(pin):"Break Up The Band (Instrumental)"
+artist(pin):"Boone Howard"
+time(pin):"1:53"
+
+{ ID: 234, SONG: "song title", ARTIST: "art name", TIME: "1:53" }
+{ ID: 234, SONG: "song title", ARTIST: "art name", TIME: "1:53" }
+{ ID: 234, SONG: "song title", ARTIST: "art name", TIME: "1:53" }
+{ ID: 234, SONG: "song title", ARTIST: "art name", TIME: "1:53" }
 
 
 
