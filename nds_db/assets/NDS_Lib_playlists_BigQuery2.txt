@@ -69,7 +69,7 @@ SELECT
       INNER JOIN tbl_playall AS pa ON pl.id = pa.list_id
       LEFT JOIN tbl_library AS li ON pa.song_id = li.id
       WHERE pl.id = 1
-      GROUP BY pl.id, pl.name
+      GROUP BY pl.id, pl.name;
 
 ======================================================================
 
