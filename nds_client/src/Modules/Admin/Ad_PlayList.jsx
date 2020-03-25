@@ -2,11 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 //  REDUX
 import { connect } from 'react-redux';
-import {
-  getPListNames,
-  getPlayAll,
-  getPlaylist
-} from '../Library/rdx_axn/axn_playlist';
+import { getPlistAdmin, selectPlaylist } from '../Library/rdx_axn/axn_playlist';
 //  COMPS
 import Navi from './Ad_Navi';
 import Browse from './Ad_Browse';
@@ -15,15 +11,14 @@ import Ad_Navi from './Ad_Navi';
 import { selectPlist } from '../Library/rdx_axn/axn_library';
 
 const Ad_Playlist = ({
-  getPListNames,
-  getPlaylist,
-  getPlayAll,
-  admin: { pListChosen, trkChosen },
-  library: { trkData },
-  playlist: { pListNames, allListData, pListData, loading }
+  getPlistAdmin,
+  selectPlaylist,
+  admin,
+  library,
+  playlist: { pListAdmin, pListSelected, loading }
 }) => {
   useEffect(() => {
-    getPListNames();
+    getPlistAdmin();
   }, []);
 
   return (
@@ -39,11 +34,11 @@ const Ad_Playlist = ({
               <div className='col bg-gry2 menu'>
                 <p className=''>Choose Me</p>
                 <div className=''>
-                  {pListNames.map(plist => (
+                  {pListAdmin.map(plist => (
                     <button
                       key={plist.id}
                       className='col'
-                      onClick={() => getPlaylist(plist.id)}
+                      onClick={() => selectPlaylist(plist.id)}
                     >
                       {plist.name}
                     </button>
@@ -56,9 +51,9 @@ const Ad_Playlist = ({
               <p>Change Me</p>
               <p>=========</p>
               <div className='stack' id='brow-list'>
-                {pListData ? (
+                {pListSelected ? (
                   <ul className='stack'>
-                    {pListData.map(trk => (
+                    {pListSelected.map(trk => (
                       <li key={trk.song_id}>
                         <div className='row'>{trk.artist}</div>
                         <div className='row'> "{trk.song}"</div>
@@ -92,7 +87,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getPListNames,
-  getPlaylist,
-  getPlayAll
+  getPlistAdmin
 })(Ad_Playlist);

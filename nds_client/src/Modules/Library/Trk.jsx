@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from '../../../node_modules/react';
+import React, { useEffect, useState } from 'react';
 //  REDUX
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';

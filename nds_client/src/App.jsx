@@ -23,13 +23,13 @@ import Ad_Account from './Modules/Admin/Ad_Account';
 //    === Ecomm ===
 import Purchase from './Modules/Ecomm/Purchase';
 //    === Library ===
-import Library from './Modules/Library/Library';
+import Library from './Modules/Library/LibraryPage';
 import Artist from './Modules/Library/Artist';
-import Playlists from './Modules/Library/PlayAll';
+import PlaylistAll from './Modules/Library/PlaylistAll';
 //    === Main ===
 import Hello from './Main/Hello';
 import NavStd from './Main/Navi';
-import Footer from './Main/Footer';
+
 //    === Notify ===
 import Alert from './Modules/Notify/Alert';
 //    === User ===
@@ -37,6 +37,8 @@ import Profile from './Modules/User/Profile';
 import User from './Modules/User/User';
 import Login from './Modules/User/Login';
 import Register from './Modules/User/Register';
+//    === NDS ===
+import Footer from './Modules/NDS/Footer';
 
 //  Set Headers with 'x-auth-token': 'token'
 if (localStorage.token) {
@@ -60,7 +62,7 @@ const App = () => {
             <Switch>
               <Route exact path='/hello' component={Hello} />
               <Route exact path='/library' component={Library} />
-              <Route exact path='/playlists' component={Playlists} />
+              <Route exact path='/playlists' component={PlaylistAll} />
               <Route exact path='/artist' component={Artist} />
               <Route exact path='/user' component={User} />
               <Route exact path='/login' component={Login} />

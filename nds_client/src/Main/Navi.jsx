@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../Modules/User/rdx_axn/axn_auth';
 //  Asset
-import { ReactComponent as ND_logo } from '../Modules/NDS/assets/vex/Logo_ND-header.svg';
+import { ReactComponent as LogoNd } from '../Modules/NDS/assets/vex/Logo_ND-header.svg';
 import { ReactComponent as Cart } from '../Modules/NDS/assets/vex/Cart.svg';
 
 const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
@@ -16,7 +16,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
       <div className='center menu'>
         <Link to='/hello' className='center'>
           {' '}
-          <ND_logo id='navi-logo' />
+          <LogoNd id='navi-logo' />
         </Link>
       </div>
       <div className='center main menu-head navi-links'>
@@ -47,7 +47,7 @@ const NavStd = ({ auth: { isAuthenticated, loading }, logout }) => {
       <div className='center menu'>
         <Link to='/hello' className='center'>
           {' '}
-          <ND_logo id='navi-logo' />
+          <LogoNd id='navi-logo' />
         </Link>
       </div>
       <div className='center main menu-head navi-links'>

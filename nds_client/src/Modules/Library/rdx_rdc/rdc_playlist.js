@@ -1,18 +1,15 @@
 import {
   PLAYLIST_GET,
-  PLISTNAMES_GET,
   PLAYLIST_CREATE,
-  PLAYLIST_ERROR,
-  PLAYLIST_CLEAR,
   PLAYLIST_UPDATE,
-  PLAYALL_GET,
-  PLAYALL_ERROR
+  PLAYLIST_DELETE,
+  PLAYLIST_ERROR
 } from '../../../Main/util/axn_types';
 
 const initialState = {
-  pListNames: null,
-  allListData: null,
-  pListData: null,
+  pListAdmin: null,
+  pListUser: null,
+  pListSelected: null,
   loading: true,
   error: {}
 };
@@ -22,40 +19,16 @@ export default function(state = initialState, action) {
 
   switch (type) {
     //  GET
-    case PLISTNAMES_GET:
-      return {
-        ...state,
-        pListNames: payload,
-        loading: false
-      };
     case PLAYLIST_GET:
-      return {
-        ...state,
-        pListData: payload,
-        loading: false
-      };
-    case PLAYALL_GET:
-      return {
-        ...state,
-        allListData: payload,
-        loading: false
-      };
-    //  UPDATE
+    case PLAYLIST_CREATE:
     case PLAYLIST_UPDATE:
+    case PLAYLIST_DELETE:
       return {
         ...state,
-        pListData: payload,
-        loading: false
-      };
-    //  CLEAR
-    case PLAYLIST_CLEAR:
-      return {
-        ...state,
-        pListData: null,
+        pListAdmin: payload,
         loading: false
       };
     //  ERROR
-    case PLAYALL_ERROR:
     case PLAYLIST_ERROR:
       return {
         ...state,

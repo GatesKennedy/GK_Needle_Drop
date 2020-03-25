@@ -11,39 +11,72 @@ const router = Router();
 //  ==   GET   ==
 //  =============
 
-//  @route      GET /api/library/playlist/names/all
+//  @route      GET /api/library/playlist/all
 //  @desc       Get All Playlists
 //  @access     PUBLIC
-router.get('/names/all', (request, response, next) => {
+router.get('/all', async (request, response, next) => {
+  console.log('API /playlist/all > ENTERED');
+
+  const client = await pool.connect();
+  try {
+    //  Get Admin Playlists
+    const queryAdmin = `
+      SELECT
+        P.name,
+        P.image,
+        U.name,
+        U.role
+      FROM tbl_playlist P
+      LEFT JOIN tbl_user U ON P.creator = U.id
+      WHERE 
+        U.role = 'admin' OR
+        U.id = ($1)`;
+    const res = await client.query(queryAdmin);
+    console.log('API /playlist/all > Admin Plists = ' + res.rows[0]);
+    //  Get User Playlists
+    const queryUser = `
+      SELECT
+        P.name,
+        P.image,
+        U.`;
+  } catch (err) {
+    console.error('CatchBlock Err: ' + err.mesage);
+    response.status(500).send('Server error');
+    throw err;
+  } finally {
+    client.release();
+  }
+});
+
+//  @route      GET /api/library/playlist/admin
+//  @desc       Get Admin Playlists
+//  @access     PUBLIC
+router.get('/admin', (request, response, next) => {
   pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error acquiring client', err.stack);
     }
-    const queryText = 'SELECT * FROM tbl_playlist';
+    const queryText = `
+    SELECT
+      P.id AS id,
+      P.name AS name,
+      P.image AS imageUrl,
+      U.name AS creator,
+      json_agg(DISTINCT A.song_id) AS trkList
+    FROM tbl_playlist P
+    LEFT JOIN tbl_user U ON P.creator = U.id
+    LEFT JOIN tbl_playall A ON P.id = A.list_id
+    WHERE 
+      U.role = 'admin'
+    GROUP BY P.name, P.image, U.name, P.id`;
     client.query(queryText, (err, res) => {
       release();
       if (err) {
         return console.error('Error executing query', err.stack);
       }
       response.json(res.rows);
-    });
-  });
-});
-//  @route      GET /api/library/playlist/admin
-//  @desc       Get Admin Playlists
-//  @access     PUBLIC
-router.get('/names/admin', (request, response, next) => {
-  pool.connect((err, client, release) => {
-    if (err) {
-      return console.error('Error acquiring client', err.stack);
-    }
-    const query = 'SELECT * FROM tbl_playlist WHERE creator IS NULL ';
-    client.query(query, (err, res) => {
-      release();
-      if (err) {
-        return console.error('Error executing query', err.stack);
-      }
-      response.json(res.rows);
+      // const resString = JSON.stringify(res.rows);
+      // console.log(resString);
     });
   });
 });
@@ -51,13 +84,23 @@ router.get('/names/admin', (request, response, next) => {
 //  @route      GET /api/library/playlist/user
 //  @desc       Get User Playlists
 //  @access     PRIVATE
-router.get('/names/user', auth, (request, response, next) => {
+router.get('/user', auth, (request, response, next) => {
+  const user_id = request.user.id;
   pool.connect((err, client, release) => {
     if (err) {
       return console.error('Error acquiring client', err.stack);
     }
-    const query = 'SELECT * FROM tbl_playlist WHERE creator IS NULL ';
-    client.query(query, (err, res) => {
+    const query = `    
+      SELECT
+        P.name,
+        P.image,
+        U.name,
+        U.role
+      FROM tbl_playlist P
+      LEFT JOIN tbl_user U ON P.creator = U.id
+      WHERE 
+        U.id = ($1)`;
+    client.query(query, [user_id], (err, res) => {
       release();
       if (err) {
         return console.error('Error executing query', err.stack);
@@ -67,7 +110,7 @@ router.get('/names/user', auth, (request, response, next) => {
   });
 });
 
-//  @route      GET /api/library/playlist/select
+//  @route      GET /api/library/playlist/select/:id
 //  @desc       Get ALL Playlist Data
 //  @access     PUBLIC
 router.get('/select/:id', auth, (request, response, next) => {

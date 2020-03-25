@@ -1,16 +1,16 @@
 import {
   LIBRARY_GET,
   LIBRARY_ERROR,
-  LIBDATA_CLEAR,
+  LIB_RESULT_CLEAR,
   PLAYLIST_SELECT,
   TRK_SELECT,
   TRK_ERROR,
-  LIBDATA_UPDATE
+  LIB_RESULT_UPDATE
 } from '../../../Main/util/axn_types';
 
 const initialState = {
   library: null,
-  libData: null,
+  libResult: null,
   artistData: null,
   trkData: null,
   loading: true,
@@ -21,13 +21,13 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    //  LIBDATA
+    //  LIBRESULT
     case LIBRARY_GET:
-    case LIBDATA_UPDATE:
+    case LIB_RESULT_UPDATE:
     case PLAYLIST_SELECT:
       return {
         ...state,
-        libData: payload,
+        libResult: payload,
         loading: false
       };
     case TRK_SELECT:
@@ -37,10 +37,10 @@ export default function(state = initialState, action) {
         loading: false
       };
     //  CLEAR
-    case LIBDATA_CLEAR:
+    case LIB_RESULT_CLEAR:
       return {
         ...state,
-        libData: null,
+        libResult: null,
         loading: false
       };
     //  ERROR

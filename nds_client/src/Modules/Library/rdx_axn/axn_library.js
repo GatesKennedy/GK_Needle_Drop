@@ -4,8 +4,8 @@ import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 import {
   LIBRARY_GET,
   LIBRARY_ERROR,
-  LIBDATA_UPDATE,
-  LIBDATA_CLEAR,
+  LIB_RESULT_UPDATE,
+  LIB_RESULT_CLEAR,
   ARTISTS_GET,
   ARTISTS_ERROR,
   ARTIST_GET,
@@ -19,7 +19,6 @@ import {
 //  =============
 //=============================
 // GET: Library Tracks (All)
-
 export const getLibrary = () => async dispatch => {
   console.log('FXN: getLibrary()');
   try {
@@ -39,18 +38,18 @@ export const getLibrary = () => async dispatch => {
 
 //=============================
 // GET: Library To Display
-export const getLibData = () => async dispatch => {
-  console.log('FXN: getLibData()');
+export const getLibResult = () => async dispatch => {
+  //console.log('FXN: getLibResult()');
   try {
     const res = await axios.get('/api/library/all');
-    const resString = JSON.stringify(res.data);
-    console.log('AXN LIB > getLibData() > resString = ' + resString);
+    //const resString = JSON.stringify(res.data);
+    //console.log('AXN LIB > getLibResult() > resString = ' + resString);
     dispatch({
-      type: LIBDATA_UPDATE,
+      type: LIB_RESULT_UPDATE,
       payload: res.data
     });
   } catch (err) {
-    console.log('catch{} getLibrary() error');
+    // console.log('catch{} getLibResult() error');
     dispatch({
       type: LIBRARY_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
@@ -60,7 +59,6 @@ export const getLibData = () => async dispatch => {
 
 //=============================
 // GET: Library Artists (All)
-
 export const getArtists = () => async dispatch => {
   console.log('FXN: getArtists()');
   try {
@@ -84,7 +82,6 @@ export const getArtists = () => async dispatch => {
 
 //=============================
 // GET: Artist by ID
-
 export const getArtist = artistId => async dispatch => {
   console.log('FXN: getArtists()');
   try {
@@ -107,7 +104,6 @@ export const getArtist = artistId => async dispatch => {
 
 //=============================
 // GET: Select Song
-
 export const selectTrk = trkId => async dispatch => {
   try {
     const res = await axios.get(`/api/library/track/${trkId}`);
@@ -124,9 +120,9 @@ export const selectTrk = trkId => async dispatch => {
     });
   }
 };
+
 //=============================
 // GET: Select Playlist
-
 export const selectPlist = trkId => async dispatch => {
   try {
     const res = await axios.get(`/api/library/track/${trkId}`);
@@ -147,10 +143,9 @@ export const selectPlist = trkId => async dispatch => {
 //  =============
 //  ==  CLEAR  ==
 //  =============
-
-export const clrLibData = () => async dispatch => {
+export const clrLibResult = () => async dispatch => {
   dispatch({
-    type: LIBDATA_CLEAR,
+    type: LIB_RESULT_CLEAR,
     payload: null
   });
 };

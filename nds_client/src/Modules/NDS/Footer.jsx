@@ -2,33 +2,33 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 //  Asset
-import { ReactComponent as ND_logo } from '../Modules/NDS/assets/vex/Logo_ND-footer.svg';
-import { ReactComponent as FB_logo } from '../Modules/NDS/assets/vex/Social_fb.svg';
-import { ReactComponent as IG_logo } from '../Modules/NDS/assets/vex/Social_ig.svg';
-import { ReactComponent as YT_logo } from '../Modules/NDS/assets/vex/Social_yt.svg';
-import { ReactComponent as LI_logo } from '../Modules/NDS/assets/vex/Social_li.svg';
+import { ReactComponent as Logo_ND } from './assets/vex/Logo_ND-footer.svg';
+import { ReactComponent as Social_fb } from './assets/vex/Social_fb.svg';
+import { ReactComponent as Social_ig } from './assets/vex/Social_ig.svg';
+import { ReactComponent as Social_yt } from './assets/vex/Social_yt.svg';
+import { ReactComponent as Social_li } from './assets/vex/Social_li.svg';
 
 const Footer = () => {
   return (
     <Fragment>
       <footer className='cont row bg-pnk2' id='footer'>
         <div className='col' id='footer-sect1'>
-          <ND_logo />
+          <Logo_ND />
         </div>
         <div className='col foot-sect' id='footer-sect2'>
           <div className=''>Find Us On Social Media</div>
           <div className='row even' id='social-btns'>
             <Link to='/hello'>
-              <FB_logo />
+              <Social_fb />
             </Link>
             <Link to='/hello'>
-              <IG_logo />
+              <Social_ig />
             </Link>
             <Link to='/hello'>
-              <YT_logo />
+              <Social_yt />
             </Link>
             <Link to='/hello'>
-              <LI_logo />
+              <Social_yt />
             </Link>
           </div>
           <div className=''>Join Our Mailing List</div>

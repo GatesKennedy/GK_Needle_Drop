@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import PageHead from '../NDS/PageHead';
-import BrowList from './BrowList';
+import LibResult from './TrkList';
 import Search from './Search';
 import Filter from './Filter';
 import Lists from '../../Main/Lists';
@@ -20,7 +20,7 @@ function Artist(props) {
           <div className='cont menu bg-crm3' id='browser-menu'>
             <Lists />
           </div>
-          <BrowList />
+          <LibResult />
         </div>
       </div>
     </Fragment>

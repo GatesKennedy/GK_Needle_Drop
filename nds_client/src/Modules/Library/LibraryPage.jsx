@@ -1,27 +1,18 @@
-//  React
 import React, { Fragment, useEffect } from 'react';
 //  REDUX
 import { connect } from 'prop-types';
 import PropTypes from 'prop-types';
-import { getLibrary } from './rdx_axn/axn_library';
+import { getLibResult } from './rdx_axn/axn_library';
 //  Comps
 import Header from '../NDS/Header';
 import Carol from '../../Main/Carol';
-//import BrowList from './BrowList';
 import TrkList from './TrkList';
 import Search from './Search';
 import Filter from './Filter';
-import MyLists from '../Library/MyLists';
-import Spinner from '../Notify/Spin';
-
+import ListsUser from './PlaylistUser';
 //  Assets
-import { ReactComponent as Add } from './assets/vex/menu-add.svg';
 
-const Library = () => {
-  // useEffect(() => {
-  //   getLibrary();
-  // }, []);
-
+const LibraryPage = ({ library }) => {
   return (
     <Fragment>
       <div className='bg-crm2'>
@@ -31,13 +22,21 @@ const Library = () => {
           <div className='cont menu bg-crm3' id='browser-menu'>
             <Search />
             <Filter />
-            <MyLists />
+            <ListsUser />
           </div>
-          <TrkList />
+          <TrkList trks={library.libResult} />
         </div>
       </div>
     </Fragment>
   );
 };
 
-export default Library;
+LibraryPage.propTypes = {
+  library: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  library: state.library
+});
+
+export default connect(mapStateToProps)(LibraryPage);

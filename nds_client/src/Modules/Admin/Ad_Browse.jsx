@@ -7,7 +7,7 @@ import { getLibrary } from '../Library/rdx_axn/axn_library';
 //import Trk from './Trk';
 import Spinner from '../Notify/Spin';
 
-const BrowList = ({ getLibrary, library: { loading } }) => {
+const Ad_Browse = ({ getLibrary, library: { loading } }) => {
   useEffect(() => {
     getLibrary();
   }, []);
@@ -27,7 +27,7 @@ const BrowList = ({ getLibrary, library: { loading } }) => {
   );
 };
 
-BrowList.propTypes = {
+Ad_Browse.propTypes = {
   getLibrary: PropTypes.func.isRequired,
   library: PropTypes.object.isRequired
 };
@@ -36,4 +36,4 @@ const mapStateToProps = state => ({
   library: state.library
 });
 
-export default connect(mapStateToProps, { getLibrary })(BrowList);
+export default connect(mapStateToProps, { getLibrary })(Ad_Browse);

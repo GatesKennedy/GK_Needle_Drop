@@ -13,8 +13,8 @@ export const AD_PLAYLIST_ERROR = 'AD_PLAYLIST_ERROR';
 //    === Library ===
 export const LIBRARY_GET = 'LIBRARY_GET';
 export const LIBRARY_ERROR = 'LIBRARY_ERROR';
-export const LIBDATA_UPDATE = 'LIBDATA_UPDATE';
-export const LIBDATA_CLEAR = 'LIBDATA_CLEAR';
+export const LIB_RESULT_UPDATE = 'LIB_RESULT_UPDATE';
+export const LIB_RESULT_CLEAR = 'LIB_RESULT_CLEAR';
 
 export const ARTISTS_GET = 'ARTISTS_GET';
 export const ARTISTS_ERROR = 'ARTISTS_ERROR';
@@ -26,15 +26,14 @@ export const TRK_UPDATE = 'TRK_UPDATE';
 export const TRK_CLEAR = 'TRK_CLEAR';
 export const TRK_ERROR = 'TRK_ERROR';
 
-export const PLISTNAMES_GET = 'PLISTNAMES_GET';
 export const PLAYLIST_GET = 'PLAYLIST_GET';
+export const PLAYLIST_GET_ADMIN = 'PLAYLIST_GET_ADMIN';
+export const PLAYLIST_GET_USER = 'PLAYLIST_GET_USER';
 export const PLAYLIST_SELECT = 'PLAYLIST_SELECT';
 export const PLAYLIST_CREATE = 'PLAYLIST_CREATE';
-export const PLAYLIST_ERROR = 'PLAYLIST_ERROR';
-export const PLAYLIST_CLEAR = 'PLAYLIST_CLEAR';
 export const PLAYLIST_UPDATE = 'PLAYLIST_UPDATE';
-export const PLAYALL_GET = 'PLAYALL_GET';
-export const PLAYALL_ERROR = 'PLAYALL_ERROR';
+export const PLAYLIST_DELETE = 'PLAYLIST_DELETE';
+export const PLAYLIST_ERROR = 'PLAYLIST_ERROR';
 
 export const FILTER_GET = 'FLITER_GET';
 export const FILTER_UPDATE = 'FILTER_UPDATE';

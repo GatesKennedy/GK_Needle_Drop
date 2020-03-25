@@ -2,41 +2,38 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 //  REDUX
 import { connect } from 'react-redux';
-import {
-  getPListNames,
-  getPlayAll,
-  getPlaylist
-} from '../Library/rdx_axn/axn_playlist';
-import { clrLibData } from '../Library/rdx_axn/axn_library';
+import { getPlistAdmin, selectPlaylist } from './rdx_axn/axn_playlist';
+import { clrLibResult } from './rdx_axn/axn_library';
 //  COMPS
 import Spinner from '../Notify/Spin';
-import Playlist from './Playlist';
+import libResult from './TrkList';
 import PListCard from '../NDS/PListCard';
+import LibResult from './TrkList';
 
-const PlayAll = ({
-  getPListNames,
-  getPlaylist,
-  library: { libData },
-  playlist: { pListNames, loading }
+const PlaylistAll = ({
+  getPlistAdmin,
+  selectPlaylist,
+  playlist: { pListAdmin, pListSelected, loading }
 }) => {
   useEffect(() => {
-    getPListNames();
+    getPlistAdmin();
   }, []);
 
   return (
     <Fragment>
-      <Playlist />
+      {pListSelected ? <libResult /> : <h4>Select a Playlist</h4>}
+      <LibResult />
       {loading ? (
         <Spinner />
       ) : (
         <Fragment>
           {' '}
           <div className='grid3'>
-            {pListNames.map(plist => (
+            {pListAdmin.map(plist => (
               <div
                 className='row'
                 key={plist.id}
-                onClick={() => getPlaylist(plist.id)}
+                onClick={() => selectPlaylist(plist.id)}
               >
                 <PListCard title={plist.name} />
               </div>
@@ -44,20 +41,18 @@ const PlayAll = ({
           </div>
         </Fragment>
       )}
-      {libData ? <div className='stack'>oops</div> : <p>oh No</p>}
+      {libResult ? <div className='stack'>oops</div> : <p>oh No</p>}
     </Fragment>
   );
 };
 
-PlayAll.propTypes = {};
+PlaylistAll.propTypes = {};
 
 const mapStateToProps = state => ({
-  library: state.library,
   playlist: state.playlist
 });
 
 export default connect(mapStateToProps, {
-  getPListNames,
-  getPlayAll,
-  getPlaylist
-})(PlayAll);
+  getPlistAdmin,
+  selectPlaylist
+})(PlaylistAll);

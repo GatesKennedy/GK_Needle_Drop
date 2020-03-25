@@ -2,15 +2,12 @@ import axios from 'axios';
 import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 
 import {
-  PLISTNAMES_GET,
   PLAYLIST_GET,
   PLAYLIST_SELECT,
   PLAYLIST_CREATE,
-  PLAYLIST_ERROR,
-  PLAYLIST_CLEAR,
   PLAYLIST_UPDATE,
-  PLAYALL_GET,
-  PLAYALL_ERROR
+  PLAYLIST_DELETE,
+  PLAYLIST_ERROR
 } from '../../../Main/util/axn_types';
 
 //  =============
@@ -18,46 +15,13 @@ import {
 //  =============
 
 //============================
-//  GET: All Playlist Names
-export const getPListNames = () => async dispatch => {
+//  GET: Playlists ADMIN
+export const getPlistAdmin = isAthenticated => async dispatch => {
   try {
-    const res = await axios.get('/api/library/playlist/names/all');
+    // Get Admin Playlists
+    const res = await axios.get('/api/library/playlist/admin');
+    console.log('AXN > getPlaylists() > Admin Plists = ' + res.data);
 
-    dispatch({
-      type: PLISTNAMES_GET,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: PLAYALL_ERROR,
-      payload: err.stack
-    });
-  }
-};
-
-//============================
-//  GET: ALL Playlists
-export const getPlayAll = () => async dispatch => {
-  try {
-    const res = await axios.get('/api/library/playlist/all');
-
-    dispatch({
-      type: PLAYALL_GET,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: PLAYALL_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
-
-//============================
-//  GET: Playlist by Name (list_name)
-export const getPlaylist = list_id => async dispatch => {
-  try {
-    const res = await axios.get(`/api/library/playlist/1/${list_id}`);
     dispatch({
       type: PLAYLIST_GET,
       payload: res.data

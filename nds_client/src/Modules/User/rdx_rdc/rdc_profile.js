@@ -59,6 +59,7 @@ export default function(state = initialState, action) {
         loading: false
       };
     //  ERRORS
+    case FAVORITE_ERROR:
     case PROFILE_ERROR:
       return {
         ...state,

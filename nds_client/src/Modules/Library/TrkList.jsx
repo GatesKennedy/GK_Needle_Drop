@@ -1,17 +1,13 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 //  REDUX
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getLibData } from './rdx_axn/axn_library';
+import { getLibResult } from './rdx_axn/axn_library';
 //  Comps
 import Trk from './Trk';
 import Spinner from '../Notify/Spin';
 
-const TrkList = ({ getLibData, library: { libData, loading } }) => {
-  useEffect(() => {
-    getLibData();
-  }, []);
-
+const TrkList = ({ library: { libResult, loading } }) => {
   return (
     <Fragment>
       {loading ? (
@@ -19,9 +15,9 @@ const TrkList = ({ getLibData, library: { libData, loading } }) => {
       ) : (
         <Fragment>
           <div id='trk-list'>
-            {libData ? (
+            {libResult ? (
               <ul className='stack'>
-                {libData.map(trk => (
+                {libResult.map(trk => (
                   <li className='trk-list-item' key={trk.id}>
                     <Trk trk={trk} />
                   </li>
@@ -38,7 +34,7 @@ const TrkList = ({ getLibData, library: { libData, loading } }) => {
 };
 
 TrkList.propTypes = {
-  getLibData: PropTypes.func.isRequired,
+  getLibResult: PropTypes.func.isRequired,
   library: PropTypes.object.isRequired
 };
 
@@ -46,4 +42,4 @@ const mapStateToProps = state => ({
   library: state.library
 });
 
-export default connect(mapStateToProps, { getLibData })(TrkList);
+export default connect(mapStateToProps, { getLibResult })(TrkList);

@@ -140,8 +140,9 @@ export const login = ({ email, password }) => async dispatch => {
     dispatch(loadUser());
     dispatch(setAlert('Welcome!', 'success'));
   } catch (err) {
-    const errors = err.response.data.errors;
+    //  CATCH Error
     console.log('axn_auth.js FAIL');
+    const errors = err.response.data.errors;
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'warn')));
     }
