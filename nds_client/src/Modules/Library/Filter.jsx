@@ -59,9 +59,7 @@ const Filter = ({
         </section>
 
         <section {...getCollapseProps()}>
-          {loading ? (
-            <Spinner />
-          ) : (
+          {Array.isArray(traits) ? (
             <section className='menu stack Filter' id='fitler-cont'>
               {traits.map(genus => (
                 <TraitGroup
@@ -71,6 +69,8 @@ const Filter = ({
                 />
               ))}
             </section>
+          ) : (
+            <Spinner />
           )}
         </section>
       </div>

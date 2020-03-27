@@ -8,7 +8,7 @@ import { clrLibResult } from './rdx_axn/axn_library';
 import Spinner from '../Notify/Spin';
 import libResult from './TrkList';
 import PListCard from '../NDS/PListCard';
-import LibResult from './TrkList';
+import TrkList from './TrkList';
 
 const PlaylistAll = ({
   getPlistAdmin,
@@ -21,8 +21,11 @@ const PlaylistAll = ({
 
   return (
     <Fragment>
-      {pListSelected ? <libResult /> : <h4>Select a Playlist</h4>}
-      <LibResult />
+      {pListSelected ? (
+        <TrkList trkList={pListSelected} />
+      ) : (
+        <h4>Select a Playlist</h4>
+      )}
       {loading ? (
         <Spinner />
       ) : (

@@ -4,21 +4,15 @@ import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 import {
   FILTER_GET,
   FILTER_UPDATE,
-  FILTER_CLEAR,
   FILTER_ERROR,
   SEARCH_GET,
-  SEARCH_UPDATE,
-  SEARCH_CLEAR,
   SEARCH_ERROR,
   LIBTRAITS_GET,
   LIBTRAITS_ERROR,
   TRAITS_GET,
-  TRAITS_UPDATE,
-  TRAITS_CLEAR,
   TRAITS_ERROR,
   ITEMS_GET,
-  ITEMS_ERROR,
-  TRK_UPDATE
+  ITEMS_ERROR
 } from '../../../Main/util/axn_types';
 
 //  =============

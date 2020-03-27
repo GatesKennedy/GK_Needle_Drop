@@ -23,7 +23,7 @@ import Ad_Account from './Modules/Admin/Ad_Account';
 //    === Ecomm ===
 import Purchase from './Modules/Ecomm/Purchase';
 //    === Library ===
-import Library from './Modules/Library/LibraryPage';
+import Library from './Modules/Library/Library';
 import Artist from './Modules/Library/Artist';
 import PlaylistAll from './Modules/Library/PlaylistAll';
 //    === Main ===

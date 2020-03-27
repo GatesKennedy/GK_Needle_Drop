@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { selectPlaylist } from '../Modules/Library/rdx_axn/axn_playlist';
 import CarolMockasin from '../Modules/Library/assets/img/carol-mocks.png';
 
-const Carol = ({ selectPlaylist, playlist: { pListAdmin } }) => {
+const Carol = ({ selectPlaylist, carolList }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -19,32 +19,31 @@ const Carol = ({ selectPlaylist, playlist: { pListAdmin } }) => {
 
   return (
     <div>
-      <Slider {...settings}>
-        {pListAdmin ? (
-          pListAdmin.map(plist => (
+      {carolList ? (
+        <Slider {...settings}>
+          {carolList.map(list => (
             <Link
               to='/playlists'
               className='carol-img'
-              key={plist.id}
-              onClick={() => selectPlaylist(plist.id)}
+              key={list.id}
+              onClick={() => selectPlaylist(list.id)}
             >
               <img src={CarolMockasin} />
-              <h1>{plist.name}</h1>
+              <h1>{list.name}</h1>
             </Link>
-          ))
-        ) : (
-          <div>
-            <img src={CarolMockasin} />
-            <h1>demolishit</h1>
-          </div>
-        )}
-      </Slider>
+          ))}
+        </Slider>
+      ) : (
+        <div>
+          <h1>No Playlists</h1>
+        </div>
+      )}
     </div>
   );
 };
 
 Carol.propTypes = {
-  list: PropTypes.object.isRequired
+  carolList: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

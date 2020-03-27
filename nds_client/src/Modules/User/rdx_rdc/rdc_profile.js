@@ -5,6 +5,7 @@ import {
   PROFILE_CLEAR,
   PROFILE_UPDATE,
   PROFILES_GET,
+  PLAYLIST_GET_USER,
   FAVORITE_GET,
   FAVORITE_UPDATE,
   FAVORITE_ERROR
@@ -28,8 +29,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         profile: payload.profile,
-        playlists: payload.playlists,
         favorites: payload.favorites,
+        loading: false
+      };
+    case PLAYLIST_GET_USER:
+      return {
+        ...state,
+        playlists: payload,
         loading: false
       };
     case PROFILE_CREATE:
@@ -51,6 +57,7 @@ export default function(state = initialState, action) {
         profiles: payload,
         loading: false
       };
+
     case FAVORITE_GET:
     case FAVORITE_UPDATE:
       return {

@@ -4,13 +4,16 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loadUser } from '../User/rdx_axn/axn_auth';
-//  COMPS
-import CardApprove from '../../Main/CardApprove';
-import Header from '../NDS/Header';
 import { logout } from './rdx_axn/axn_auth';
+//  COMPS
+import Carol from '../../Main/Carol';
+import Header from '../NDS/Header';
+import CardApprove from '../../Main/CardApprove';
+import { profile_url } from 'gravatar';
 
 const Profile = ({
   auth: { user, isAuthenticated, loading },
+  profile,
   logout,
   loadUser
 }) => {
@@ -30,11 +33,15 @@ const Profile = ({
 
       <section>
         <div className='row bg-pnk2'>
+          <button>Edit Profile</button>
           <button onClick={logout}>Logout</button>
         </div>
       </section>
 
-      <section></section>
+      <section>
+        <Carol carolList={profile.playlists} />
+      </section>
+
       <div>
         <CardApprove />
       </div>
@@ -44,11 +51,13 @@ const Profile = ({
 
 Profile.propTypes = {
   logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(mapStateToProps, { logout, loadUser })(Profile);

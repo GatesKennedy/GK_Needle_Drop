@@ -84,41 +84,54 @@ router.get('/admin', (request, response, next) => {
 //  @route      GET /api/library/playlist/user
 //  @desc       Get User Playlists
 //  @access     PRIVATE
-router.get('/user', auth, (request, response, next) => {
+router.get('/user', auth, async (request, response, next) => {
   const user_id = request.user.id;
-  pool.connect((err, client, release) => {
-    if (err) {
-      return console.error('Error acquiring client', err.stack);
+
+  //  Async db Connection
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    //  GET Playlists
+    const queryText = `
+    SELECT
+      P.id AS id,
+      P.name AS name,
+      P.image AS imageUrl,
+      U.name AS creator,
+      json_agg(DISTINCT A.song_id) AS trkList
+    FROM tbl_playlist P
+    LEFT JOIN tbl_user U ON P.creator = U.id
+    LEFT JOIN tbl_playall A ON P.id = A.list_id
+    WHERE 
+      U.id = ($1)
+    GROUP BY P.name, P.image, U.name, P.id`;
+    const res = await client.query(queryText, [user_id]);
+    //  Error Response
+    if (!res.rows.length > 0) {
+      return response
+        .status(400)
+        .json({ errors: [{ msg: 'No Playlists Found' }] });
     }
-    const query = `    
-      SELECT
-        P.name,
-        P.image,
-        U.name,
-        U.role
-      FROM tbl_playlist P
-      LEFT JOIN tbl_user U ON P.creator = U.id
-      WHERE 
-        U.id = ($1)`;
-    client.query(query, [user_id], (err, res) => {
-      release();
-      if (err) {
-        return console.error('Error executing query', err.stack);
-      }
-      response.json(res.rows);
-    });
-  });
+    response.json(res.rows);
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('CatchBlock Error: ' + err.mesage);
+    response.status(500).send('Server error');
+    return next(err);
+  } finally {
+    client.release();
+  }
 });
 
 //  @route      GET /api/library/playlist/select/:id
 //  @desc       Get ALL Playlist Data
 //  @access     PUBLIC
-router.get('/select/:id', auth, (request, response, next) => {
+router.get('/select/:id', (request, response, next) => {
   const reqString = JSON.stringify(request.body);
-  console.log('API /playlist/select > reqString = ' + reqString);
-
+  //console.log('API /playlist/select > reqString = ' + reqString);
   const { id } = request.params;
-  console.log('API /playlist/select > id = ' + id);
+  //console.log('API /playlist/select > id = ' + id);
 
   pool.connect((err, client, release) => {
     if (err) {
@@ -144,7 +157,7 @@ router.get('/select/:id', auth, (request, response, next) => {
         return console.error('Error executing query', err.stack);
       }
       const resString = JSON.stringify(res.rows);
-      console.log('API /playlist/select > resString = ' + resString);
+      //console.log('API /playlist/select > resString = ' + resString);
       response.json(res.rows);
     });
   });
@@ -211,3 +224,45 @@ router.use((err, request, response, next) => {
 });
 
 module.exports = router;
+
+//===============================
+//  SCRAPS SCRAPS SCRAPS SCRAPS
+//===============================
+/*
+//  @route      GET /api/library/playlist/all
+//  @desc       Get All Playlists
+//  @access     PUBLIC
+router.get('/all', async (request, response, next) => {
+  console.log('API /playlist/all > ENTERED');
+
+  const client = await pool.connect();
+  try {
+    //  Get Admin Playlists
+    const queryAdmin = `
+      SELECT
+        P.name,
+        P.image,
+        U.name,
+        U.role
+      FROM tbl_playlist P
+      LEFT JOIN tbl_user U ON P.creator = U.id
+      WHERE 
+        U.role = 'admin' OR
+        U.id = ($1)`;
+    const res = await client.query(queryAdmin);
+    console.log('API /playlist/all > Admin Plists = ' + res.rows[0]);
+    //  Get User Playlists
+    const queryUser = `
+      SELECT
+        P.name,
+        P.image,
+        U.`;
+  } catch (err) {
+    console.error('CatchBlock Err: ' + err.mesage);
+    response.status(500).send('Server error');
+    throw err;
+  } finally {
+    client.release();
+  }
+});
+*/

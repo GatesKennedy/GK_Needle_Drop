@@ -1,6 +1,4 @@
 import {
-  AD_PLAYALL_GET,
-  AD_PLAYALL_ERROR,
   AD_PLAYLIST_GET,
   AD_PLAYLIST_UPDATE,
   AD_PLAYLIST_DELETE,
@@ -19,12 +17,6 @@ export default function(state = initialState, action) {
 
   switch (type) {
     //  GET
-    case AD_PLAYALL_GET:
-      return {
-        ...state,
-        pListAll: payload,
-        loading: false
-      };
     case AD_PLAYLIST_GET:
       return {
         ...state,

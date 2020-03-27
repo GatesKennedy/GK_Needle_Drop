@@ -24,7 +24,6 @@ export default function(state = initialState, action) {
     //  LIBRESULT
     case LIBRARY_GET:
     case LIB_RESULT_UPDATE:
-    case PLAYLIST_SELECT:
       return {
         ...state,
         libResult: payload,

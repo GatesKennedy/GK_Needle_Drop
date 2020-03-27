@@ -2,33 +2,26 @@ import React, { Fragment } from 'react';
 //  REDUX
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getLibResult } from './rdx_axn/axn_library';
 //  Comps
 import Trk from './Trk';
 import Spinner from '../Notify/Spin';
 
-const TrkList = ({ library: { libResult, loading } }) => {
+const TrkList = ({ trkList }) => {
   return (
     <Fragment>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <Fragment>
-          <div id='trk-list'>
-            {libResult ? (
-              <ul className='stack'>
-                {libResult.map(trk => (
-                  <li className='trk-list-item' key={trk.id}>
-                    <Trk trk={trk} />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <h4>No Track found...</h4>
-            )}
-          </div>
-        </Fragment>
-      )}
+      <div id='trk-list'>
+        {trkList ? (
+          <ul className='stack'>
+            {trkList.map(trk => (
+              <li className='trk-list-item' key={trk.id}>
+                <Trk trk={trk} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <h4>No Track found...</h4>
+        )}
+      </div>
     </Fragment>
   );
 };
@@ -38,8 +31,4 @@ TrkList.propTypes = {
   library: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  library: state.library
-});
-
-export default connect(mapStateToProps, { getLibResult })(TrkList);
+export default TrkList;

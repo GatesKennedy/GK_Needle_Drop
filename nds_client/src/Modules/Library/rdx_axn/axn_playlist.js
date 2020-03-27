@@ -2,7 +2,8 @@ import axios from 'axios';
 import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
 
 import {
-  PLAYLIST_GET,
+  PLAYLIST_GET_ADMIN,
+  PLAYLIST_GET_USER,
   PLAYLIST_SELECT,
   PLAYLIST_CREATE,
   PLAYLIST_UPDATE,
@@ -15,15 +16,57 @@ import {
 //  =============
 
 //============================
+//  GET: Playlists ALL
+export const getPlistAll = () => async dispatch => {
+  try {
+    //  Get Admin Playlists
+    getPlistAdmin();
+    //  Get AUTH user Playlists
+    getPlistUser();
+  } catch (err) {
+    //  CATCH Error
+    console.log('axn_auth.js FAIL');
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'warn')));
+    }
+    dispatch({
+      type: PLAYLIST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+//============================
 //  GET: Playlists ADMIN
-export const getPlistAdmin = isAthenticated => async dispatch => {
+export const getPlistAdmin = () => async dispatch => {
   try {
     // Get Admin Playlists
     const res = await axios.get('/api/library/playlist/admin');
-    console.log('AXN > getPlaylists() > Admin Plists = ' + res.data);
+    console.log('AXN > getPlistAdmin() > Admin Plists = ' + res.data);
 
     dispatch({
-      type: PLAYLIST_GET,
+      type: PLAYLIST_GET_ADMIN,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PLAYLIST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+//============================
+//  GET: Playlists USER
+export const getPlistUser = () => async dispatch => {
+  try {
+    // Get User Playlists
+    const res = await axios.get('/api/library/playlist/user');
+    console.log('AXN > getPlistUser() > User Plists = ' + res.data);
+
+    dispatch({
+      type: PLAYLIST_GET_USER,
       payload: res.data
     });
   } catch (err) {
@@ -44,13 +87,9 @@ export const selectPlaylist = plist_id => async dispatch => {
   };
   //  Generate JSON body
   const body = JSON.stringify({ plist_id });
-  console.log('AXN pList > selectPlalist > body = ' + body);
-  console.log('AXN pList > selectPlalist > plist_id = ' + plist_id);
 
   try {
     const res = await axios.get(`/api/library/playlist/select/${plist_id}`);
-    const resString = JSON.stringify(res.data[0].trks);
-    console.log('AXN PLIST > selectPlaylist() > resString = ' + resString);
     dispatch({
       type: PLAYLIST_SELECT,
       payload: res.data[0].trks

@@ -12,7 +12,9 @@ import {
   PROFILE_LOADED,
   PROFILE_CREATE,
   PROFILE_CLEAR,
-  PROFILE_ERROR
+  PROFILE_ERROR,
+  PLAYLIST_GET_USER,
+  PLAYLIST_ERROR
 } from '../../../Main/util/axn_types';
 //  UTILS
 import setAuthToken from '../../../Main/util/setAuthToken';
@@ -26,9 +28,10 @@ export const loadUser = () => async dispatch => {
   }
   //  LOAD USER
   try {
+    console.log('AXN AUTH > loadUser() > LOAD_USER');
     const res = await axios.get('api/auth');
-    const resString = JSON.stringify(res.data);
-    console.log('AUTH LOAD USER: res.data = ' + resString);
+    // const resString = JSON.stringify(res.data);
+    // console.log('AUTH LOAD USER: res.data = ' + resString);
     dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -41,18 +44,10 @@ export const loadUser = () => async dispatch => {
 
   //  LOAD PROFILE
   try {
-    console.log('enter LOAD_PROFILE');
+    console.log('AXN AUTH > loadUser() > LOAD_PROFILE');
+    //  Access: PRIVATE
     const res = await axios.get('api/user/profile/me');
-    const resString = JSON.stringify(res.data);
-    const resString_0 = JSON.stringify(res.data[0]);
-    const resProf = JSON.stringify(res.data[0].profile);
-    const resFavs = JSON.stringify(res.data[0].favorites);
-    const resLists = JSON.stringify(res.data[0].playlists);
-    console.log('AuthLoad res.data: ' + resString);
-    console.log('AuthLoad res.data[0]: ' + resString_0);
-    console.log('AUTH LOAD PROF: profile: ' + resProf);
-    console.log('AUTH LOAD PROF: favorites: ' + resFavs);
-    console.log('AUTH LOAD PROF: playlists: ' + resLists);
+
     dispatch({
       type: PROFILE_LOADED,
       payload: res.data[0]
@@ -60,6 +55,24 @@ export const loadUser = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR
+    });
+  }
+
+  //  LOAD PLAYLISTS
+  try {
+    console.log('AXN AUTH > loadUser() > LOAD_PLAYLIST');
+    //  Access: PRIVATE
+    const res = await axios.get('/api/library/playlist/user');
+    console.log('AXN > getPlistUser() > User Plists = ' + res.data);
+
+    dispatch({
+      type: PLAYLIST_GET_USER,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PLAYLIST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };

@@ -19,13 +19,15 @@ const router = Router();
 //  @access     PRIVATE
 router.get('/me', auth, async (request, response, next) => {
   const user_id = request.user.id;
-  console.log('API > /profile/me > user_id = ' + user_id);
+  // console.log('API > /profile/me > user_id = ' + user_id);
+
   //  Async db Connection
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
     //  Load Profile Data
-    const queryText = `SELECT 
+    const queryText = `
+    SELECT 
     json_build_object(
       'user_id', Usr.id,
       'user_name', Usr.name,
@@ -33,12 +35,10 @@ router.get('/me', auth, async (request, response, next) => {
       'entity', Pro.entity, 
       'location', Pro.location,
       'payment', Pro.payment_info) 		AS profile, 
-	  json_agg(DISTINCT Fav.song_id) 	AS favorites,
-	  json_agg(json_build_object('id', Ply.id, 'name', Ply.name))   AS playlists
+	  json_agg(DISTINCT Fav.song_id) 	AS favorites
     FROM      tbl_user     AS Usr
     LEFT JOIN tbl_favorite AS Fav ON Usr.id = Fav.user_id
     LEFT JOIN tbl_profile  AS Pro ON Usr.id = Pro.user_id
-    LEFT JOIN tbl_playlist AS Ply ON Usr.id = Ply.creator
     WHERE Usr.id = ($1)
     GROUP BY Usr.id, Pro.entity, Pro.location, Pro.payment_info;`;
     const res = await client.query(queryText, [user_id]);
@@ -50,6 +50,7 @@ router.get('/me', auth, async (request, response, next) => {
     }
     //  Check response
     const resLog = JSON.stringify(res.rows);
+    console.log('resLog: ' + resLog);
     response.json(res.rows);
     await client.query('COMMIT');
   } catch (err) {

@@ -1,45 +1,42 @@
 import axios from 'axios';
+//  REDUX
 import { setAlert } from '../../Notify/rdx_axn/axn_alert';
-
 import {
-  PROFILE_GET,
+  PROFILE_LOADED,
   PROFILE_ERROR,
-  PROFILE_CLEAR,
-  REPOS_GET,
-  PROFILES_GET,
   FAVORITE_UPDATE,
-  FAVORITE_ERROR
+  FAVORITE_ERROR,
+  PROFILE_UPDATE
 } from '../../../Main/util/axn_types';
+//  UTILS
+import setAuthToken from '../../../Main/util/setAuthToken';
 
 //===========================
-//  Get current User Profile
-export const getCurrentProfile = user_id => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  const body = JSON.stringify({ user_id });
-  console.log('axn_profile FXN: getCurrentProfile()');
-  try {
-    const res = await axios.get('/api/user/profile/me');
+//  Load User Profile (AUTH)
+// export const getCurrentProfile = () => async dispatch => {
+//   //  Set Headers with 'x-auth-token': 'token'
+//   if (localStorage.token) {
+//     setAuthToken(localStorage.token);
+//   }
+//   //  LOAD PROFILE
+//   try {
+//     //  Access: PRIVATE
+//     const res = await axios.get('api/user/profile/me');
 
-    dispatch({
-      type: PROFILE_GET,
-      payload: res.data
-    });
-  } catch (err) {
-    console.log('axn_profile.js: catch error');
-
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
+//     dispatch({
+//       type: PROFILE_LOADED,
+//       payload: res.data[0]
+//     });
+//   } catch (err) {
+//     console.log('axn_profile.js: catch error');
+//     dispatch({
+//       type: PROFILE_ERROR
+//     });
+//   }
+// };
 
 //===========================
-//  Create Profile
+//  Create Profile (AUTH)
 export const createProfile = (
   formData,
   history,
@@ -51,13 +48,13 @@ export const createProfile = (
         'Content-Type': 'application/json'
       }
     };
+    //  @access     PRIVATE
     const res = await axios.post('/api/profile', formData, config);
 
     dispatch({
-      type: PROFILE_GET,
+      type: PROFILE_UPDATE,
       payload: res.data
     });
-
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
     if (!edit) {
@@ -65,7 +62,6 @@ export const createProfile = (
     }
   } catch (err) {
     const errors = err.response.data.errors;
-
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'warn')));
     }
@@ -78,8 +74,7 @@ export const createProfile = (
 };
 
 //===========================
-//  @desc       Update Favorites
-//  @access     PRIVATE
+//  Update Favorites (AUTH)
 export const updateFavorite = (user_id, song_id, exists) => async dispatch => {
   const config = {
     headers: {
@@ -91,6 +86,7 @@ export const updateFavorite = (user_id, song_id, exists) => async dispatch => {
   console.log('AXN PROF > updateFav > body = ' + body);
 
   try {
+    //  @access     PRIVATE
     const res = await axios.post('/api/user/profile/favorite', body, config);
 
     dispatch({
