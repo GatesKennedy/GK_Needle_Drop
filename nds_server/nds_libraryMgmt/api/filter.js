@@ -13,8 +13,8 @@ const router = Router();
 //  @desc       Get ALL traits
 //  @access     PUBLIC
 
-//  SELECT jsonb_object_keys(data_json) FROM tbl_library;
-
+//  SCRAP SCRAP SCRAP SCRAP SCRAP
+//  SCRAP SCRAP SCRAP SCRAP SCRAP
 router.get('/libtraits', (request, response, next) => {
   const query =
     "SELECT id, song_url, data_json ->> 'kw' AS keyword, data_json ->> 'tag' AS tag, data_json ->> 'inst' AS instrument, data_json ->> 'type' AS type, data_json ->> 'genre' AS genre, data_json ->> 'style' AS style FROM tbl_library;";
@@ -29,15 +29,28 @@ router.get('/libtraits', (request, response, next) => {
 //  @route      GET /api/library/filter/traits
 //  @desc       Get ALL traits
 //  @access     PUBLIC
-router.get('/traits', (request, response, next) => {
-  pool.query(
-    'SELECT genus, json_agg(species) AS species FROM tbl_filter group by 1;',
-    (err, res) => {
-      if (err) return next(err);
-
-      response.json(res.rows);
+router.get('/traits', async (request, response, next) => {
+  const client = await pool.connect();
+  try {
+    const queryText = `
+    SELECT 
+      genus, 
+      json_agg(species) AS species 
+    FROM tbl_filter 
+    GROUP BY genus;`;
+    const res = await client.query(queryText);
+    const resString = JSON.stringify(res.rows);
+    console.log('API > /filter/traits > resString: ' + resString);
+    //  Error Response
+    if (!res.rows.length > 0) {
+      return response
+        .status(400)
+        .json({ errors: [{ msg: 'No Traits Found' }] });
     }
-  );
+    response.json(res.rows);
+  } catch (err) {
+    return next(err);
+  }
 });
 
 //  @route      GET /api/library/filter/genus
@@ -45,23 +58,6 @@ router.get('/traits', (request, response, next) => {
 //  @access     PUBLIC
 router.get('/genus', (request, response, next) => {
   pool.query('SELECT DISTINCT genus FROM tbl_filter;', (err, res) => {
-    if (err) return next(err);
-
-    response.json(res.rows);
-  });
-});
-
-//  @route      GET /api/library/filter/species/:genus
-//  @desc       Get all species for a genus
-//  @access     PUBLIC
-router.get('/species/:genus', (request, response, next) => {
-  const { genus } = request.params;
-  const query = {
-    text: 'SELECT species FROM tbl_filter WHERE genus = $1;',
-    values: [genus]
-  };
-
-  pool.query(query, (err, res) => {
     if (err) return next(err);
 
     response.json(res.rows);

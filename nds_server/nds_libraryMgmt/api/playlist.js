@@ -75,8 +75,6 @@ router.get('/admin', (request, response, next) => {
         return console.error('Error executing query', err.stack);
       }
       response.json(res.rows);
-      // const resString = JSON.stringify(res.rows);
-      // console.log(resString);
     });
   });
 });
@@ -92,7 +90,7 @@ router.get('/user', auth, async (request, response, next) => {
   try {
     await client.query('BEGIN');
     //  GET Playlists
-    const queryText = `
+    const queryPlists = `
     SELECT
       P.id AS id,
       P.name AS name,
@@ -105,7 +103,9 @@ router.get('/user', auth, async (request, response, next) => {
     WHERE 
       U.id = ($1)
     GROUP BY P.name, P.image, U.name, P.id`;
-    const res = await client.query(queryText, [user_id]);
+    const res = await client.query(queryPlists, [user_id]);
+    // const resString = JSON.stringify(res.rows);
+    // console.log('API > /playlist/user > resString: ' + resString);
     //  Error Response
     if (!res.rows.length > 0) {
       return response
@@ -118,6 +118,52 @@ router.get('/user', auth, async (request, response, next) => {
     await client.query('ROLLBACK');
     console.error('CatchBlock Error: ' + err.mesage);
     response.status(500).send('Server error');
+    return next(err);
+  } finally {
+    client.release();
+  }
+});
+
+//  @route      GET /api/library/playlist/favs
+//  @desc       Get User Favorites
+//  @access     PRIVATE
+router.get('/favs', auth, async (request, response, next) => {
+  const user_id = request.user.id;
+
+  //  Async db Connection
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    //  GET Favorites
+    const queryFavs = `
+    SELECT
+      U.name AS creator,
+      json_agg(F.song_id) AS trkList
+    FROM tbl_favorite AS F
+    LEFT JOIN tbl_user U ON F.user_id = U.id
+    WHERE user_id = ($1)
+    GROUP BY U.name`;
+    const res = await client.query(queryFavs, [user_id]);
+    //  Build Json Object
+    const userName = res.rows[0].creator;
+    const payload = {
+      id: 0,
+      name: [userName] + "'s Favorites",
+      imageurl: 'void',
+      ...res.rows[0]
+    };
+    //  Error Response
+    if (!res.rows.length > 0) {
+      return response
+        .status(400)
+        .json({ errors: [{ msg: 'No Favorites Found' }] });
+    }
+    response.json(payload);
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('API > Favs > CatchBlock Error: ' + err.mesage);
+    //response.status(500).send('Server error');
     return next(err);
   } finally {
     client.release();
@@ -220,7 +266,7 @@ router.post(
 
 //  Catch-All Error Function
 router.use((err, request, response, next) => {
-  res.json(err);
+  res.status(500).json(err);
 });
 
 module.exports = router;

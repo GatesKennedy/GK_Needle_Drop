@@ -131,17 +131,11 @@ router.post(
     try {
       //  Check: User Registration
       await client.query('BEGIN');
-      console.log('>BEGIN');
       //  Check Email exists
       const queryText = 'SELECT name FROM tbl_user WHERE email = ($1)';
       const res = await client.query(queryText, [email]);
-      console.log('>Email get');
-      console.log(
-        'AUTH API: REGI Email Check: res.rows.length = ' + res.rows.length
-      );
       //  IF email already Exists...
       if (res.rows.length > 0) {
-        console.log('AUTH API: Email Check: FAIL');
         return response
           .status(400)
           .json({ errors: [{ msg: 'User already exists' }] });
@@ -178,7 +172,7 @@ router.post(
     } catch (e) {
       //  Catch
       await client.query('ROLLBACK');
-      console.error('CatchBlock Err: ' + e.mesage);
+      console.error('API > /auth/register > CatchBlock Err: ' + e.mesage);
       response.status(500).send('Server error');
       throw e;
     } finally {

@@ -3,12 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import useCollapse from 'react-collapsed';
 //  REDUX
-import {
-  getTraitSpecies,
-  updateFilterIn,
-  getTraits,
-  getLibTraits
-} from './rdx_axn/axn_filter';
+import { updateFilterIn, getTraits } from './rdx_axn/axn_filter';
 //  Comps
 import Spinner from '../Notify/Spin';
 import TraitGroup from './TraitGroup';
@@ -17,13 +12,11 @@ import { ReactComponent as Add } from './assets/vex/menu-add.svg';
 
 const Filter = ({
   getTraits,
-  getLibTraits,
   updateFilterIn,
   filter: { traits, filterIn, loading }
 }) => {
   useEffect(() => {
     getTraits();
-    getLibTraits();
   }, []);
 
   const [isOpen, setOpen] = useState(false);
@@ -48,7 +41,12 @@ const Filter = ({
           {Array.isArray(filterIn) ? (
             <div>
               {filterIn.map(trait => (
-                <button onClick={() => updateFilterIn(trait, filterIn)}>
+                <button
+                  className='btn-filter'
+                  id='filter-item'
+                  key={trait.id}
+                  onClick={() => updateFilterIn(trait, filterIn)}
+                >
                   {trait}
                 </button>
               ))}
@@ -61,9 +59,9 @@ const Filter = ({
         <section {...getCollapseProps()}>
           {Array.isArray(traits) ? (
             <section className='menu stack Filter' id='fitler-cont'>
-              {traits.map(genus => (
+              {traits.map((genus, index) => (
                 <TraitGroup
-                  key={genus.genus}
+                  key={index}
                   genus={genus.genus}
                   species={genus.species}
                 />
@@ -85,7 +83,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getLibTraits,
   getTraits,
   updateFilterIn
 })(Filter);

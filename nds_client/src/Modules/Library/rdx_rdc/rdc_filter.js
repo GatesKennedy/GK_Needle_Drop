@@ -20,9 +20,7 @@ const initialState = {
   libraryOut: null,
   filterIn: null,
   searchIn: null,
-  libTraits: null,
   traits: null,
-  items: null,
   loading: true,
   error: {}
 };

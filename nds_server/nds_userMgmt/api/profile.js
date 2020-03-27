@@ -42,15 +42,12 @@ router.get('/me', auth, async (request, response, next) => {
     WHERE Usr.id = ($1)
     GROUP BY Usr.id, Pro.entity, Pro.location, Pro.payment_info;`;
     const res = await client.query(queryText, [user_id]);
-    //  Error Response
+    //  Check response
     if (!res.rows.length > 0) {
       return response
         .status(400)
         .json({ errors: [{ msg: 'No Profile Found' }] });
     }
-    //  Check response
-    const resLog = JSON.stringify(res.rows);
-    console.log('resLog: ' + resLog);
     response.json(res.rows);
     await client.query('COMMIT');
   } catch (err) {

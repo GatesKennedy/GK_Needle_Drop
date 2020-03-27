@@ -5,7 +5,8 @@ import {
   PLAYLIST_CREATE,
   PLAYLIST_UPDATE,
   PLAYLIST_DELETE,
-  PLAYLIST_ERROR
+  PLAYLIST_ERROR,
+  PLAYLIST_GET_FAV
 } from '../../../Main/util/axn_types';
 
 const initialState = {
@@ -30,7 +31,13 @@ export default function(state = initialState, action) {
     case PLAYLIST_GET_USER:
       return {
         ...state,
-        pListUser: payload,
+        pListUser: { ...state.pListUser, Custom: payload },
+        loading: false
+      };
+    case PLAYLIST_GET_FAV:
+      return {
+        ...state,
+        pListUser: { ...state.pListUser, Favorite: payload },
         loading: false
       };
     case PLAYLIST_SELECT:

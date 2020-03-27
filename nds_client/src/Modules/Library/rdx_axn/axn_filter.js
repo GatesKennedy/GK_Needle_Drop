@@ -20,23 +20,6 @@ import {
 //  =============
 
 //============================
-//  GET: Library of Traits
-export const getLibTraits = () => async dispatch => {
-  try {
-    const res = await axios.get('/api/library/filter/libtraits');
-    dispatch({
-      type: LIBTRAITS_GET,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: LIBTRAITS_ERROR,
-      payload: err.stack
-    });
-  }
-};
-
-//============================
 //  GET: ALL Traits
 export const getTraits = () => async dispatch => {
   try {
@@ -145,7 +128,6 @@ export const getSearched = () => async dispatch => {
 //  ==============
 //  ==   POST   ==
 //  ==============
-
 export const createTraits = (
   formData,
   history,

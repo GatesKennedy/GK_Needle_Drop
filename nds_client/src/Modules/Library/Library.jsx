@@ -9,7 +9,7 @@ import Carol from '../../Main/Carol';
 import TrkList from './TrkList';
 import Search from './Search';
 import Filter from './Filter';
-import ListsUser from './PlaylistUser';
+import PlaylistUser from './PlaylistUser';
 import { getPlistAdmin } from './rdx_axn/axn_playlist';
 //  Assets
 
@@ -28,7 +28,7 @@ const Library = ({ getPlistAdmin, library, pListAdmin, getLibResult }) => {
           <div className='cont menu bg-crm3' id='browser-menu'>
             <Search />
             <Filter />
-            <ListsUser />
+            <PlaylistUser />
           </div>
           <TrkList trks={library.libResult} />
         </div>

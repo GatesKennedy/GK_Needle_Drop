@@ -14,7 +14,9 @@ import {
   PROFILE_CLEAR,
   PROFILE_ERROR,
   PLAYLIST_GET_USER,
-  PLAYLIST_ERROR
+  PLAYLIST_GET_FAV,
+  PLAYLIST_ERROR_USER,
+  PLAYLIST_ERROR_FAV
 } from '../../../Main/util/axn_types';
 //  UTILS
 import setAuthToken from '../../../Main/util/setAuthToken';
@@ -63,7 +65,7 @@ export const loadUser = () => async dispatch => {
     console.log('AXN AUTH > loadUser() > LOAD_PLAYLIST');
     //  Access: PRIVATE
     const res = await axios.get('/api/library/playlist/user');
-    console.log('AXN > getPlistUser() > User Plists = ' + res.data);
+    console.log('AXN > loadUser() > User Plists = ' + res.data);
 
     dispatch({
       type: PLAYLIST_GET_USER,
@@ -71,7 +73,26 @@ export const loadUser = () => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: PLAYLIST_ERROR,
+      type: PLAYLIST_ERROR_USER,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+
+  //  LOAD Favorites
+  try {
+    console.log('AXN AUTH > loadUser() > LOAD_FAVORITES');
+    //  Access: PRIVATE
+    const res = await axios.get('/api/library/playlist/favs');
+    const resString = JSON.stringify(res.data);
+    console.log('AXN > loadUser() > User Favs = ' + resString);
+
+    dispatch({
+      type: PLAYLIST_GET_FAV,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PLAYLIST_ERROR_FAV,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }

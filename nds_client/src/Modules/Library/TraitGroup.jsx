@@ -31,9 +31,12 @@ const TraitGroup = ({
           'loading'
         ) : (
           <ul className='stack'>
-            {species.map(trait => (
-              <li className='stack'>
-                <button onClick={() => updateFilterIn(trait, filterIn)}>
+            {species.map((trait, index) => (
+              <li key={index} className='stack'>
+                <button
+                  className='filter-item btn'
+                  onClick={() => updateFilterIn(trait, filterIn)}
+                >
                   {trait}
                 </button>
               </li>
