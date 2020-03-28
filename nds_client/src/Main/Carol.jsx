@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { selectPlaylist } from '../Modules/Library/rdx_axn/axn_playlist';
 import CarolMockasin from '../Modules/Library/assets/img/carol-mocks.png';
+//  Comps
+import Spinner from '../Modules/Notify/Spin';
 
 const Carol = ({ selectPlaylist, carolList }) => {
   const settings = {
@@ -35,6 +37,7 @@ const Carol = ({ selectPlaylist, carolList }) => {
         </Slider>
       ) : (
         <div>
+          <Spinner />
           <h1>No Playlists</h1>
         </div>
       )}
@@ -43,7 +46,7 @@ const Carol = ({ selectPlaylist, carolList }) => {
 };
 
 Carol.propTypes = {
-  carolList: PropTypes.object.isRequired
+  carolList: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({

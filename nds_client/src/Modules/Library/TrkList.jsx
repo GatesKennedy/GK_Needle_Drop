@@ -19,16 +19,16 @@ const TrkList = ({ trkList }) => {
             ))}
           </ul>
         ) : (
-          <h4>No Track found...</h4>
+          <div>
+            <Spinner />
+            <h4>No Tracks found...</h4>
+          </div>
         )}
       </div>
     </Fragment>
   );
 };
 
-TrkList.propTypes = {
-  getLibResult: PropTypes.func.isRequired,
-  library: PropTypes.object.isRequired
-};
+TrkList.propTypes = {};
 
 export default TrkList;

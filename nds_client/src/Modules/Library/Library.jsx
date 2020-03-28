@@ -3,6 +3,7 @@ import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getLibResult } from './rdx_axn/axn_library';
+import { getPlistAdmin } from './rdx_axn/axn_playlist';
 //  Comps
 import Header from '../NDS/Header';
 import Carol from '../../Main/Carol';
@@ -10,7 +11,7 @@ import TrkList from './TrkList';
 import Search from './Search';
 import Filter from './Filter';
 import PlaylistUser from './PlaylistUser';
-import { getPlistAdmin } from './rdx_axn/axn_playlist';
+
 //  Assets
 
 const Library = ({ getPlistAdmin, library, pListAdmin, getLibResult }) => {
@@ -19,10 +20,12 @@ const Library = ({ getPlistAdmin, library, pListAdmin, getLibResult }) => {
     getLibResult();
   }, []);
 
+  const header = ['Browse Music'];
+
   return (
     <Fragment>
       <div className='bg-crm2'>
-        <Header title='Browse Music' />
+        <Header title={header} />
         <Carol carolList={pListAdmin} />
         <div className='cont menu' id='brow-cont'>
           <div className='cont menu bg-crm3' id='browser-menu'>

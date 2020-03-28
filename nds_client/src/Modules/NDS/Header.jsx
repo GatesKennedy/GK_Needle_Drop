@@ -13,8 +13,8 @@ const Header = ({ title, text }) => {
 };
 
 Header.propTypes = {
-  title: PropTypes.object.isRequired,
-  text: PropTypes.object.isRequired
+  title: PropTypes.array.isRequired,
+  text: PropTypes.object
 };
 
 export default Header;
