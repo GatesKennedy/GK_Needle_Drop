@@ -1,0 +1,173 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    instrument
+------------------
+ NULL
+ Backing Vocals
+ Chimes & Bells
+ Chimes and Bells
+ drum
+ Drums
+ Electric Piano
+ Electronic
+ Guitar
+ Hand Claps
+ Mallets
+ Mandolin
+ Pop
+ Rock & Roll
+ Soul
+ Steady
+ synthesizer
+ Synthesizer
+ Vocal
+ Voice
+ Woodwinds
+(21 rows)
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       keyword
+---------------------
+
+ Acoustic
+ Angelic
+ Bass
+ Blues, Roots & Jazz
+ Bold
+ Bouncy
+ Bright
+ Burdened
+ Calm
+ Calming
+ Cinematic
+ Classic
+ Cold
+ Confident
+ Depressed
+ Drama
+ Dynamic
+ Ecstatic
+ Electronic
+ Empowering
+ Energetic
+ Enlightening
+ Exciting
+ Folk
+ Gritty
+ Harmonic
+ Heavy
+ Honorable
+ Hopeful
+ Human
+ Imaginative
+ Indie
+ Indie Pop
+ Industrial
+ Inspiring
+ Instrumental
+ Light
+ Light
+ LookBook Video
+ Loud
+ Masculine
+ Meandering
+ Mechanical
+ Melodic
+ Minimal
+ Mischievous
+ Mysterious
+ Optimistic
+ Orchestral
+ Organic
+ Pop
+ Positive
+ Powerful
+ Precise
+ Progressive
+ Pumped
+ Rebellious
+ Reflective
+ Revelatory
+ Rhythmic
+ Silly
+ Sinister
+ Slick
+ Soft
+ Solo
+ Sombre
+ Soothing
+ Sparse
+ Spiritual
+ Sporadic
+ Stirring
+ Stoic
+ Trailer
+ Upbeat
+ Vocal
+ Vulnerable
+ Whimsical
+ Youthful
+(79 rows)
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       project
+---------------------
+ NULL
+ Action
+ Adventure
+ Black Keys
+ Case Study
+ Comedy
+ Crime
+ Crowdfunding
+ Danny Elfman
+ Documentary
+ Drama
+ Educational
+ Explainer
+ Fantasy
+ Historical
+ LookBook Video
+ Makers & Creators
+ Narrative
+ Playful
+ Political
+ Product Review
+ Product Review
+ Psychedelic
+ Road Trip
+ Romantic Comedy
+ Science Fiction
+ Sound Effects
+ Teen
+ Thriller & Suspense
+ Trailer
+ Uplifting
+(31 rows)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        genre
+---------------------
+
+ Beat Driven
+ Blues, Roots & Jazz
+ Bouncy
+ Confident
+ Dark Ambient
+ Downtempo
+ Electric Guitar
+ Electric Piano
+ Folk & Americana
+ Funk
+ Hip Hop
+ Indie Pop
+ Minimal
+ Nerdcore
+ Reflective
+ Rock & Roll
+ Sexy
+ Soul
+ Synthesizer
+ Vocal
+(21 rows)

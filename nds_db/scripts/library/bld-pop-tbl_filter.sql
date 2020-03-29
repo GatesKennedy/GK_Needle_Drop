@@ -84,7 +84,7 @@ VALUES
     ('project','road trip'),
     ('project','indie'),
     ('project','romantic'),
-    ('project','scifi/fantasy'),
+    ('project','sci-fi/fantasy'),
     ('project','sports'),
     ('project','thriller'),
     ('project','wedding'),

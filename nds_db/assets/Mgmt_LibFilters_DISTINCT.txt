@@ -1,0 +1,329 @@
+~~~~~~~~~~~~~~~~~~~
+ Featured Options
+------------------
+ NULL
+ true
+(2 rows)
+ 
+~~~~~~~~~~~~~~~~~~~
+ Song Type Options
+------------------
+ Vocal
+ NULL
+ Instrumental
+(3 rows)
+
+~~~~~~~~~~~~~~~~~~~
+ Tempo Options
+------------------
+ NULL
+ Low
+ High-Medium
+ Low-Medium
+ High
+ Medium
+(6 rows)
+
+~~~~~~~~~~~~~~~~~~~
+  Arc Options
+----------------
+ NULL
+ Middle Peak
+ Multiple Build
+ Descending
+ Medium
+ Frenetic
+ Steady
+ Ascending
+(8 rows)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    instrument
+------------------
+ Woodwinds
+ Voice
+ Vocal
+ Ukulele
+ Synthesizer
+ synthesizer
+ Strings
+ Steady
+ Soul
+ Rock & Roll
+ Pop
+ Piano
+ Percussion
+ Organ
+ Mandolin
+ Mallets
+ Horns
+ Hand Claps
+ Guitar
+ Electronic
+ Electric Piano
+ Electric Guitar
+ Drums
+ Drum Machine
+ drum
+ Chimes and Bells
+ Chimes & Bells
+ Bass
+ Backing Vocals
+ Backing Vocal
+ Acoustic Guitar
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     tag
+--------------
+ Youthful
+ Whimsical
+ Vulnerable
+ Uplifting
+ Upbeat
+ Stoic
+ Sporadic
+ Sparse
+ Sombre
+ Slick
+ Sinister
+ Silly
+ Sexy
+ Sentimental
+ Romantic
+ Romantic
+ Rhythmic
+ Revelatory
+ Reflective
+ Rebellious
+ Quirky
+ Pumped
+ Precise
+ Powerful
+ Positive
+ Playful
+ Pensive
+ Organic
+ Optimistic
+ Mysterious
+ Mischievous
+ Minimal
+ Mechanical
+ Meandering
+ Light
+ Light
+ Intimate
+ Inspiring
+ Industrial
+ Indie Pop
+ Imaginative
+ Human
+ Hopeful
+ Honorable
+ Gritty
+ Fun
+ Experimental
+ Exciting
+ Ethereal
+ Epic
+ Energetic
+ Empowering
+ Emotional
+ Ecstatic
+ Dynamic
+ Depressed
+ Dark
+ Confident
+ Cold
+ Classic
+ Cinematic
+ Calm
+ Burdened
+ Bright
+ Bouncy
+ Anthemic
+ Angelic
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       keyword
+---------------------
+ Youthful
+ Whimsical
+ Vulnerable
+ Vocal
+ Uplifting
+ Upbeat
+ Trailer
+ Stoic
+ Stirring
+ Sporadic
+ Spiritual
+ Sparse
+ Soulful
+ Soothing
+ Sombre
+ Solo
+ Soft
+ Slick
+ Sinister
+ Silly
+ Sexy
+ Sentimental
+ Sad
+ Romantic
+ Rhythmic
+ Revelatory
+ Reflective
+ Rebellious
+ Quirky
+ Pumped
+ Progressive
+ Precise
+ Powerful
+ Positive
+ Pop
+ Playful
+ Pensive
+ Organic
+ Orchestral
+ Optimistic
+ Mysterious
+ Mischievous
+ Minimal
+ Melodic
+ Mechanical
+ Meandering
+ Masculine
+ Loud
+ LookBook Video
+ Lo-fi
+ Light
+ Light
+ Intimate
+ Instrumental
+ Inspiring
+ Industrial
+ Indie Pop
+ Indie
+ Imaginative
+ Human
+ Hopeful
+ Honorable
+ Heavy
+ Harmonic
+ Happy
+ Gritty
+ Fun
+ Folk
+ Exciting
+ Ethereal
+ Epic
+ Enlightening
+ Energetic
+ Empowering
+ Emotional
+ Electronic
+ Ecstatic
+ Dynamic
+ Drama
+ Depressed
+ Dark
+ Confident
+ Cold
+ Classic
+ Cinematic
+ Calming
+ Calm
+ Calm
+ Burdened
+ Bright
+ Bouncy
+ Bold
+ Blues, Roots & Jazz
+ Bass
+ Anthemic
+ Angelic
+ Acoustic 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       project
+---------------------
+ Western
+ Wedding
+ Uplifting
+ Trailer
+ Thriller & Suspense
+ Teen
+ Sports
+ Sound Effects
+ Science Fiction
+ Romantic Comedy
+ Road Trip
+ Road Trip
+ Psychedelic
+ Product Review
+ Product Review
+ Political
+ Playful
+ Narrative
+ Makers & Creators
+ LookBook Video
+ Indie
+ Horror
+ Holiday
+ Historical
+ Fantasy
+ Explainer
+ Educational
+ Drama
+ Documentary
+ Danny Elfman
+ Crowdfunding
+ Crime
+ Comedy
+ Childrens
+ Case Study
+ Business
+ Black Keys
+ Avant Garde
+ Adventure
+ Action
+ Action
+
+(42 rows)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       genre
+---------------------
+ World
+ Vocal
+ Synthesizer
+ Soul
+ Slowjams
+ Sexy
+ Rock & Roll
+ Reflective
+ Pop
+ Orchestral
+ Nerdcore
+ Minimal
+ Indie Pop
+ Holiday
+ Hip Hop
+ Funk
+ Folk & Americana
+ Experimental
+ Electronic
+ Electric Piano
+ Electric Guitar
+ Downtempo
+ Dark Ambient
+ Dance
+ Confident
+ Cinematic
+ Bouncy
+ Blues, Roots & Jazz
+ Beat Driven
+ Ambient
+
+(31 rows)

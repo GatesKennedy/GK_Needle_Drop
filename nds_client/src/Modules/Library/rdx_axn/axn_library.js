@@ -39,17 +39,14 @@ export const getLibrary = () => async dispatch => {
 //=============================
 // GET: Library To Display
 export const getLibResult = () => async dispatch => {
-  //console.log('FXN: getLibResult()');
   try {
-    const res = await axios.get('/api/library/all');
-    //const resString = JSON.stringify(res.data);
-    //console.log('AXN LIB > getLibResult() > resString = ' + resString);
+    const res = await axios.get('/api/library/result');
     dispatch({
       type: LIB_RESULT_UPDATE,
       payload: res.data
     });
   } catch (err) {
-    // console.log('catch{} getLibResult() error');
+    console.log('AXN Lib > getLibResult() > catch{} error');
     dispatch({
       type: LIBRARY_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
@@ -105,25 +102,6 @@ export const getArtist = artistId => async dispatch => {
 //=============================
 // GET: Select Song
 export const selectTrk = trkId => async dispatch => {
-  try {
-    const res = await axios.get(`/api/library/track/${trkId}`);
-
-    dispatch({
-      type: TRK_SELECT,
-      payload: res.data
-    });
-  } catch (err) {
-    console.log('catch(err): selectTrk() error');
-    dispatch({
-      type: TRK_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
-
-//=============================
-// GET: Select Playlist
-export const selectPlist = trkId => async dispatch => {
   try {
     const res = await axios.get(`/api/library/track/${trkId}`);
 

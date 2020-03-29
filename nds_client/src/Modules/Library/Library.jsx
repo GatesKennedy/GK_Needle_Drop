@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { getLibResult } from './rdx_axn/axn_library';
 import { getPlistAdmin } from './rdx_axn/axn_playlist';
 //  Comps
+import Spinner from '../Notify/Spin';
 import Header from '../NDS/Header';
 import Carol from '../../Main/Carol';
 import TrkList from './TrkList';
@@ -14,7 +15,12 @@ import PlaylistUser from './PlaylistUser';
 
 //  Assets
 
-const Library = ({ getPlistAdmin, library, pListAdmin, getLibResult }) => {
+const Library = ({
+  getPlistAdmin,
+  library: { libResult, loading },
+  pListAdmin,
+  getLibResult
+}) => {
   useEffect(() => {
     getPlistAdmin();
     getLibResult();
@@ -33,7 +39,7 @@ const Library = ({ getPlistAdmin, library, pListAdmin, getLibResult }) => {
             <Filter />
             <PlaylistUser />
           </div>
-          <TrkList trks={library.libResult} />
+          {loading ? <Spinner /> : <TrkList trkList={libResult} />}
         </div>
       </div>
     </Fragment>

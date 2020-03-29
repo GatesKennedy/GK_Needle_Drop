@@ -39,8 +39,8 @@ router.get('/traits', async (request, response, next) => {
     FROM tbl_filter 
     GROUP BY genus;`;
     const res = await client.query(queryText);
-    const resString = JSON.stringify(res.rows);
-    console.log('API > /filter/traits > resString: ' + resString);
+    // const resString = JSON.stringify(res.rows);
+    // console.log('API > /filter/traits > resString: ' + resString);
     //  Error Response
     if (!res.rows.length > 0) {
       return response
