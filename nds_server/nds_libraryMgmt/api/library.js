@@ -17,10 +17,10 @@ router.get('/all', async (request, response, next) => {
   try {
     const queryText = `
     SELECT 
-        id, 
-        data_json ->> 'song' AS song, 
-        data_json->> 'artist' AS artist, 
-        data_json->> 'time' AS time 
+        id,
+        song, 
+        artist, 
+        time 
     FROM tbl_library;`;
     const res = await client.query(queryText);
 
@@ -43,15 +43,16 @@ router.get('/result', async (request, response, next) => {
     const queryText = `
     SELECT 
         id, 
-        data_json ->> 'song' AS song, 
-        data_json->> 'artist' AS artist, 
-        data_json->> 'time' AS time 
-    FROM tbl_library;`;
+        song, 
+        artist, 
+        time 
+    FROM tbl_library
+    WHERE artist ~* 'ray rude';`;
     const res = await client.query(queryText);
 
     response.json(res.rows);
   } catch (err) {
-    console.error('API > /library/all > CatchBlock Err: ' + err.mesage);
+    console.error('API > /library/result > CatchBlock Err: ' + err.mesage);
     response.status(500).send('Server error');
     return next(err);
   } finally {

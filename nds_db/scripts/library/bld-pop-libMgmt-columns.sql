@@ -26,26 +26,6 @@ CREATE TYPE instr_type AS ENUM ('Acoustic Guitar', 'Bass', 'Backing Vocal', 'Dru
 CREATE TYPE keyword_type AS ENUM ('Anthemic', 'Epic', 'Calm', 'Dark', 'Tense', 'Ethereal', 'Fun', 'Energizing', 'Playful', 'Quirky', 'Happy', 'Uplifting', 'Intimate', 'Lo-fi', 'Pensive', 'Romantic', 'Sad', 'Sentimental', 'Emotional', 'Sexy', 'Soulful', 'Psychedelic', 'Retro', 'Swagger');
 CREATE TYPE project_type AS ENUM ('Action', 'Avant Garde', 'Business', 'Childrens', 'Drama/Documentary', 'Holiday', 'Horror', 'Lookbook/Fashion', 'Road Trip', 'Indie', 'Romantic', 'Sci-fi/Fantasy', 'Sports','Thriller', 'Wedding', 'Western');
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CREATE TABLE IF NOT EXISTS tbl_playall(
-    id          SERIAL PRIMARY  KEY,
-    list_id     INTEGER         REFERENCES tbl_playlist(id) ON DELETE CASCADE,
-    song_id     INTEGER         REFERENCES tbl_library(id) ON DELETE CASCADE,
-    rank        INTEGER         NOT NULL DEFAULT 0
-);
-
-CREATE TABLE IF NOT EXISTS tbl_favorite(
-    user_id UUID    REFERENCES tbl_user(id) ON DELETE CASCADE,
-    song_id INTEGER REFERENCES tbl_library(id) ON DELETE CASCADE,
-    PRIMARY KEY (user_id, song_id)
-);
-
-CREATE TABLE IF NOT EXISTS tbl_history(
-    user_id UUID    REFERENCES tbl_user(id) ON DELETE CASCADE,
-    song_id INTEGER REFERENCES tbl_library(id) ON DELETE CASCADE,
-    payment_status BOOLEAN NOT NULL DEFAULT 'FALSE',
-    date_purchased DATE NOT NULL DEFAULT CURRENT_DATE,
-    PRIMARY KEY (user_id, song_id)
-);
 
 CREATE TABLE IF NOT EXISTS tbl_library(
     id SERIAL PRIMARY KEY,
@@ -74,6 +54,27 @@ CREATE TABLE IF NOT EXISTS tbl_library(
     genre_3 TEXT,
     --xscrap TEXT,
     song_url VARCHAR NOT NULL DEFAULT 'NO_URL'
+);
+
+CREATE TABLE IF NOT EXISTS tbl_playall(
+    id          SERIAL PRIMARY  KEY,
+    list_id     INTEGER         REFERENCES tbl_playlist(id) ON DELETE CASCADE,
+    song_id     INTEGER         REFERENCES tbl_library(id) ON DELETE CASCADE,
+    rank        INTEGER         NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS tbl_favorite(
+    user_id UUID    REFERENCES tbl_user(id) ON DELETE CASCADE,
+    song_id INTEGER REFERENCES tbl_library(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, song_id)
+);
+
+CREATE TABLE IF NOT EXISTS tbl_history(
+    user_id UUID    REFERENCES tbl_user(id) ON DELETE CASCADE,
+    song_id INTEGER REFERENCES tbl_library(id) ON DELETE CASCADE,
+    payment_status BOOLEAN NOT NULL DEFAULT 'FALSE',
+    date_purchased DATE NOT NULL DEFAULT CURRENT_DATE,
+    PRIMARY KEY (user_id, song_id)
 );
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSERT INTO tbl_playall( list_id, song_id, rank )

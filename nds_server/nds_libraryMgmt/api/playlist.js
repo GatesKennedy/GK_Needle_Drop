@@ -188,9 +188,9 @@ router.get('/select/:id', (request, response, next) => {
         pl.name, 
         json_agg(json_build_object(
           'id', pa.song_id, 
-          'song', li.data_json->>'song',
-          'artist', li.data_json->>'artist',
-          'time', li.data_json->>'time',
+          'song', li.song,
+          'artist', li.artist,
+          'time', li.time,
           'rank', pa.rank          )) AS trks
       FROM tbl_playlist AS pl
       INNER JOIN tbl_playall AS pa ON pl.id = pa.list_id
