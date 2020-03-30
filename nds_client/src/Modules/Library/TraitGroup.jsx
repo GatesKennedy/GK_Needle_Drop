@@ -24,7 +24,7 @@ const TraitGroup = ({
           }
         })}
       >
-        {genus}
+        <h4>{genus}</h4>
       </div>
       <section {...getCollapseProps()}>
         {loading ? (
@@ -33,12 +33,12 @@ const TraitGroup = ({
           <ul className='stack'>
             {species.map((trait, index) => (
               <li key={index} className='stack'>
-                <button
-                  className='filter-item btn'
+                <h5
+                  className='filter-item'
                   onClick={() => updateFilterIn(trait, filterIn)}
                 >
                   {trait}
-                </button>
+                </h5>
               </li>
             ))}
           </ul>

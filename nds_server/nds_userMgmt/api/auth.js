@@ -177,7 +177,6 @@ router.post(
       throw e;
     } finally {
       //  Finally
-
       client.release();
     }
     //  Redirect to /root  (/library)

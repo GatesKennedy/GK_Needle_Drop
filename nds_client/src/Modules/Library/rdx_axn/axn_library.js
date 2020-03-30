@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { setAlert } from '../../../Modules/Notify/rdx_axn/axn_alert';
+//  AXNs
+import { getFiltered } from '../rdx_axn/axn_filter';
+import { selectPlaylist } from '../rdx_axn/axn_playlist';
 
 import {
   LIBRARY_GET,
@@ -11,7 +14,8 @@ import {
   ARTIST_GET,
   ARTIST_ERROR,
   TRK_SELECT,
-  TRK_ERROR
+  TRK_ERROR,
+  LIB_TYPE_UPDATE
 } from '../../../Main/util/axn_types';
 
 //  =============
@@ -50,6 +54,27 @@ export const getLibResult = () => async dispatch => {
     dispatch({
       type: LIBRARY_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+//=============================
+// Update Display Method (dispMeth)
+export const updateLibType = (dispMeth, resultObj) => async dispatch => {
+  if (dispMeth == 'filtering') {
+    dispatch({
+      type: LIB_TYPE_UPDATE,
+      payload: { libType: 'filtering', libResult: resultObj }
+    });
+  } else if (dispMeth == 'listing') {
+    dispatch({
+      type: LIB_TYPE_UPDATE,
+      payload: { libType: 'listing', libResult: resultObj }
+    });
+  } else {
+    dispatch({
+      type: LIB_TYPE_UPDATE,
+      payload: { libType: 'filtering', libResult: null }
     });
   }
 };

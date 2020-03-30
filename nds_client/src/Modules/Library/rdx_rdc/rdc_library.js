@@ -1,16 +1,18 @@
 import {
   LIBRARY_GET,
   LIBRARY_ERROR,
+  LIB_RESULT_UPDATE,
   LIB_RESULT_CLEAR,
+  LIB_TYPE_UPDATE,
   PLAYLIST_SELECT,
   TRK_SELECT,
-  TRK_ERROR,
-  LIB_RESULT_UPDATE
+  TRK_ERROR
 } from '../../../Main/util/axn_types';
 
 const initialState = {
   library: null,
   libResult: null,
+  libType: 'filtering',
   artistData: null,
   trkData: null,
   loading: true,
@@ -27,6 +29,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         libResult: payload,
+        loading: false
+      };
+    case LIB_TYPE_UPDATE:
+      return {
+        ...state,
+        libType: payload.libType,
+        libResult: payload.libResult,
         loading: false
       };
     case TRK_SELECT:

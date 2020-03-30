@@ -28,7 +28,7 @@ export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
-  //  LOAD USER
+  //  LOGIN/LOAD USER
   try {
     console.log('AXN AUTH > loadUser() > LOAD_USER');
     const res = await axios.get('api/auth');

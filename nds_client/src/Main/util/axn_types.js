@@ -16,6 +16,7 @@ export const LIBRARY_GET = 'LIBRARY_GET';
 export const LIBRARY_ERROR = 'LIBRARY_ERROR';
 export const LIB_RESULT_UPDATE = 'LIB_RESULT_UPDATE';
 export const LIB_RESULT_CLEAR = 'LIB_RESULT_CLEAR';
+export const LIB_TYPE_UPDATE = 'LIB_TYPE_UPDATE';
 
 export const ARTISTS_GET = 'ARTISTS_GET';
 export const ARTISTS_ERROR = 'ARTISTS_ERROR';
@@ -49,9 +50,6 @@ export const SEARCH_GET = 'SEARCH_GET';
 export const SEARCH_UPDATE = 'SEARCH_UPDATE';
 export const SEARCH_CLEAR = 'SEARCH_CLEAR';
 export const SEARCH_ERROR = 'SEARCH_ERROR';
-
-export const LIBTRAITS_GET = 'LIBTRAITS_GET';
-export const LIBTRAITS_ERROR = 'LIBTRAITS_ERROR';
 
 export const TRAITS_GET = 'TRAITS_GET';
 export const TRAITS_UPDATE = 'TRAITS_UPDATE';

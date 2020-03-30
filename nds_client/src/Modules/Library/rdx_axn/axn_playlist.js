@@ -8,7 +8,8 @@ import {
   PLAYLIST_CREATE,
   PLAYLIST_UPDATE,
   PLAYLIST_DELETE,
-  PLAYLIST_ERROR
+  PLAYLIST_ERROR,
+  LIB_RESULT_UPDATE
 } from '../../../Main/util/axn_types';
 
 //  =============
@@ -87,11 +88,15 @@ export const selectPlaylist = plist_id => async dispatch => {
   };
   //  Generate JSON body
   const body = JSON.stringify({ plist_id });
-
+  console.log('AXN > selectPlaylist() > plist_id: ' + plist_id);
   try {
     const res = await axios.get(`/api/library/playlist/select/${plist_id}`);
     dispatch({
       type: PLAYLIST_SELECT,
+      payload: res.data[0].trks
+    });
+    dispatch({
+      type: LIB_RESULT_UPDATE,
       payload: res.data[0].trks
     });
   } catch (err) {
@@ -107,17 +112,17 @@ export const selectPlaylist = plist_id => async dispatch => {
 //  @route      POST
 //  @desc       Create Playlist
 //  @access     PRIVATE
-export const createPlaylist = ({ name, creator }) => async dispatch => {
+export const createPlaylist = (pListName, creator) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   };
   //  Generate JSON body
-  const body = JSON.stringify({ name, creator });
+  const body = JSON.stringify(pListName, creator);
   console.log('AXN PLIST > createPlalist > body = ' + body);
   try {
-    const res = await axios.post('/api/library/playlist', body, config);
+    const res = await axios.post('/api/library/playlist/create', body, config);
     dispatch({
       type: PLAYLIST_CREATE,
       payload: res.data
@@ -140,6 +145,43 @@ export const createPlaylist = ({ name, creator }) => async dispatch => {
 //  ==============
 //  ==  DELETE  ==
 //  ==============
+
+export const deletePlaylist = plist_id => async dispatch => {
+  // ><><><><>< AUTH USER ><><><><><
+  console.log('AXN > deletePlaylist() > plist_id: ' + plist_id);
+  // Generate JSON body
+  const body = JSON.stringify({ plist_id });
+  console.log('AXN PLIST > delete Playlist > body = ' + body);
+  try {
+    //  Check for Playlist
+    const check = await axios.get(`/api/library/playlist/check/${plist_id}`);
+    const checkString = JSON.stringify(check.data);
+    console.log('checkString: ' + checkString);
+    if (!check.data) {
+      console.log('deletePlaylist() > Check Fail');
+      dispatch({
+        type: PLAYLIST_ERROR
+      });
+    }
+    //  DELETE Playlist
+    const res = await axios.delete(`/api/library/playlist/delete/${plist_id}`);
+    const resString = JSON.stringify(res.data);
+    console.log('resString: ' + resString);
+    dispatch({
+      type: PLAYLIST_DELETE,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PLAYLIST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+    //const errors = err.check.data.errors;
+    // if (err) {
+    //   err.forEach(error => dispatch(setAlert(error.msg, 'warn')));
+    // }
+  }
+};
 
 //============================
 //  CLR: Traits

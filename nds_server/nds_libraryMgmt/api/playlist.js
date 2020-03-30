@@ -203,10 +203,37 @@ router.get('/select/:id', (request, response, next) => {
         return console.error('Error executing query', err.stack);
       }
       const resString = JSON.stringify(res.rows);
-      //console.log('API /playlist/select > resString = ' + resString);
+      console.log('API /playlist/select > resString = ' + resString);
       response.json(res.rows);
     });
   });
+});
+
+//  @route      GET /api/library/playlist/check/:id
+//  @desc       Get ALL Playlist Data
+//  @access     PUBLIC
+router.get('/check/:id', async (request, response, next) => {
+  const { id } = request.params;
+  const client = await pool.connect();
+  console.log('API > /playlist/check/:id > id: ' + id);
+  try {
+    const queryText = `
+    SELECT name
+    FROM tbl_playlist
+    WHERE id = ($1)`;
+    const res = await client.query(queryText, [id]);
+    const resString = JSON.stringify(res.rows[0]);
+    console.log('API > /playlist/check/:id > resStr: ' + resString);
+    response.json(res.rows[0]);
+  } catch (err) {
+    console.error(
+      'API > /library/playlist/check > CatchBlock Err: ' + err.mesage
+    );
+    response.status(500).send('Server error');
+    return next(err);
+  } finally {
+    client.release();
+  }
 });
 
 //  ==============
@@ -217,18 +244,22 @@ router.get('/select/:id', (request, response, next) => {
 //  @access     PRIVATE
 
 router.post(
-  '/',
+  '/create',
   auth,
   [
-    check('name', 'Playlist name is required')
+    check('pListName', 'Playlist name is required')
       .not()
       .isEmpty(),
-    check('name', 'Playlist name can only be 20 characters').isLength({
+    check('pListName', 'Playlist name can only be 20 characters').isLength({
       max: 21
     })
   ],
   async (request, response, next) => {
-    const { name, creator } = request.body;
+    const { pListName, creator } = request.body;
+    const reqBodString = JSON.stringify(request.body);
+    console.log('reqBodString: ' + reqBodString);
+    console.log('name: ' + pListName + ' creator: ' + creator);
+
     //  Error Response
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -240,8 +271,10 @@ router.post(
       await client.query('BEGIN');
       const insertText =
         'INSERT INTO tbl_playlist(name, creator) VALUES($1, $2) RETURNING id';
-      const insertVals = [name, creator];
+      const insertVals = [pListName, creator];
       const res = await client.query(insertText, insertVals);
+      const resString = JSON.stringify(res.data);
+      console.log('API > /playlist/create > resString: ' + resString);
       response.json(res.rows[0].id);
       await client.query('COMMIT');
     } catch (e) {
@@ -263,6 +296,27 @@ router.post(
 //  @route      DELETE
 //  @desc
 //  @access     PRIVATE
+router.delete('/delete/:id', async (request, response, next) => {
+  const { id } = request.params;
+  const client = await pool.connect();
+  const body = JSON.stringify(id);
+  console.log('API > delete/:id > body = ' + body);
+
+  try {
+    const queryText = `
+    DELETE
+    FROM tbl_playlist
+    WHERE id = ($1)`;
+    await client.query(queryText, [id]);
+    response.redirect('/user');
+  } catch (err) {
+    console.error('API > /library/DELETE > CatchBlock Err: ' + err.mesage);
+    response.status(500).send('Server error');
+    return next(err);
+  } finally {
+    client.release();
+  }
+});
 
 //  Catch-All Error Function
 router.use((err, request, response, next) => {

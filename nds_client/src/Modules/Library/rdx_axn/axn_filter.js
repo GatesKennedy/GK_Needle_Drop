@@ -7,8 +7,6 @@ import {
   FILTER_ERROR,
   SEARCH_GET,
   SEARCH_ERROR,
-  LIBTRAITS_GET,
-  LIBTRAITS_ERROR,
   TRAITS_GET,
   TRAITS_ERROR,
   ITEMS_GET,
@@ -81,27 +79,19 @@ export const getTraitSpecies = genus => async dispatch => {
 
 //============================
 //  GET: Filtered
-export const getFiltered = (
-  filterIn,
-  libTraits,
-  libraryOut
-) => async dispatch => {
-  const libOut = [];
-  if (!filterIn) {
-    try {
-      const res = await axios.get('/api/library/all');
-      dispatch({
-        type: FILTER_GET,
-        payload: res.data
-      });
-    } catch (err) {
-      console.log('catch{} getLibrary() error');
-      dispatch({
-        type: FILTER_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status }
-      });
-    }
-  } else if (filterIn) {
+export const getFiltered = filterIn => async dispatch => {
+  try {
+    const res = await axios.get('/api/library/result');
+    dispatch({
+      type: FILTER_GET,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log('catch{} getLibrary() error');
+    dispatch({
+      type: FILTER_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
 
