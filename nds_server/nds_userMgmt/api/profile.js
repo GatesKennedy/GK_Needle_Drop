@@ -134,30 +134,39 @@ router.post('/create', auth, async (request, response, next) => {
 //  @access     PRIVATE
 router.post('/favorite', auth, async (request, response, next) => {
   const { user_id, song_id, exists } = request.body;
+  console.log('API /profile/favorite > user_id = ' + user_id);
   console.log('API /profile/favorite > song_id = ' + song_id);
+  console.log('API /profile/favorite > exists = ' + exists);
 
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
     if (exists) {
       //  remove song from favorites
+      console.log('enter: exists');
       const queryText =
         'DELETE FROM tbl_favorite WHERE user_id = $1 AND song_id = $2';
       const deleteVals = [user_id, song_id];
       await client.query(queryText, deleteVals);
     } else {
+      console.log('enter: !exists');
       //  add song to favorites
       const queryText =
         'INSERT INTO tbl_favorite( user_id, song_id ) VALUES($1, $2)';
       const insertVals = [user_id, song_id];
       await client.query(queryText, insertVals);
     }
+
     //  return updated favorites
-    const queryText = 'SELECT song_id FROM tbl_favorite WHERE user_id = $1';
+    console.log('Try Return...');
+    const queryText = `
+    SELECT json_agg(song_id) 
+    FROM tbl_favorite 
+    WHERE user_id = ($1)`;
     const queryVals = [user_id];
     const res = await client.query(queryText, queryVals);
-    console.log('Returning Updated Favorites');
-    response.json(res.rows);
+    console.log('Returning Updated Favorites: ' + res.rows[0]);
+    response.json(res.rows[0]);
     await client.query('COMMIT');
   } catch (err) {
     await client.query('ROLLBACK');

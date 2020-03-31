@@ -12,30 +12,6 @@ import {
 import setAuthToken from '../../../Main/util/setAuthToken';
 
 //===========================
-//  Load User Profile (AUTH)
-// export const getCurrentProfile = () => async dispatch => {
-//   //  Set Headers with 'x-auth-token': 'token'
-//   if (localStorage.token) {
-//     setAuthToken(localStorage.token);
-//   }
-//   //  LOAD PROFILE
-//   try {
-//     //  Access: PRIVATE
-//     const res = await axios.get('api/user/profile/me');
-
-//     dispatch({
-//       type: PROFILE_LOADED,
-//       payload: res.data[0]
-//     });
-//   } catch (err) {
-//     console.log('axn_profile.js: catch error');
-//     dispatch({
-//       type: PROFILE_ERROR
-//     });
-//   }
-// };
-
-//===========================
 //  Create Profile (AUTH)
 export const createProfile = (
   formData,
@@ -81,17 +57,19 @@ export const updateFavorite = (user_id, song_id, exists) => async dispatch => {
       'Content-Type': 'application/json'
     }
   };
-  console.log('AXN PROF > updateFav > song_id = ' + song_id);
   const body = JSON.stringify({ user_id, song_id, exists });
-  console.log('AXN PROF > updateFav > body = ' + body);
+
+  console.log('@@@@@ user_id: ' + user_id);
+  console.log('@@@@@ song_id: ' + song_id);
 
   try {
     //  @access     PRIVATE
     const res = await axios.post('/api/user/profile/favorite', body, config);
-
+    const resString = JSON.stringify(res.data.json_agg);
+    console.log('AXN > updateFavorite() > resString: ' + resString);
     dispatch({
       type: FAVORITE_UPDATE,
-      payload: res.data
+      payload: res.data.json_agg
     });
     dispatch(setAlert('Favorites Updated', 'success'));
   } catch (err) {

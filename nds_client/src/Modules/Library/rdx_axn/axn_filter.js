@@ -160,6 +160,8 @@ export const createTraits = (
 //  ==  UPDATE  ==
 //  ==============
 export const updateFilterIn = (trait, filterIn) => async dispatch => {
+  console.log('@@@@@ filterIn: ' + filterIn);
+  console.log('@@@@@ trait: ' + trait);
   try {
     //if (Object.values(filterIn).includes(trait)) {
     if (!filterIn) {

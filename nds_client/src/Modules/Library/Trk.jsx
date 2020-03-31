@@ -20,13 +20,20 @@ const Trk = ({
   updateFavorite,
   auth: { loading, user, isAuthenticated }
 }) => {
+  //  Log
+  const favors = JSON.stringify(favs);
+  console.log('Trk > onFav > USER Id: ' + user[0].id);
+  console.log('Trk > onFav > Trk Id: ' + trk.id);
+  console.log('Trk > onFav > favors: ' + favors);
   const onFav = async e => {
     e.preventDefault();
+    let exists = false;
     if (isAuthenticated) {
-      console.log('USER Id: ' + user[0].id);
-      const favors = JSON.stringify(favs);
-      console.log('FAVORS: ' + favors);
-      updateFavorite(user[0].id, trk.id, false);
+      //  Check Exists
+      if (favs.includes(trk.id)) exists = true;
+
+      //  updateFav()
+      updateFavorite(user[0].id, trk.id, exists);
     } else {
       setAlert('Login to favorite a song', 'warn');
     }
@@ -79,12 +86,7 @@ const Trk = ({
 Trk.propTypes = {
   trk: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  favs: PropTypes.array.isRequired
-  // avatar: PropTypes.object.isRequired,
-  // title: PropTypes.object.isRequired,
-  // artist: PropTypes.object.isRequired,
-  // file: PropTypes.object.isRequired,
-  // time: PropTypes.object.isRequired
+  favs: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   favs: state.profile.favorites,

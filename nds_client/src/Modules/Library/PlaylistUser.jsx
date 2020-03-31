@@ -9,6 +9,7 @@ import { updateLibType } from './rdx_axn/axn_library';
 import { setAlert } from '../Notify/rdx_axn/axn_alert';
 //  Comps
 import { ReactComponent as Add } from '../NDS/assets/vex/Add.svg';
+import PlaylistFavs from './PlaylistFavs';
 import PlaylistCreate from './PlaylistCreate';
 import PlaylistItem from './PlaylistItem';
 import Spinner from '../Notify/Spin';
