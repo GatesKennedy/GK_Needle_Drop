@@ -2,9 +2,6 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const express = require('express');
 const router = express.Router();
-//  PassportJS
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function(req, res, next) {
   //console.log('FXN: /middleware/auth.js , auth()');

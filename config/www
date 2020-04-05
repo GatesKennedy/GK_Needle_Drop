@@ -1,6 +1,8 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 
-const serv = require('../nds_server/server.js');
-const port = 3000; 
+const serv = require('../server.js');
+const port = 3000;
 
 serv.listen(port, () => console.log(`listening on port ${port}`));
+
+//"password": "H3ll0MrA1rplan3",

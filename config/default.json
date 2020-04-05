@@ -1,9 +1,9 @@
 {
   "db_config": {
-    "user": "postgres",
+    "user": "ohnodamn",
     "host": "localhost",
     "database": "db_nds",
-    "password": "H3ll0MrA1rplan3",
+    "password": "notinaslintway",
     "port": 5555
   },
   "client_config": {},

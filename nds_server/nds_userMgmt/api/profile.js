@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const pool = require('../../../nds_db/db');
-const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');

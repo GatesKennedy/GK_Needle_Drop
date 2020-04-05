@@ -9,7 +9,6 @@ import { logout } from './rdx_axn/axn_auth';
 import Carol from '../../Main/Carol';
 import Header from '../NDS/Header';
 import CardApprove from '../../Main/CardApprove';
-import { profile_url } from 'gravatar';
 
 const Profile = ({
   auth: { user, isAuthenticated, loading },
