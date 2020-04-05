@@ -49,7 +49,7 @@ if (process.env.NODE_ENV === 'production') {
   //  Serve html file
   serv.get('*', (req, res) => {
     res.sendFile(
-      path.resolve(__dirname, '../nds_client', './build', 'index.html')
+      path.resolve(__dirname, '../nds_client', 'build', 'index.html')
     );
   });
 } else if (process.env.NODE_ENV == 'development') {
