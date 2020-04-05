@@ -21,14 +21,8 @@ const Trk = ({
   setAlert,
   auth: { loading, user, isAuthenticated }
 }) => {
-  //  Log
-  if (!loading && user) {
-    console.log('Trk > onFav > USER Id: ' + user[0].id);
-    console.log('Trk > onFav > Trk Id: ' + trk.id);
-    console.log('Trk > onFav > favors: ' + favors);
-  }
-
   const favors = JSON.stringify(favs);
+
   const onFav = async e => {
     e.preventDefault();
     let exists = false;

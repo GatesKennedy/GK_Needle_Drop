@@ -1,11 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const pool = require('../nds_db/db');
-//  Auth
-const passport = require('passport');
-const session = require('express-session');
-const expressSession = require('express-session');
+const path = require('path');
 
 //  ~ APIs ~
 const admin = require('./nds_admin/api/admin');
@@ -23,12 +18,15 @@ const PORT = process.env.PORT || 5000;
 
 serv.listen(PORT, () => console.log(`GOOD: Server listening on port ${PORT}`));
 
-//  Init Middleware
+//~~~~~~~~~~~~~~~~~~~~~~~
+//    Init Middleware
 
 //  Express bodyParser
 serv.use(express.json({ extended: false }));
-//serv.use(require('body-parser').urlencoded({ extended: true }));
-//serv.use(cookieParser());
+serv.use(bodyParser());
+
+//~~~~~~~~~~~~~~~~~~~~~~~
+//    Define Routes
 //  _admin
 serv.use('/api/admin', admin);
 serv.use('/api/needledrop', needledrop);
@@ -42,17 +40,21 @@ serv.use('/api/library/playlist', playlist);
 serv.use('/api/user', user);
 serv.use('/api/user/profile', profile);
 serv.use('/api/auth', auth);
-//      auth
-serv.use(passport.initialize());
-serv.use(passport.session());
-serv.use(session({ secret: 'keyboard cat' }));
-serv.use(expressSession({ secret: 'mySecretKey' }));
 
-serv.use('../nds_client/public', express.static(__dirname + '/public'));
-
-serv.use(bodyParser());
-
-//require('./lib/routes.js')(app);
+//~~~~~~~~~~~~~~~~~~~~~~~~
+//  Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  //  Set static folder
+  serv.use(express.static('../nds_client/build'));
+  //  Serve html file
+  serv.get('*', (req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, '../nds_client', 'build', 'index.html')
+    );
+  });
+} else if (process.env.NODE_ENV == 'development') {
+  serv.use('../nds_client/public', express.static(__dirname + '/public'));
+}
 
 // MIDDLEWARE
 //  error handling
