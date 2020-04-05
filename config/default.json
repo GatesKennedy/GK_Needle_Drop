@@ -4,16 +4,13 @@
     "host": "localhost",
     "database": "db_nds",
     "password": "H3ll0MrA1rplan3",
-    "post": 5555
+    "port": 5555
   },
   "client_config": {},
   "auth_config": {
     "jwtShhh": "ineverletyouholdmeback"
   },
   "admin_config": {
-    "Shhh": "iAmNotMyBody",
-    "bCrypted1": "$2a$10$sL.n4uOdkaruYH1NSs4ojOL/O3emJ56mGZHiL2CAPknmFoJlVfrmi",
-    "bCrypted1": "$2a$10$UV5KakcdOkUKlTu0dGidbOi1pc6P5ge5uU.Qfi8/5UMHUiV6fbMQm",
-    "bCrypted1": ""
+    "Shhh": "iAmNotMyBody"
   }
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updateFavorite, getCurrentProfile } from '../User/rdx_axn/axn_profile';
-import { SetAlert, setAlert } from '../Notify/rdx_axn/axn_alert';
+import { setAlert } from '../Notify/rdx_axn/axn_alert';
 //  ASSETS
 import { ReactComponent as Play } from './assets/vex/trk-play.svg';
 import { ReactComponent as Add } from './assets/vex/trk-add.svg';
@@ -18,13 +18,17 @@ const Trk = ({
   trk,
   favs,
   updateFavorite,
+  setAlert,
   auth: { loading, user, isAuthenticated }
 }) => {
   //  Log
+  if (!loading && user) {
+    console.log('Trk > onFav > USER Id: ' + user[0].id);
+    console.log('Trk > onFav > Trk Id: ' + trk.id);
+    console.log('Trk > onFav > favors: ' + favors);
+  }
+
   const favors = JSON.stringify(favs);
-  console.log('Trk > onFav > USER Id: ' + user[0].id);
-  console.log('Trk > onFav > Trk Id: ' + trk.id);
-  console.log('Trk > onFav > favors: ' + favors);
   const onFav = async e => {
     e.preventDefault();
     let exists = false;
@@ -35,6 +39,7 @@ const Trk = ({
       //  updateFav()
       updateFavorite(user[0].id, trk.id, exists);
     } else {
+      console.log('Trk > onFav > Not Auth User');
       setAlert('Login to favorite a song', 'warn');
     }
   };
@@ -86,11 +91,11 @@ const Trk = ({
 Trk.propTypes = {
   trk: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  favs: PropTypes.object.isRequired
+  favs: PropTypes.array.isRequired
 };
 const mapStateToProps = state => ({
   favs: state.profile.favorites,
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { updateFavorite })(Trk);
+export default connect(mapStateToProps, { updateFavorite, setAlert })(Trk);

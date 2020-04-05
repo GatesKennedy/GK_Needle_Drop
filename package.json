@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Needle Drop Software for Web",
   "main": "nds_server/server.js",
+  "engines": {
+    "node": "12.13.1",
+    "npm": "6.12.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "config": "./bin/configdb.bat",
