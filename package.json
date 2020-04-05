@@ -14,7 +14,7 @@
     "server": "nodemon server",
     "client": "npm start --prefix nds_client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix nds_client && npm run build --prefix nds_client"
   },
   "repository": {
     "type": "git",
