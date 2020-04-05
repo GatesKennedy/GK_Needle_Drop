@@ -48,9 +48,7 @@ if (process.env.NODE_ENV === 'production') {
   serv.use(express.static('../nds_client/build'));
   //  Serve html file
   serv.get('*', (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, '../nds_client', 'build', 'index.html')
-    );
+    res.sendFile(path.resolve(__dirname, 'nds_client', 'build', 'index.html'));
   });
 } else if (process.env.NODE_ENV == 'development') {
   serv.use('../nds_client/public', express.static(__dirname + '/public'));
